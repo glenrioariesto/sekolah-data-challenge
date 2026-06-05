@@ -1,0 +1,6 @@
+{
+  "name": "Sekolah Data Challenge",
+  "description": "Game simulasi edukatif untuk siswa belajar mengumpulkan, mengolah, menyajikan, dan menganalisis data kehadiran sekolah.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
