@@ -1,20 +1,28 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# Tantangan Sekolah Data
 
-# Run and deploy your AI Studio app
+Simulasi interaktif manajemen kehadiran siswa sekolah yang dirancang untuk menguji dan mengedukasi siswa dalam menerapkan kompetensi **Berpikir Komputasional** (Dekomposisi, Asosiasi/Tabel, Abstraksi/Grafik, Analisis Pola, dan Pengambilan Kebijakan).
 
-This contains everything you need to run your app locally.
+## Fitur Utama
+- **Peta Misi (Dashboard)**: 5 Tingkat level penugasan kehadiran kelas dengan navigasi horizontal terpusat.
+- **Arena Misi**:
+  1. *Dekomposisi*: Menghitung manual absensi siswa dari daftar harian.
+  2. *Asosiasi*: Mengisi tabel digital sistem sekolah dengan angka yang tepat.
+  3. *Abstraksi*: Menyesuaikan visual grafik batang/garis sesuai angka tabel.
+  4. *Analisis Pola*: Menjawab kuis korelasi data grafik kehadiran.
+  5. *Pengambilan Kebijakan*: Menentukan keputusan administrasi sekolah terbaik berbasis kesimpulan statistik data.
+- **Responsif Seluler**: Dioptimalkan khusus untuk perangkat seluler berorientasi mendatar (landscape).
 
-View your app in AI Studio: https://ai.studio/apps/de67d6f9-d69c-4f27-851b-7d86843714fe
+## Cara Menjalankan Aplikasi
 
-## Run Locally
+1. Pasang dependensi proyek:
+   ```bash
+   npm install
+   ```
+2. Jalankan server pengembangan lokal:
+   ```bash
+   npm run dev
+   ```
+3. Buka peramban pada alamat `http://localhost:3000`.
 
-**Prerequisites:**  Node.js
-
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Lisensi
+Dibuat untuk kebutuhan edukasi data administrasi sekolah. Bebas dimodifikasi dan dikembangkan lebih lanjut.
