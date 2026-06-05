@@ -1,8 +1,8 @@
 import React from 'react';
-import { GameLevel, Badge } from '../types';
+import { GameLevel, Badge } from '@/src/types';
 import { motion } from 'motion/react';
 import { Award, Star, ArrowRight, RefreshCw, Trophy, ClipboardCheck, Sparkles, Brain, CheckCircle } from 'lucide-react';
-import { BADGES } from '../data/levels';
+import { BADGES } from '@/src/data/levels';
 
 interface LevelCompleteProps {
   currentLevel: GameLevel;

@@ -1,14 +1,14 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Play, Award } from 'lucide-react';
-import { playSynthesizerNote } from '../utils/audio';
+import { Play, School } from 'lucide-react';
+import { playSynthesizerNote } from '@/src/utils/audio';
+
 
 interface SplashPageProps {
   onStartGame: () => void;
-  onOpenBadges: () => void;
 }
 
-export const SplashPage: React.FC<SplashPageProps> = ({ onStartGame, onOpenBadges }) => {
+export const SplashPage: React.FC<SplashPageProps> = ({ onStartGame }) => {
   return (
     <motion.div
       key="start-page"
@@ -20,13 +20,19 @@ export const SplashPage: React.FC<SplashPageProps> = ({ onStartGame, onOpenBadge
       {/* Elegant Neobrutalism Main Container */}
       <div className="w-full bg-white rounded-3xl border-4 border-black shadow-[8px_8px_0px_#000000] p-6 md:p-12 text-center space-y-8 relative overflow-hidden">
         
-        {/* Decorative side badge element */}
+        {/* Logo Pojok Kiri Atas */}
+        <div className="absolute top-4 left-4 flex items-center gap-1.5 bg-slate-100 border-2 border-black px-3 py-1 rounded-xl text-black font-black uppercase text-xs shadow-[2px_2px_0px_#000]">
+          <School className="w-4 h-4 text-indigo-600" />
+          <span>Sekolah Data</span>
+        </div>
+
+        {/* Badge Edisi Guru BK Pojok Kanan Atas */}
         <div className="absolute top-4 right-4 bg-[#FDE047] border-2 border-black px-3 py-1 rounded-xl text-black font-mono text-[9px] font-black uppercase tracking-wider shadow-[2px_2px_0px_#000]">
           Edisi Guru BK © 2026
         </div>
 
         {/* Custom Hero Emblem Badge (Golden Trophy / Star Panel) */}
-        <div className="relative inline-block mt-4">
+        <div className="relative inline-block mt-8">
           <div className="w-24 h-24 bg-[#FDE047] rounded-3xl border-4 border-black flex items-center justify-center text-5xl shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:rotate-6 transition-transform cursor-pointer animate-bounce">
             🏆
           </div>
@@ -48,46 +54,17 @@ export const SplashPage: React.FC<SplashPageProps> = ({ onStartGame, onOpenBadge
           </p>
         </div>
 
-        {/* Computational Thinking Core Skills Blocks */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-2">
-          {[
-            { skill: '🧩 Dekomposisi', desc: 'Memecah daftar siswa harian', color: 'bg-[#A5F3FC]' },
-            { skill: '📈 Abstraksi', desc: 'Mewujudkan grafik dari tabel', color: 'bg-[#FBCFE8]' },
-            { skill: '🔍 Pengenalan Pola', desc: 'Membaca tren & anomali data', color: 'bg-[#CCFBF1]' },
-            { skill: '⚙️ Algoritma', desc: 'Merumuskan solusi sekolah', color: 'bg-[#FDE047]' }
-          ].map((item, idx) => (
-            <div key={idx} className={`${item.color} p-3 rounded-2xl border-2 border-black text-left shadow-[3px_3px_0px_#000] flex flex-col justify-between`}>
-              <h3 className="text-xs font-black text-slate-950 font-display">{item.skill}</h3>
-              <p className="text-[10px] text-slate-800 leading-tight font-bold mt-1 line-clamp-2">{item.desc}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Navigation Action Buttons */}
-        <div className="pt-6 border-t-2 border-black flex flex-col sm:flex-row gap-4 items-center justify-center">
-          
-          {/* Main Adventure Button */}
+        {/* Navigation Action Buttons - Start Button Only */}
+        <div className="pt-6 border-t-2 border-black flex items-center justify-center">
           <button
             type="button"
             onClick={() => { playSynthesizerNote('success'); onStartGame(); }}
-            className="w-full sm:w-auto bg-[#FDE047] hover:bg-[#FACC15] text-black font-black text-sm uppercase px-10 py-5 rounded-3xl border-4 border-black shadow-[6px_6px_0px_rgba(0,0,0,1)] transition-all hover:-translate-y-0.5 hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] flex items-center justify-center gap-2 cursor-pointer font-display tracking-wide"
+            className="w-full sm:w-auto bg-[#FDE047] hover:bg-[#FACC15] text-black font-black text-sm uppercase px-12 py-5 rounded-3xl border-4 border-black shadow-[6px_6px_0px_rgba(0,0,0,1)] transition-all hover:-translate-y-0.5 hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] flex items-center justify-center gap-2 cursor-pointer font-display tracking-wide"
             id="btn-play-adventure"
           >
             <Play className="w-5 h-5 text-black fill-black" />
             <span>Mulai Pengelolaan</span>
           </button>
-
-          {/* Badge Modal Button */}
-          <button
-            type="button"
-            onClick={() => { playSynthesizerNote('btn'); onOpenBadges(); }}
-            className="w-full sm:w-auto bg-[#CCFBF1] hover:bg-teal-200 text-black font-black text-xs uppercase px-7 py-4 rounded-2xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2 cursor-pointer font-mono"
-            id="btn-view-gallery-modal"
-          >
-            <Award className="w-5 h-5 text-rose-600" />
-            <span>Galeri Lencana Kehormatan 🏅</span>
-          </button>
-
         </div>
 
         {/* Humble Footer Credits inline */}

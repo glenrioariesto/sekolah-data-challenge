@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DailyRoster, GameLevel } from '../types';
+import { DailyRoster, GameLevel } from '@/src/types';
 import { motion } from 'motion/react';
 import { Check, AlertCircle, HelpCircle, ArrowRight, ClipboardCheck, Info, UserCheck, UserX } from 'lucide-react';
 

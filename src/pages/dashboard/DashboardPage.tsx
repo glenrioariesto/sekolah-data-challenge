@@ -1,8 +1,10 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { ArrowLeft, Award, ShieldAlert, Lock, ChevronRight } from 'lucide-react';
-import { LEVELS } from '../data/levels';
-import { playSynthesizerNote } from '../utils/audio';
+import { LEVELS } from '@/src/data/levels';
+import { playSynthesizerNote } from '@/src/utils/audio';
+
+
 
 interface DashboardPageProps {
   unlockedLevelIds: number[];

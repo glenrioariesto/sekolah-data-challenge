@@ -1,8 +1,9 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { X } from 'lucide-react';
-import { BadgeGallery } from './BadgeGallery';
-import { playSynthesizerNote } from '../utils/audio';
+import { BadgeGallery } from '@/src/components/BadgeGallery';
+import { playSynthesizerNote } from '@/src/utils/audio';
+
 
 interface BadgeModalProps {
   isOpen: boolean;

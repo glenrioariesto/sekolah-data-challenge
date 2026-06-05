@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { GameLevel, QuizQuestion } from '../types';
+import { GameLevel, QuizQuestion } from '@/src/types';
 import { motion, AnimatePresence } from 'motion/react';
 import { HelpCircle, Check, X, ArrowRight, BookOpen, AlertCircle, Sparkles, BrainCircuit } from 'lucide-react';
 

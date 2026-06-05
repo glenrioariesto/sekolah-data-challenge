@@ -1,10 +1,10 @@
 import React from 'react';
 import { AnimatePresence } from 'motion/react';
-import { useGameState } from './hooks/useGameState';
-import { SplashPage } from './pages/SplashPage';
-import { DashboardPage } from './pages/DashboardPage';
-import { ArenaPage } from './pages/ArenaPage';
-import { BadgeModal } from './components/BadgeModal';
+import { useGameState } from '@/src/hooks/useGameState';
+import { SplashPage } from '@/src/pages/splash/SplashPage';
+import { DashboardPage } from '@/src/pages/dashboard/DashboardPage';
+import { ArenaPage } from '@/src/pages/arena/ArenaPage';
+import { BadgeModal } from '@/src/components/BadgeModal';
 
 export default function App() {
   const {
@@ -40,7 +40,6 @@ export default function App() {
         {pageView === 'start' && (
           <SplashPage
             onStartGame={setViewRoadmap}
-            onOpenBadges={() => setIsBadgeModalOpen(true)}
           />
         )}
 

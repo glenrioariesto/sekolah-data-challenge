@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { GameLevel } from '../types';
+import { GameLevel } from '@/src/types';
 import { motion, AnimatePresence } from 'motion/react';
 import { HelpCircle, Check, Play, ChevronRight, Award, Megaphone, Milestone, Lightbulb } from 'lucide-react';
 

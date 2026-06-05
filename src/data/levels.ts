@@ -1,4 +1,5 @@
-import { GameLevel, Badge } from '../types';
+import { GameLevel, Badge } from '@/src/types';
+
 
 export const BAD_PRACTICES_WARNINGS = [
   "⚠️ Periksa kembali data hari Senin! Pastikan hitunganmu tepat.",

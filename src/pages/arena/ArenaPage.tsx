@@ -1,14 +1,16 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { School, Brain, Target, Play, ChevronRight, ArrowLeft, Flame } from 'lucide-react';
-import { GameLevel, GameStage } from '../types';
-import { StudentCounter } from '../components/StudentCounter';
-import { DataEntryTable } from '../components/DataEntryTable';
-import { ChartBuilder } from '../components/ChartBuilder';
-import { QuizSection } from '../components/QuizSection';
-import { DecisionSection } from '../components/DecisionSection';
-import { LevelComplete } from '../components/LevelComplete';
-import { playSynthesizerNote } from '../utils/audio';
+import { GameLevel, GameStage } from '@/src/types';
+import { StudentCounter } from '@/src/pages/arena/components/StudentCounter';
+import { DataEntryTable } from '@/src/pages/arena/components/DataEntryTable';
+import { ChartBuilder } from '@/src/pages/arena/components/ChartBuilder';
+import { QuizSection } from '@/src/pages/arena/components/QuizSection';
+import { DecisionSection } from '@/src/pages/arena/components/DecisionSection';
+import { LevelComplete } from '@/src/pages/arena/components/LevelComplete';
+import { playSynthesizerNote } from '@/src/utils/audio';
+
+
 
 interface ArenaPageProps {
   currentStage: GameStage;

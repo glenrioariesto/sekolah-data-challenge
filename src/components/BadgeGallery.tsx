@@ -1,6 +1,7 @@
 import React from 'react';
-import { Badge } from '../types';
-import { BADGES } from '../data/levels';
+import { Badge } from '@/src/types';
+import { BADGES } from '@/src/data/levels';
+
 import { Award, Lock, Milestone, CheckCircle2 } from 'lucide-react';
 
 interface BadgeGalleryProps {

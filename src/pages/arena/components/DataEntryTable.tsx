@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { GameLevel } from '../types';
+import { GameLevel } from '@/src/types';
 import { motion, AnimatePresence } from 'motion/react';
 import { Check, ArrowRight, Table, HelpCircle, RefreshCw, Star, Info, ListFilter, RotateCcw } from 'lucide-react';
 

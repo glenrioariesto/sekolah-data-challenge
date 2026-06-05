@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
-import { GameStage, GameLevel } from '../types';
-import { LEVELS, BADGES } from '../data/levels';
-import { playSynthesizerNote } from '../utils/audio';
+import { GameStage, GameLevel } from '@/src/types';
+import { LEVELS, BADGES } from '@/src/data/levels';
+import { playSynthesizerNote } from '@/src/utils/audio';
+
+
 
 export const useGameState = () => {
   // Navigation states: 'start' (Beranda Utama) | 'roadmap' (Peta Misi) | 'game' (Arena Misi)

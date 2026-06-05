@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { GameLevel, AttendanceRecord } from '../types';
+import { GameLevel, AttendanceRecord } from '@/src/types';
 import { motion } from 'motion/react';
 import { TrendingUp, CircleDot, Check, HelpCircle, ChevronUp, ChevronDown, Info, BarChart2 } from 'lucide-react';
 
