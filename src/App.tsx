@@ -14,6 +14,7 @@ export default function App() {
     totalScore,
     teacherMode,
     isBadgeModalOpen,
+    isIntroModalOpen,
     activeLevel,
     currentStage,
     levelPointsAccumulator,
@@ -64,7 +65,6 @@ export default function App() {
             teacherMode={teacherMode}
             onToggleTeacherMode={toggleTeacherMode}
             onSelectLevel={selectLevelFromHub}
-            onOpenBadges={() => setIsBadgeModalOpen(true)}
             onBack={setViewStart}
           />
         )}
@@ -86,6 +86,7 @@ export default function App() {
             resetAllGameProgress={resetAllGameProgress}
             getStagePercentage={getStagePercentage}
             activeLevelProgressPercentage={activeLevelProgressPercentage}
+            isIntroModalOpen={isIntroModalOpen}
           />
         )}
       </AnimatePresence>

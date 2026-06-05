@@ -3,15 +3,13 @@ import { GameStage, GameLevel } from '@/src/types';
 import { LEVELS, BADGES } from '@/src/data/levels';
 import { playSynthesizerNote } from '@/src/utils/audio';
 
-
-
 export const useGameState = () => {
   // Navigation states: 'start' (Beranda Utama) | 'roadmap' (Peta Misi) | 'game' (Arena Misi)
   const [pageView, setPageView] = useState<'start' | 'roadmap' | 'game'>('start');
   
   // Game & score states
   const [currentLevelId, setCurrentLevelId] = useState<number>(1);
-  const [currentStage, setCurrentStage] = useState<GameStage>('intro');
+  const [currentStage, setCurrentStage] = useState<GameStage>('roster');
   const [totalScore, setTotalScore] = useState<number>(0);
   
   // Track levels unlocked by current player
@@ -28,6 +26,9 @@ export const useGameState = () => {
 
   // Badge Modal State
   const [isBadgeModalOpen, setIsBadgeModalOpen] = useState<boolean>(false);
+
+  // Intro Modal State
+  const [isIntroModalOpen, setIsIntroModalOpen] = useState<boolean>(false);
 
   // Active level data pointer
   const activeLevel = LEVELS.find(l => l.id === currentLevelId) || LEVELS[0];
@@ -50,19 +51,21 @@ export const useGameState = () => {
     
     setCurrentLevelId(levelId);
     setLevelPointsAccumulator(0);
-    setCurrentStage('intro');
+    
+    const targetLvl = LEVELS.find(l => l.id === levelId) || LEVELS[0];
+    if (targetLvl.rosters && targetLvl.rosters.length > 0) {
+      setCurrentStage('roster');
+    } else {
+      setCurrentStage('input');
+    }
+    
+    setIsIntroModalOpen(true);
     setPageView('game');
   };
 
   const startCurrentLevelPlay = () => {
     playSynthesizerNote('success');
-    // Decide starting stage: if level has manual student lists, start at roster
-    // Otherwise start directly to table inputs
-    if (activeLevel.rosters && activeLevel.rosters.length > 0) {
-      setCurrentStage('roster');
-    } else {
-      setCurrentStage('input');
-    }
+    setIsIntroModalOpen(false);
   };
 
   // Stage Success callback triggers
@@ -119,7 +122,14 @@ export const useGameState = () => {
       const nextId = currentLevelId + 1;
       setCurrentLevelId(nextId);
       setLevelPointsAccumulator(0);
-      setCurrentStage('intro');
+      
+      const nextLvl = LEVELS.find(l => l.id === nextId) || LEVELS[0];
+      if (nextLvl.rosters && nextLvl.rosters.length > 0) {
+        setCurrentStage('roster');
+      } else {
+        setCurrentStage('input');
+      }
+      setIsIntroModalOpen(true);
     } else {
       setPageView('roadmap');
     }
@@ -128,11 +138,12 @@ export const useGameState = () => {
   const resetAllGameProgress = () => {
     playSynthesizerNote('success');
     setCurrentLevelId(1);
-    setCurrentStage('intro');
+    setCurrentStage('roster');
     setTotalScore(0);
     setUnlockedLevelIds([1]);
     setUnlockedBadgeIds([]);
     setLevelPointsAccumulator(0);
+    setIsIntroModalOpen(false);
     setPageView('start');
   };
 
@@ -151,7 +162,6 @@ export const useGameState = () => {
 
   const activeLevelProgressPercentage = () => {
     switch (currentStage) {
-      case 'intro': return 10;
       case 'roster': return 25;
       case 'input': return 45;
       case 'chart': return 65;
@@ -192,8 +202,10 @@ export const useGameState = () => {
     teacherMode,
     levelPointsAccumulator,
     isBadgeModalOpen,
+    isIntroModalOpen,
     activeLevel,
     setIsBadgeModalOpen,
+    setIsIntroModalOpen,
     selectLevelFromHub,
     startCurrentLevelPlay,
     handleRosterStepFinished,
