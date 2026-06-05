@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ArrowLeft, Award, ShieldAlert, Lock, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Lock, ChevronRight } from 'lucide-react';
+
 import { LEVELS } from '@/src/data/levels';
 import { playSynthesizerNote } from '@/src/utils/audio';
 
@@ -13,7 +14,6 @@ interface DashboardPageProps {
   teacherMode: boolean;
   onToggleTeacherMode: () => void;
   onSelectLevel: (levelId: number) => void;
-  onOpenBadges: () => void;
   onBack: () => void;
 }
 
@@ -24,7 +24,6 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   teacherMode,
   onToggleTeacherMode,
   onSelectLevel,
-  onOpenBadges,
   onBack,
 }) => {
   return (
@@ -33,83 +32,40 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
-      className="flex-1 max-w-5xl mx-auto w-full p-4 md:p-8 space-y-6 overflow-y-auto max-h-screen"
-
+      className="flex-1 mx-auto w-full p-1 sm:p-4 flex flex-col h-full max-h-screen overflow-hidden"
     >
-      {/* Header / Top Navigation */}
-      <div className="bg-white rounded-3xl border-4 border-black p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-[6px_6px_0px_#000000]">
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={() => { playSynthesizerNote('btn'); onBack(); }}
-            className="p-2 bg-slate-100 hover:bg-slate-200 border-2 border-black rounded-xl text-black hover:scale-105 transition-transform"
-            title="Kembali ke Beranda"
-          >
-            <ArrowLeft className="w-5 h-5 text-black" />
-          </button>
-          <div className="text-left">
-            <h2 className="text-lg md:text-xl font-black text-slate-900 font-display uppercase tracking-tight">
-              Peta Misi Administrasi
-            </h2>
-            <p className="text-[11px] text-slate-600 font-bold font-mono">
-              Urutan Tingkatan Kompetensi Berpikir Komputasional SISWA
-            </p>
-          </div>
-        </div>
+      {/* Header / Top Navigation - borderless flat buttons */}
+      <div className="flex items-center justify-between w-full py-1">
+        <button
+          type="button"
+          onClick={() => { playSynthesizerNote('btn'); onBack(); }}
+          className="p-2 bg-white hover:bg-slate-100 border-2 border-black rounded-xl text-black hover:scale-105 transition-transform shadow-[2px_2px_0px_#000] cursor-pointer"
+          title="Kembali ke Beranda"
+        >
+          <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
+        </button>
 
-        <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
-          {/* Badge Modal Trigger */}
-          <button
-            type="button"
-            onClick={() => { playSynthesizerNote('btn'); onOpenBadges(); }}
-            className="bg-[#A5F3FC] hover:bg-cyan-200 border-2 border-[#000] border-black text-black font-black text-xs px-4 py-2.5 rounded-xl shadow-[3px_3px_0px_#000] transition-transform duration-100 active:scale-95 flex items-center gap-1.5 cursor-pointer"
-          >
-            <Award className="w-4 h-4 text-rose-600" />
-            <span>Galeri Lencana 🏅</span>
-          </button>
-
-          {/* Teacher toggler */}
+        {import.meta.env.DEV && (
           <button
             type="button"
             onClick={onToggleTeacherMode}
-            className={`px-3 py-2.5 rounded-xl text-xs font-black font-mono transition-colors border-2 border-black shadow-[3px_3px_0px_#000] cursor-pointer ${
-              teacherMode ? 'bg-[#FDE047] text-black' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+            className={`px-3 py-2 rounded-xl text-xs font-black font-mono transition-colors border-2 border-black shadow-[2px_2px_0px_#000] cursor-pointer ${
+              teacherMode ? 'bg-[#FDE047] text-black' : 'bg-white text-slate-700 hover:bg-slate-100'
             }`}
             id="btn-teacher-roadmap"
           >
             {teacherMode ? 'GURU: AKTIF' : 'MODE GURU'}
           </button>
-        </div>
+        )}
       </div>
 
-      {/* Total Accumulative Score Box Sheet */}
-      <div className="bg-[#CCFBF1] rounded-3xl border-4 border-black p-5 shadow-[6px_6px_0px_rgba(0,0,0,1)] grid grid-cols-1 md:grid-cols-3 gap-4 divide-y-2 md:divide-y-0 md:divide-x-2 divide-black text-center">
-        <div className="p-2 flex flex-col justify-center">
-          <span className="text-[10px] font-mono font-black text-slate-700 uppercase tracking-widest">Skor Kumulatif</span>
-          <p className="text-2xl font-black text-slate-900 font-mono mt-0.5">{totalScore} POIN</p>
-        </div>
-        <div className="p-2 flex flex-col justify-center">
-          <span className="text-[10px] font-mono font-black text-slate-700 uppercase tracking-widest">Lencana Didapatkan</span>
-          <p className="text-2xl font-black text-indigo-700 font-mono mt-0.5">{unlockedBadgeIds.length} / 4 Lencana</p>
-        </div>
-        <div className="p-2 flex flex-col justify-center">
-          <span className="text-[10px] font-mono font-black text-slate-700 uppercase tracking-widest">Tingkat Penuntasan</span>
-          <p className="text-2xl font-black text-emerald-800 font-mono mt-0.5">{Math.round(((unlockedLevelIds.length - 1) / 5) * 100)}% Lulus</p>
-        </div>
-      </div>
 
-      {/* Teacher Mode Instruction Warn */}
-      {teacherMode && (
-        <div className="p-4 bg-[#FDE047] border-2 border-black rounded-2xl flex gap-3.5 shadow-[4px_4px_0px_rgba(0,0,0,1)] text-left">
-          <ShieldAlert className="w-5 h-5 text-black shrink-0 animate-pulse" />
-          <p className="text-xs text-black font-bold">
-            <strong>Edukasi Guru Diaktifkan:</strong> Seluruh pintu level di bawah ini telah dilewati mekanismenya (bypass). Guru dapat melompat, memperagakan, atau menguji materi level manapun secara bebas di depan layar proyektor kelas!
-          </p>
-        </div>
-      )}
 
-      {/* Grid of 5 game levels */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+
+      {/* Vertically and horizontally centered levels wrapper */}
+      <div className="flex-grow flex items-center justify-center w-full overflow-hidden">
+        {/* Horizontal scrollable row of game levels - centered */}
+        <div className="flex flex-row overflow-x-auto justify-start xl:justify-center gap-3 sm:gap-6 px-4 md:px-8 py-3 sm:py-6 w-full">
         {LEVELS.map((lvl) => {
           const isUnlocked = unlockedLevelIds.includes(lvl.id) || teacherMode;
           
@@ -124,7 +80,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           return (
             <div
               key={lvl.id}
-              className={`rounded-3xl border-4 border-black p-5 flex flex-col justify-between gap-4 shadow-[5px_5px_0px_#000] relative transition-all duration-250 ${
+              className={`rounded-2xl sm:rounded-3xl border-2 sm:border-4 border-black p-3 sm:p-5 flex flex-col justify-between gap-2 sm:gap-4 shadow-[3px_3px_0px_#000] sm:shadow-[5px_5px_0px_#000] relative transition-all duration-250 w-[200px] sm:w-[220px] shrink-0 ${
                 isUnlocked ? 'hover:-translate-y-1' : ''
               } ${cardColor}`}
             >
@@ -151,9 +107,6 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 <h3 className="text-sm font-black text-slate-1000 leading-snug line-clamp-2 uppercase font-display">
                   {lvl.title.split(': ')[1]}
                 </h3>
-                <p className="text-[10px] text-slate-700 leading-normal line-clamp-4 font-bold mt-2">
-                  {lvl.description}
-                </p>
               </div>
 
               <div className="pt-2 border-t border-slate-300 space-y-3">
@@ -182,11 +135,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           );
         })}
       </div>
+    </div>
 
-      {/* Educational Info box */}
-      <div className="bg-white rounded-3xl border-4 border-black p-5 shadow-[4px_4px_0px_rgba(0,0,0,1)] text-center text-xs font-bold leading-relaxed max-w-2xl mx-auto">
-        💡 <strong>Tips Pembelajaran:</strong> Nilai atau tingkat keterbukaannya disimpan secara lokal. Capailah lencana tertinggi 🏆 <strong>Ahli Statistik Sekolah</strong> dengan menyelesaikan semua tugas hingga Misi Ke 5!
-      </div>
     </motion.div>
   );
 };
