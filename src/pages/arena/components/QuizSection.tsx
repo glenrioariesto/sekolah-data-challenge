@@ -57,10 +57,10 @@ export const QuizSection: React.FC<QuizSectionProps> = ({
   const isCorrect = selectedOption === activeQuestion?.correctAnswer;
 
   return (
-    <div className="bg-white rounded-3xl border-4 border-black p-5 md:p-8 shadow-[8px_8px_0px_rgba(0,0,0,1)]">
+    <div className="bg-white rounded-2xl sm:rounded-3xl border-2 sm:border-4 border-black p-2 sm:p-5 md:p-8 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)]">
       
       {/* Title section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between border-b-2 border-black pb-5 mb-6 gap-3">
+      <div className="flex flex-col md:flex-row md:items-center justify-between border-b-2 border-black pb-3 sm:pb-5 mb-3 sm:mb-6 gap-3">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="px-2 py-0.5 bg-[#FDE047] text-black border-2 border-black rounded-lg text-xs font-black font-mono shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)]">TAHAP 4</span>
@@ -73,7 +73,7 @@ export const QuizSection: React.FC<QuizSectionProps> = ({
           </p>
         </div>
 
-        <div className="bg-[#A5F3FC] p-3 rounded-xl border-2 border-black max-w-sm shadow-[3px_3px_0px_rgba(0,0,0,1)] text-black">
+        <div className="bg-[#A5F3FC] p-2 sm:p-3 rounded-lg sm:rounded-xl border-2 border-black max-w-sm shadow-[3px_3px_0px_rgba(0,0,0,1)] text-black">
           <div className="flex items-start gap-2">
             <BrainCircuit className="w-5 h-5 text-black mt-0.5 shrink-0" />
             <p className="text-xs text-slate-950 leading-relaxed font-sans font-bold">
@@ -83,14 +83,14 @@ export const QuizSection: React.FC<QuizSectionProps> = ({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-2 sm:gap-4 md:gap-6 md:gap-8 items-start">
         
         {/* Left Side: Question Card */}
         <div className="lg:col-span-7">
           <div className="bg-white rounded-2xl p-5 md:p-6 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)]">
             
             {/* Index counter */}
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-2 sm:mb-4">
               <span className="text-[10px] font-mono font-black bg-[#CCFBF1] text-black px-2.5 py-1 rounded-full uppercase tracking-wider border border-black shadow-[1.5px_1.5px_0px_#000]">
                 Pertanyaan {currentIdx + 1} dari {questions.length}
               </span>

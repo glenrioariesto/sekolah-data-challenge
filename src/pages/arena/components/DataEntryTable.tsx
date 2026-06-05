@@ -140,10 +140,10 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
   // Determine standard reference values to display as aid
   // For Level 2, we show calculated lists summary below
   return (
-    <div className="bg-white rounded-3xl border-4 border-black p-5 md:p-8 shadow-[8px_8px_0px_rgba(0,0,0,1)]">
+    <div className="bg-white rounded-2xl sm:rounded-3xl border-2 sm:border-4 border-black p-2 sm:p-5 md:p-8 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)]">
       
       {/* Title block */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between border-b-2 border-black pb-5 mb-6 gap-3">
+      <div className="flex flex-col md:flex-row md:items-center justify-between border-b-2 border-black pb-3 sm:pb-5 mb-3 sm:mb-6 gap-3">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="px-2 py-0.5 bg-[#A5F3FC] text-black border-2 border-black rounded-lg text-xs font-black font-mono shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)]">TAHAP 2</span>
@@ -156,7 +156,7 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
           </p>
         </div>
 
-        <div className="bg-[#FBCFE8] p-3 rounded-xl border-2 border-black max-w-sm shadow-[3px_3px_0px_rgba(0,0,0,1)] text-black">
+        <div className="bg-[#FBCFE8] p-2 sm:p-3 rounded-lg sm:rounded-xl border-2 border-black max-w-sm shadow-[3px_3px_0px_rgba(0,0,0,1)] text-black">
           <div className="flex items-start gap-2">
             <Info className="w-4 h-4 text-black mt-0.5 shrink-0" />
             <p className="text-xs text-black leading-relaxed font-sans font-bold">
@@ -166,12 +166,12 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-3 sm:gap-2 sm:gap-4 md:gap-6 md:gap-8">
         
         {/* Left column: Central Database Table Grid */}
         <div className="xl:col-span-7">
-          <div className="bg-white rounded-2xl p-5 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)]">
-            <div className="flex items-center justify-between mb-4">
+          <div className="bg-white rounded-2xl p-3 sm:p-5 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)]">
+            <div className="flex items-center justify-between mb-2 sm:mb-4">
               <h3 className="text-sm font-black text-slate-900 uppercase flex items-center gap-2">
                 <Table className="w-4.5 h-4.5 text-indigo-600 font-black" />
                 Sistem Basis Data Kehadiran Sekolah
@@ -193,10 +193,10 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
               <table className="w-full text-center border-collapse">
                 <thead>
                   <tr className="bg-[#A5F3FC] text-xs font-black text-black font-display border-b-2 border-black">
-                    <th className="py-3 px-4 text-left border-r-2 border-black">HARI SEKOLAH</th>
-                    <th className="py-3 px-3 uppercase tracking-wider border-r-2 border-black text-center">Hadir (H)</th>
-                    <th className="py-3 px-3 uppercase tracking-wider border-r-2 border-black text-center">Tidak Hadir (TH)</th>
-                    <th className="py-3 px-3 text-center">VALIDASI</th>
+                    <th className="py-1.5 px-2.5 sm:py-3 sm:px-4 text-left border-r-2 border-black">HARI SEKOLAH</th>
+                    <th className="py-1.5 px-2 sm:py-3 sm:px-3 uppercase tracking-wider border-r-2 border-black text-center">Hadir (H)</th>
+                    <th className="py-1.5 px-2 sm:py-3 sm:px-3 uppercase tracking-wider border-r-2 border-black text-center">Tidak Hadir (TH)</th>
+                    <th className="py-1.5 px-2 sm:py-3 sm:px-3 text-center">VALIDASI</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y-2 divide-black">
@@ -214,7 +214,7 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
                     return (
                       <tr key={r.day} className="hover:bg-slate-50 transition-colors">
                         {/* Day Column */}
-                        <td className="py-3.5 px-4 text-left font-black text-slate-900 text-sm border-r-2 border-black">
+                        <td className="py-2 px-3 sm:py-3.5 sm:px-4 text-left font-black text-slate-900 text-sm border-r-2 border-black">
                           {r.day}
                         </td>
 
@@ -222,7 +222,7 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
                         <td className="py-2 px-2 border-r-2 border-black">
                           <div 
                             onClick={() => selectCell(presentKey)}
-                            className={`w-20 mx-auto py-2.5 rounded-xl border-2 border-black font-mono font-black text-center cursor-pointer transition-all ${
+                            className={`w-16 mx-auto py-1.5 sm:w-20 sm:py-2.5 rounded-xl border-2 border-black font-mono font-black text-center cursor-pointer transition-all ${
                               selectedCell === presentKey
                                 ? 'bg-[#FDE047] text-black shadow-[2.5px_2.5px_0px_rgba(0,0,0,1)] scale-105'
                                 : valP !== null
@@ -238,7 +238,7 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
                         <td className="py-2 px-2 border-r-2 border-black">
                           <div 
                             onClick={() => selectCell(absentKey)}
-                            className={`w-20 mx-auto py-2.5 rounded-xl border-2 border-black font-mono font-black text-center cursor-pointer transition-all ${
+                            className={`w-16 mx-auto py-1.5 sm:w-20 sm:py-2.5 rounded-xl border-2 border-black font-mono font-black text-center cursor-pointer transition-all ${
                               selectedCell === absentKey
                                 ? 'bg-[#FDE047] text-black shadow-[2.5px_2.5px_0px_rgba(0,0,0,1)] scale-105'
                                 : valA !== null
@@ -251,7 +251,7 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
                         </td>
 
                         {/* Right live validation icons */}
-                        <td className="py-2.5 px-3">
+                        <td className="py-1.5 px-2 sm:py-2.5 sm:px-3">
                           <div className="flex items-center justify-center gap-1.5">
                             {valP === null || valA === null ? (
                               <span className="text-[10px] text-slate-500 font-bold">Kosong</span>
@@ -274,7 +274,7 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
             </div>
 
             {/* Quick reference block */}
-            <div className="mt-4 bg-[#FDE047] p-3 rounded-xl border-2 border-black flex items-center justify-between shadow-[2px_2px_0px_rgba(0,0,0,1)] text-black">
+            <div className="mt-2 sm:mt-4 bg-[#FDE047] p-2 sm:p-3 rounded-lg sm:rounded-xl border-2 border-black flex items-center justify-between shadow-[2px_2px_0px_rgba(0,0,0,1)] text-black">
               <span className="text-xs text-black font-extrabold flex items-center gap-1.5 leading-tight">
                 <Star className="w-4 h-4 text-black fill-current shrink-0" />
                 <span>Total kelas terdaftar adalah 12 siswa per hari. (Hadir + TH = 12)</span>
@@ -293,12 +293,12 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
 
         {/* Right column: Numbers Pill Board and validator panel */}
         <div className="xl:col-span-5 flex flex-col justify-between">
-          <div className="space-y-5">
+          <div className="space-y-3 sm:space-y-5">
             <div>
               <h3 className="text-sm font-black text-slate-900 uppercase mb-2 flex items-center gap-1.5">
                 🔢 Sumber Token Data Kehadiran
               </h3>
-              <p className="text-xs text-slate-700 font-bold leading-relaxed mb-4">
+              <p className="text-xs text-slate-700 font-bold leading-relaxed mb-2 sm:mb-4">
                 Pilih sel pada tabel sebelah kiri, lalu klik angka di bawah ini untuk mengisinya:
               </p>
               
@@ -311,7 +311,7 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
                     whileTap={{ scale: 0.9 }}
                     onClick={() => placePill(val)}
                     id={`token-pill-${val}`}
-                    className="w-12 h-12 rounded-xl bg-white border-2 border-black text-black font-mono font-black text-base flex items-center justify-center shadow-[2px_2px_0px_rgba(0,0,0,1)] cursor-pointer hover:bg-[#FBCFE8] transition-all"
+                    className="w-9 h-9 sm:w-12 sm:h-12 rounded-xl bg-white border-2 border-black text-black font-mono font-black text-base flex items-center justify-center shadow-[2px_2px_0px_rgba(0,0,0,1)] cursor-pointer hover:bg-[#FBCFE8] transition-all"
                   >
                     {val}
                   </motion.button>
@@ -320,7 +320,7 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
             </div>
 
             {/* Selected feedback */}
-            <div className="bg-white border-2 border-black rounded-2xl p-4 shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+            <div className="bg-white border-2 border-black rounded-2xl p-2.5 sm:p-4 shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] sm:shadow-[2px_2px_0px_rgba(0,0,0,1)]">
               <p className="text-xs font-black text-slate-900">Sel Terpilih Saat Ini:</p>
               {selectedCell ? (
                 <div className="mt-2 flex items-center gap-2">
@@ -344,13 +344,13 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
             </div>
           </div>
 
-          <div className="mt-8 pt-5 border-t-2 border-black">
+          <div className="mt-2 sm:mt-4 sm:mt-8 pt-3 sm:pt-5 border-t-2 border-black">
             {/* Dynamic Warnings */}
             {warningMessage && (
               <motion.div 
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mb-4 bg-[#FDE047] border-2 border-black rounded-2xl p-3 flex items-start gap-2.5 shadow-[3px_3px_0px_rgba(0,0,0,1)] text-[#1E293B] font-black"
+                className="mb-2 sm:mb-4 bg-[#FDE047] border-2 border-black rounded-2xl p-3 flex items-start gap-2.5 shadow-[3px_3px_0px_rgba(0,0,0,1)] text-[#1E293B] font-black"
                 id="warning-box"
               >
                 <div className="w-5 h-5 rounded-full bg-white border border-black flex items-center justify-center text-black font-black shrink-0 text-xs text-center shadow-[1px_1px_0px_#000]">!</div>
@@ -366,7 +366,7 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={handleVerifyTable}
-              className="w-full brutal-btn py-4 flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full brutal-btn py-2 sm:py-4 text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer"
               id="btn-verify-table"
             >
               <Check className="w-5 h-5" />

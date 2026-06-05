@@ -96,10 +96,10 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
   const presentAngle = grandTotal > 0 ? (totalPresent / grandTotal) * 360 : 0;
 
   return (
-    <div className="bg-white rounded-3xl border-4 border-black p-5 md:p-8 shadow-[8px_8px_0px_rgba(0,0,0,1)]">
+    <div className="bg-white rounded-2xl sm:rounded-3xl border-2 sm:border-4 border-black p-2 sm:p-5 md:p-8 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)]">
       
       {/* Title block */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between border-b-2 border-black pb-5 mb-6 gap-3">
+      <div className="flex flex-col md:flex-row md:items-center justify-between border-b-2 border-black pb-3 sm:pb-5 mb-3 sm:mb-6 gap-3">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="px-2 py-0.5 bg-[#A5F3FC] text-black border-2 border-black rounded-lg text-xs font-black font-mono shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)]">TAHAP 3</span>
@@ -112,7 +112,7 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
           </p>
         </div>
 
-        <div className="bg-[#FBCFE8] p-3 rounded-xl border-2 border-black max-w-sm shadow-[3px_3px_0px_rgba(0,0,0,1)] text-black">
+        <div className="bg-[#FBCFE8] p-2 sm:p-3 rounded-lg sm:rounded-xl border-2 border-black max-w-sm shadow-[3px_3px_0px_rgba(0,0,0,1)] text-black">
           <div className="flex items-start gap-2">
             <Info className="w-4 h-4 text-black mt-0.5 shrink-0" />
             <p className="text-xs text-slate-900 leading-relaxed font-sans font-bold">
@@ -145,10 +145,10 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
       </div>
 
       {/* Grid splits into Chart Choices and Custom Graph Area */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-2 sm:gap-4 md:gap-6 md:gap-8">
         
         {/* Step 3A: Choose presentation medium */}
-        <div className="lg:col-span-4 space-y-4">
+        <div className="lg:col-span-4 space-y-2 sm:space-y-4">
           <h3 className="text-sm font-black text-slate-900 uppercase border-b-2 border-black pb-2">
             1. Pilih Format Diagram
           </h3>
@@ -224,7 +224,7 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
           <div className="bg-white rounded-3xl p-5 border-4 border-black flex flex-col justify-between min-h-[400px] shadow-[6px_6px_0px_rgba(0,0,0,1)]">
             
             {/* Header statement */}
-            <div className="flex items-center justify-between mb-4 border-b-2 border-black pb-2.5">
+            <div className="flex items-center justify-between mb-2 sm:mb-4 border-b-2 border-black pb-2.5">
               <span className="text-xs font-black text-slate-900 font-display uppercase tracking-wide">
                 🎨 Kanvas Penyajian: {selectedChartType ? `Tampilan ${selectedChartType.toUpperCase()}` : 'Hubungkan Tipe'}
               </span>
@@ -248,7 +248,7 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
               <div className="flex-1 flex flex-col justify-end">
                 
                 {/* SVG Visual Canvas */}
-                <div className="relative w-full h-52 bg-white rounded-2xl border-2 border-black p-4 mb-4 flex items-end justify-around">
+                <div className="relative w-full h-52 bg-white rounded-2xl border-2 border-black p-4 mb-2 sm:mb-4 flex items-end justify-around">
                   
                   {/* Backdrop division lines */}
                   <div className="absolute inset-x-0 top-0 bottom-8 flex flex-col justify-between pointer-events-none px-2 z-0">
@@ -329,7 +329,7 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
 
                   {/* Diagram Lingkaran (Total Ratios) */}
                   {selectedChartType === 'lingkaran' && (
-                    <div className="w-full h-full flex items-center justify-center gap-6 z-10">
+                    <div className="w-full h-full flex items-center justify-center gap-2 sm:gap-4 md:gap-6 z-10">
                       {/* Doughnut structure */}
                       <div className="relative w-28 h-28 shrink-0">
                         <svg viewBox="0 0 36 36" className="w-full h-full transform -rotate-90">
@@ -435,7 +435,7 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
             )}
 
             {/* Validation row */}
-            <div className="mt-4 pt-4 border-t-2 border-black flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="mt-2 sm:mt-4 pt-4 border-t-2 border-black flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
                 {warning && (
                   <p className="text-xs font-black text-black bg-[#FDE047] border-2 border-black px-3 py-1.5 rounded-xl shadow-[2px_2px_0px_#000]">

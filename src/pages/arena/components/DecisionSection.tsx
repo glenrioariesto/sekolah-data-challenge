@@ -40,10 +40,10 @@ export const DecisionSection: React.FC<DecisionSectionProps> = ({
   const chosenOption = selectedIndex !== null ? options[selectedIndex] : null;
 
   return (
-    <div className="bg-white rounded-3xl border-4 border-black p-5 md:p-8 shadow-[8px_8px_0px_rgba(0,0,0,1)]">
+    <div className="bg-white rounded-2xl sm:rounded-3xl border-2 sm:border-4 border-black p-2 sm:p-5 md:p-8 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)]">
       
       {/* Step Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between border-b-2 border-black pb-5 mb-6 gap-3">
+      <div className="flex flex-col md:flex-row md:items-center justify-between border-b-2 border-black pb-3 sm:pb-5 mb-3 sm:mb-6 gap-3">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="px-2 py-0.5 bg-[#FBCFE8] text-black border-2 border-black rounded-lg text-xs font-black font-mono shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)]">TAHAP 5</span>
@@ -56,7 +56,7 @@ export const DecisionSection: React.FC<DecisionSectionProps> = ({
           </p>
         </div>
 
-        <div className="bg-[#FDE047] p-3 rounded-xl border-2 border-black max-w-sm shadow-[3px_3px_0px_rgba(0,0,0,1)] text-black">
+        <div className="bg-[#FDE047] p-2 sm:p-3 rounded-lg sm:rounded-xl border-2 border-black max-w-sm shadow-[3px_3px_0px_rgba(0,0,0,1)] text-black">
           <div className="flex items-start gap-2">
             <Milestone className="w-5 h-5 text-black mt-0.5 shrink-0" />
             <p className="text-xs text-slate-950 leading-relaxed font-sans font-bold">
@@ -66,11 +66,11 @@ export const DecisionSection: React.FC<DecisionSectionProps> = ({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-2 sm:gap-4 md:gap-6 md:gap-8 items-start">
         
         {/* Left column: Scenario Description & Choices */}
         <div className="lg:col-span-7">
-          <div className="bg-[#A5F3FC]/45 rounded-2xl p-5 border-2 border-black mb-6 shadow-[3.5px_3.5px_0px_rgba(0,0,0,1)] text-black">
+          <div className="bg-[#A5F3FC]/45 rounded-2xl p-3 sm:p-5 border-2 border-black mb-6 shadow-[3.5px_3.5px_0px_rgba(0,0,0,1)] text-black">
             <div className="flex items-center gap-2 text-black font-black text-xs uppercase tracking-wider mb-2 font-mono">
               <Megaphone className="w-4 h-4 text-black animate-bounce" />
               Laporan Situasi Sekolah
@@ -182,7 +182,7 @@ export const DecisionSection: React.FC<DecisionSectionProps> = ({
                     Tinjauan Keputusan Guru BK
                   </div>
                   <h4 className="text-xs font-black text-slate-950 mb-1">Keputusan Terpilih:</h4>
-                  <p className="text-xs font-bold text-slate-900 leading-relaxed italic mb-4">
+                  <p className="text-xs font-bold text-slate-900 leading-relaxed italic mb-2 sm:mb-4">
                     "{chosenOption.text}"
                   </p>
                   

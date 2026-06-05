@@ -28,6 +28,7 @@ interface ArenaPageProps {
   resetAllGameProgress: () => void;
   getStagePercentage: (s: string) => string;
   activeLevelProgressPercentage: () => number;
+  isIntroModalOpen: boolean;
 }
 
 export const ArenaPage: React.FC<ArenaPageProps> = ({
@@ -46,6 +47,7 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
   resetAllGameProgress,
   getStagePercentage,
   activeLevelProgressPercentage,
+  isIntroModalOpen,
 }) => {
   return (
     <motion.div
@@ -53,37 +55,36 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
       initial={{ opacity: 0, scale: 0.99 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.99 }}
-      className="flex-1 max-w-6xl mx-auto w-full p-4 md:p-8 space-y-6 overflow-y-auto max-h-screen"
+      className="flex-1 max-w-6xl mx-auto w-full p-1 sm:p-4 space-y-3 sm:space-y-6 overflow-y-auto max-h-screen"
 
     >
-      {/* IN-PAGE HUD/BREADCRUMB HEADER */}
-      <div className="bg-white rounded-3xl border-4 border-black p-4 md:p-5 flex flex-col md:flex-row items-center justify-between gap-4 shadow-[6px_6px_0px_rgba(0,0,0,1)]">
+      {/* IN-PAGE HUD/BREADCRUMB HEADER - flat borderless buttons */}
+      <div className="flex flex-row items-center justify-between gap-2 sm:gap-4 py-1 w-full">
         
         {/* Back button and Active title info */}
-        <div className="flex items-center gap-3 w-full md:w-auto">
+        <div className="flex items-center gap-2 sm:gap-3">
           <button
             type="button"
             onClick={() => { playSynthesizerNote('btn'); onBackToRoadmap(); }}
-            className="p-2.5 bg-slate-100 hover:bg-slate-200 border-2 border-black rounded-xl text-black flex items-center justify-center cursor-pointer transition-transform duration-100 hover:scale-105"
+            className="p-2 bg-white hover:bg-slate-100 border-2 border-black rounded-xl text-black hover:scale-105 transition-transform shadow-[2px_2px_0px_#000] cursor-pointer"
             title="Kembali ke Peta Misi"
           >
-            <ArrowLeft className="w-5 h-5 text-black" />
+            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
           </button>
           
-          <div className="text-left">
+          <div className="text-left leading-none">
             <span className="font-mono text-[9px] font-black bg-rose-500 text-white px-2 py-0.5 rounded border border-black tracking-widest shadow-[1px_1px_0px_#000]">
-              Misi Tingkat: Level {activeLevel.id}
+              Lvl {activeLevel.id}
             </span>
-            <h2 className="text-base font-black text-slate-1000 uppercase font-display leading-tight mt-1 line-clamp-1">
-              {activeLevel.title}
+            <h2 className="text-xs sm:text-sm font-black text-slate-900 uppercase font-display mt-1.5 line-clamp-1">
+              {activeLevel.title.split(': ')[1] || activeLevel.title}
             </h2>
           </div>
         </div>
 
         {/* Steps progression visual trail inside the page bar */}
-        <div className="hidden lg:flex items-center gap-1 bg-slate-100 px-3 py-1.5 border-2 border-black rounded-2xl shadow-[2px_2px_0px_#000]">
+        <div className="hidden lg:flex items-center gap-1 bg-white px-2.5 py-1 border-2 border-black rounded-xl shadow-[2px_2px_0px_#000]">
           {[
-            { key: 'intro', label: 'Mulai' },
             { key: 'roster', label: 'Dekomposisi' },
             { key: 'input', label: 'Asosiasi' },
             { key: 'chart', label: 'Abstraksi' },
@@ -113,24 +114,24 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
         </div>
 
         {/* HUD Right hand metrics */}
-        <div className="flex items-center gap-3 shrink-0 ml-auto md:ml-0">
+        <div className="flex items-center gap-2 shrink-0">
           {/* Active Score HUD */}
-          <div className="bg-[#CCFBF1] border-2 border-black px-2.5 py-1 rounded-xl flex items-center gap-1.5 shadow-[2px_2px_0px_#000]">
-            <Flame className="w-4 h-4 text-emerald-700" />
+          <div className="bg-[#CCFBF1] border-2 border-black px-2 py-1 rounded-xl flex items-center gap-1.5 shadow-[2px_2px_0px_#000]">
+            <Flame className="w-3.5 h-3.5 text-emerald-700" />
             <div className="text-left">
               <p className="text-[8px] font-mono leading-none text-slate-600 uppercase font-bold">Skor</p>
-              <p className="text-xs font-black text-slate-900 font-mono">
+              <p className="text-xs font-black text-slate-900 font-mono leading-none mt-0.5">
                 {totalScore}
               </p>
             </div>
           </div>
 
           {/* Computational Thinking Percentage Progress */}
-          <div className="bg-[#FDE047] border-2 border-black px-2.5 py-1 rounded-xl flex items-center gap-1.5 shadow-[2px_2px_0px_#000]">
-            <Brain className="w-4 h-4 text-black animate-pulse" />
+          <div className="bg-[#FDE047] border-2 border-black px-2 py-1 rounded-xl flex items-center gap-1.5 shadow-[2px_2px_0px_#000]">
+            <Brain className="w-3.5 h-3.5 text-black animate-pulse" />
             <div className="text-left">
               <p className="text-[8px] font-mono leading-none text-slate-600 uppercase font-black">Tahapan</p>
-              <p className="text-xs font-black text-slate-900 font-mono">
+              <p className="text-xs font-black text-slate-900 font-mono leading-none mt-0.5">
                 {getStagePercentage(currentStage)}
               </p>
             </div>
@@ -151,102 +152,7 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
       <div className="space-y-6">
         <AnimatePresence mode="wait">
           
-          {/* Stage: Introduction of current level */}
-          {currentStage === 'intro' && (
-            <motion.div
-              key="intro"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              className="bg-white rounded-3xl border-4 border-black shadow-[8px_8px_0px_#000000] p-5 md:p-10 text-left"
-            >
-              {/* Visual Cover Hero Cover */}
-              <div className="bg-[#FBCFE8] border-4 border-black p-8 rounded-3xl text-black relative overflow-hidden mb-8 shadow-[4px_4px_0px_#000000]">
-                <div className="absolute right-0 bottom-0 translate-y-6 translate-x-4 opacity-10">
-                  <School className="w-56 h-56 text-black" />
-                </div>
 
-                <span className="font-mono text-xs font-black uppercase bg-black text-white px-3 py-1 rounded-full border border-black tracking-widest">
-                  Misi Tingkat: Level {activeLevel.id}
-                </span>
-                
-                <h2 className="text-2xl md:text-3xl font-black font-display text-black mt-4 leading-tight uppercase">
-                  {activeLevel.title}
-                </h2>
-                <p className="text-xs md:text-sm text-slate-905 font-bold leading-relaxed mt-2 max-w-2xl">
-                  {activeLevel.description}
-                </p>
-
-                <div className="mt-6 flex flex-wrap gap-4 items-center">
-                  <span className="text-xs bg-[#FDE047] text-black border-2 border-black px-3 py-1.5 rounded-xl font-bold font-mono uppercase tracking-wider flex items-center gap-1.5 shadow-[2px_2px_0px_rgba(0,0,0,1)]">
-                    <Target className="w-3.5 h-3.5 text-black" />
-                    Fokus: {activeLevel.focus.split(':')[0]}
-                  </span>
-                  <span className="text-xs bg-[#A5F3FC] text-black border-2 border-black px-3 py-1.5 rounded-xl font-bold font-mono uppercase tracking-wider shadow-[2px_2px_0px_rgba(0,0,0,1)]">
-                    Masa Kerja: {activeLevel.durationLabel}
-                  </span>
-                </div>
-              </div>
-
-              {/* Level pedagogical instructions */}
-              <div className="space-y-6">
-                <div>
-                  <h3 className="text-xs font-extrabold text-slate-900 uppercase tracking-wider font-mono mb-3">
-                    🎯 Alur Kerja Pengelolaan Data (Algoritma)
-                  </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
-                    {[
-                      { step: '1', title: 'Kumpulkan', color: 'bg-[#A5F3FC] text-black border border-black' },
-                      { step: '2', title: 'Olah Tabel', color: 'bg-[#FBCFE8] text-black border border-black' },
-                      { step: '3', title: 'Sajikan', color: 'bg-[#CCFBF1] text-black border border-black' },
-                      { step: '4', title: 'Analisis', color: 'bg-[#FDE047] text-black border border-black' },
-                      { step: '5', title: 'Kebijakan', color: 'bg-rose-500 text-white border border-black' }
-                    ].map((item, i) => (
-                      <div key={i} className="flex md:flex-col items-center gap-3 p-3 bg-white border-2 border-black rounded-2xl relative shadow-[3px_3px_0px_rgba(0,0,0,1)]">
-                        <span className={`w-8 h-8 rounded-lg font-mono font-black border border-black flex items-center justify-center text-xs ${item.color}`}>
-                          {item.step}
-                        </span>
-                        <span className="text-xs font-black text-slate-800">{item.title}</span>
-                        {i < 4 && (
-                          <ChevronRight className="hidden md:block w-4 h-4 text-black absolute -right-3.5 top-1/2 -translate-y-1/2 z-20 font-bold" />
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="p-4 bg-[#CCFBF1] border-2 border-black rounded-2xl flex gap-3.5 shadow-[4px_4px_0px_rgba(0,0,0,1)] text-left">
-                  <div className="p-2.5 bg-[#FDE047] text-black border-2 border-black rounded-xl shrink-0 h-11 w-11 flex items-center justify-center shadow-[2px_2px_0px_rgba(0,0,0,1)]">
-                    <Brain className="w-6 h-6 text-black animate-pulse" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-slate-900 text-xs font-display">
-                      Fokus Kompetensi Level Ini:
-                    </h4>
-                    <p className="text-[11px] text-slate-800 leading-relaxed mt-0.5 whitespace-pre-line font-black">
-                      {activeLevel.focus}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Submit buttons */}
-                <div className="pt-4 border-t-2 border-black flex flex-col sm:flex-row justify-between items-center gap-4">
-                  <span className="text-xs text-slate-600 font-bold">
-                    Admin Kehadiran Sekolah: Siap Melakukan Tugas Kebijakan!
-                  </span>
-                  <button
-                    type="button"
-                    onClick={startCurrentLevelPlay}
-                    className="brutal-btn px-8 py-4 text-xs uppercase tracking-wider h-12 w-full sm:w-auto"
-                    id="btn-start-misi"
-                  >
-                    <Play className="w-4 h-4 text-white fill-white" />
-                    <span>Masuki Ruang Misi</span>
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          )}
 
           {/* Stage: Manual list count Decomposition card */}
           {currentStage === 'roster' && (
@@ -313,6 +219,103 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
 
         </AnimatePresence>
       </div>
+
+      {/* Level Intro Modal Overlay - Cara Bermain */}
+      <AnimatePresence>
+        {isIntroModalOpen && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-[999] overflow-y-auto">
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 10 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 10 }}
+              className="bg-white rounded-3xl border-4 border-black shadow-[6px_6px_0px_#000] p-3 sm:p-5 max-w-lg w-full relative text-left flex flex-col max-h-[88vh] overflow-hidden"
+            >
+              {/* Header Title */}
+              <div className="text-center space-y-1 md:space-y-2 border-b-2 sm:border-b-4 border-black pb-2 sm:pb-4 shrink-0">
+                <span className="text-[8px] sm:text-[10px] uppercase font-mono font-black border-2 border-black bg-[#CCFBF1] text-black px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full inline-block tracking-widest shadow-[1.5px_1.5px_0px_#000]">
+                  Level {activeLevel.id}
+                </span>
+                <h2 className="text-lg sm:text-2xl font-black font-display uppercase tracking-tight text-slate-900 pt-0.5 sm:pt-1">
+                  Cara Bermain
+                </h2>
+              </div>
+
+              {/* Dynamic steps based on gameplay flow - scrollable inside flex */}
+              <div className="flex-1 overflow-y-auto py-2.5 sm:py-4 space-y-2.5 sm:space-y-3 pr-1">
+                {activeLevel.rosters && activeLevel.rosters.length > 0 ? (
+                  <>
+                    <div className="flex gap-2 sm:gap-3 items-start p-2 sm:p-3 bg-[#A5F3FC]/30 border-2 border-black rounded-xl sm:rounded-2xl shadow-[2px_2px_0px_#000]">
+                      <span className="text-base sm:text-xl shrink-0">🧩</span>
+                      <div>
+                        <h4 className="font-black text-[10px] sm:text-xs uppercase text-slate-900">1. Hitung Kehadiran</h4>
+                        <p className="text-[9px] sm:text-[11px] text-slate-700 font-bold mt-0.5">Hitung jumlah siswa Hadir dan Tidak Hadir di lembar absen manual harian.</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-2 sm:gap-3 items-start p-2 sm:p-3 bg-[#FBCFE8]/30 border-2 border-black rounded-xl sm:rounded-2xl shadow-[2px_2px_0px_#000]">
+                      <span className="text-base sm:text-xl shrink-0">📊</span>
+                      <div>
+                        <h4 className="font-black text-[10px] sm:text-xs uppercase text-slate-900">2. Isi Tabel Digital</h4>
+                        <p className="text-[9px] sm:text-[11px] text-slate-700 font-bold mt-0.5">Masukkan data angka hasil hitunganmu ke dalam tabel sistem sekolah.</p>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex gap-2 sm:gap-3 items-start p-2 sm:p-3 bg-[#FBCFE8]/30 border-2 border-black rounded-xl sm:rounded-2xl shadow-[2px_2px_0px_#000]">
+                    <span className="text-base sm:text-xl shrink-0">📊</span>
+                    <div>
+                      <h4 className="font-black text-[10px] sm:text-xs uppercase text-slate-900">1. Isi Tabel Digital</h4>
+                      <p className="text-[9px] sm:text-[11px] text-slate-700 font-bold mt-0.5">Masukkan data angka kehadiran yang diberikan ke tabel sistem sekolah.</p>
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex gap-2 sm:gap-3 items-start p-2 sm:p-3 bg-[#CCFBF1]/30 border-2 border-black rounded-xl sm:rounded-2xl shadow-[2px_2px_0px_#000]">
+                  <span className="text-base sm:text-xl shrink-0">📈</span>
+                  <div>
+                    <h4 className="font-black text-[10px] sm:text-xs uppercase text-slate-900">
+                      {activeLevel.rosters && activeLevel.rosters.length > 0 ? "3. Sesuaikan Grafik" : "2. Sesuaikan Grafik"}
+                    </h4>
+                    <p className="text-[9px] sm:text-[11px] text-slate-700 font-bold mt-0.5">Atur tinggi diagram batang atau diagram garis agar sesuai dengan angka tabel.</p>
+                  </div>
+                </div>
+
+                <div className="flex gap-2 sm:gap-3 items-start p-2 sm:p-3 bg-[#FDE047]/30 border-2 border-black rounded-xl sm:rounded-2xl shadow-[2px_2px_0px_#000]">
+                  <span className="text-base sm:text-xl shrink-0">🔍</span>
+                  <div>
+                    <h4 className="font-black text-[10px] sm:text-xs uppercase text-slate-900">
+                      {activeLevel.rosters && activeLevel.rosters.length > 0 ? "4. Analisis Pola" : "3. Analisis Pola"}
+                    </h4>
+                    <p className="text-[9px] sm:text-[11px] text-slate-700 font-bold mt-0.5">Amati pola grafik dan jawab beberapa pertanyaan kuis analisis data.</p>
+                  </div>
+                </div>
+
+                <div className="flex gap-2 sm:gap-3 items-start p-2 sm:p-3 bg-rose-500/20 border-2 border-black rounded-xl sm:rounded-2xl shadow-[2px_2px_0px_#000]">
+                  <span className="text-base sm:text-xl shrink-0">⚙️</span>
+                  <div>
+                    <h4 className="font-black text-[10px] sm:text-xs uppercase text-slate-900">
+                      {activeLevel.rosters && activeLevel.rosters.length > 0 ? "5. Ambil Kebijakan" : "4. Ambil Kebijakan"}
+                    </h4>
+                    <p className="text-[9px] sm:text-[11px] text-slate-700 font-bold mt-0.5">Tentukan kebijakan sekolah terbaik berdasarkan kesimpulan data.</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Start button */}
+              <div className="pt-2 sm:pt-4 border-t-2 border-black flex justify-center shrink-0">
+                <button
+                  type="button"
+                  onClick={startCurrentLevelPlay}
+                  className="w-full bg-[#FDE047] hover:bg-[#FACC15] text-black border-2 sm:border-4 border-black text-[10px] sm:text-xs font-black py-2.5 sm:py-3.5 rounded-xl sm:rounded-2xl uppercase tracking-wider cursor-pointer shadow-[2px_2px_0px_#000] sm:shadow-[4px_4px_0px_#000] active:translate-y-0.5 active:shadow-[1px_1px_0px_#000] flex items-center justify-center gap-1.5"
+                  id="btn-start-misi"
+                >
+                  <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-black fill-black animate-pulse" />
+                  <span>Mulai Bermain</span>
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };

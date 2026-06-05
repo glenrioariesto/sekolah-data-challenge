@@ -112,9 +112,9 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
   const activeRoster = rosters[activeTab] || null;
 
   return (
-    <div className="bg-white rounded-3xl border-4 border-black p-5 md:p-8 shadow-[8px_8px_0px_rgba(0,0,0,1)]">
+    <div className="bg-white rounded-2xl sm:rounded-3xl border-2 sm:border-4 border-black p-2 sm:p-5 md:p-8 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)]">
       {/* Step description */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between border-b-2 border-black pb-5 mb-6 gap-3">
+      <div className="flex flex-col md:flex-row md:items-center justify-between border-b-2 border-black pb-3 sm:pb-5 mb-3 sm:mb-6 gap-3">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="px-2 py-0.5 bg-[#FDE047] text-black border-2 border-black rounded-lg text-xs font-black font-mono shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)]">TAHAP 1</span>
@@ -127,7 +127,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
           </p>
         </div>
 
-        <div className="bg-[#A5F3FC] p-3 rounded-xl border-2 border-black max-w-sm shadow-[3px_3px_0px_rgba(0,0,0,1)]">
+        <div className="bg-[#A5F3FC] p-2 sm:p-3 rounded-lg sm:rounded-xl border-2 border-black max-w-sm shadow-[3px_3px_0px_rgba(0,0,0,1)]">
           <div className="flex items-start gap-2">
             <Info className="w-4 h-4 text-black mt-0.5 shrink-0" />
             <p className="text-xs text-slate-900 leading-relaxed font-sans font-bold">
@@ -137,12 +137,12 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-3 sm:gap-2 sm:gap-4 md:gap-6 md:gap-8">
         
         {/* Left Side: Roster Viewer */}
         <div className="xl:col-span-7">
-          <div className="bg-white rounded-2xl p-4 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)]">
-            <div className="flex items-center justify-between mb-4">
+          <div className="bg-white rounded-2xl p-2.5 sm:p-4 border border-black sm:border-2 shadow-[2.5px_2.5px_0px_rgba(0,0,0,1)] sm:shadow-[4px_4px_0px_rgba(0,0,0,1)]">
+            <div className="flex items-center justify-between mb-2 sm:mb-4">
               <h3 className="text-sm font-black text-slate-900 uppercase flex items-center gap-2">
                 <ClipboardCheck className="w-4 h-4 text-slate-700" />
                 Lembar Absensi Siswa Harian
@@ -153,7 +153,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
             </div>
 
             {/* Days Tabs */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none mb-4">
+            <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none mb-2 sm:mb-4">
               {rosters.map((r, idx) => (
                 <button
                   key={r.day}
@@ -184,7 +184,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
                       whileHover={{ scale: 1.01 }}
                       whileTap={{ scale: 0.99 }}
                       onClick={() => toggleHighlight(activeRoster.day, idx)}
-                      className={`p-3 rounded-xl border-2 border-black flex items-center justify-between cursor-pointer select-none transition-all duration-300 shadow-[2px_2px_0px_rgba(0,0,0,1)] ${
+                      className={`p-2 sm:p-3 rounded-lg sm:rounded-xl border-2 border-black flex items-center justify-between cursor-pointer select-none transition-all duration-300 shadow-[2px_2px_0px_rgba(0,0,0,1)] ${
                         isHighlighted 
                           ? 'bg-slate-200 border-slate-400 opacity-50 line-through text-slate-400' 
                           : isPresent 
@@ -229,7 +229,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
             )}
             
             {/* Quick Helper Button for Younger Kids */}
-            <div className="mt-4 flex justify-end">
+            <div className="mt-2 sm:mt-4 flex justify-end">
               <button
                 type="button"
                 onClick={() => handleAutofillHelper(rosters[activeTab].day)}
@@ -246,7 +246,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
 
         {/* Right Side: Working Counter Inputs */}
         <div className="xl:col-span-5 flex flex-col justify-between">
-          <div className="space-y-4">
+          <div className="space-y-2 sm:space-y-4">
             <h3 className="text-sm font-black text-slate-900 uppercase flex items-center gap-2 border-b-2 border-black pb-2">
               📂 Hasil Rekapitulasi Data Sementara
             </h3>
@@ -259,7 +259,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
               {rosters.map((r, rIdx) => (
                 <div 
                   key={r.day}
-                  className={`p-3 rounded-xl border-2 border-black flex items-center justify-between gap-4 transition-all shadow-[3px_3px_0px_rgba(0,0,0,1)] ${
+                  className={`p-2 sm:p-3 rounded-lg sm:rounded-xl border-2 border-black flex items-center justify-between gap-4 transition-all shadow-[3px_3px_0px_rgba(0,0,0,1)] ${
                     activeTab === rIdx 
                       ? 'bg-[#A5F3FC]' 
                       : 'bg-white hover:bg-slate-50'
@@ -313,13 +313,13 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
             </div>
           </div>
 
-          <div className="mt-8 pt-5 border-t-2 border-black">
+          <div className="mt-2 sm:mt-4 sm:mt-8 pt-3 sm:pt-5 border-t-2 border-black">
             {/* Warning Message */}
             {errorWarning && (
               <motion.div 
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mb-4 bg-[#FDE047] border-2 border-black rounded-2xl p-3 flex items-start gap-2.5 shadow-[3px_3px_0px_rgba(0,0,0,1)] text-[#1E293B] font-black"
+                className="mb-2 sm:mb-4 bg-[#FDE047] border-2 border-black rounded-2xl p-3 flex items-start gap-2.5 shadow-[3px_3px_0px_rgba(0,0,0,1)] text-[#1E293B] font-black"
                 id="warning-box"
               >
                 <AlertCircle className="w-5 h-5 text-black shrink-0 mt-0.5" />
@@ -335,7 +335,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={verifyCounts}
-              className="w-full brutal-btn py-4 flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full brutal-btn py-2 sm:py-4 text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer"
               id="btn-verify-roster"
             >
               <Check className="w-5 h-5" />

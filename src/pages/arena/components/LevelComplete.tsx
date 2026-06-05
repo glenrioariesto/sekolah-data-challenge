@@ -58,7 +58,7 @@ export const LevelComplete: React.FC<LevelCompleteProps> = ({
   const isFinalLevel = currentLevel.id === 5;
 
   return (
-    <div className="bg-white rounded-3xl border-4 border-black p-6 md:p-10 max-w-3xl mx-auto text-center relative overflow-hidden shadow-[8px_8px_0px_rgba(0,0,0,1)]">
+    <div className="bg-white rounded-2xl sm:rounded-3xl border-2 sm:border-4 border-black p-3 sm:p-6 md:p-10 max-w-3xl mx-auto text-center relative overflow-hidden shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)]">
       
       {/* Rarity Trophy badge */}
       <motion.div
@@ -164,7 +164,7 @@ export const LevelComplete: React.FC<LevelCompleteProps> = ({
         className="mt-8 pt-6 border-t-2 border-black flex flex-col sm:flex-row items-center justify-center gap-4"
       >
         {isFinalLevel ? (
-          <div className="w-full space-y-4">
+          <div className="w-full space-y-2 sm:space-y-4">
             <p className="text-xs text-slate-850 font-bold leading-relaxed">
               🎉 Selamat! Anda telah menamatkan seluruh level Sekolah Data Challenge. Anda kini siap membuat kebijakan berbasis data di mana saja!
             </p>
