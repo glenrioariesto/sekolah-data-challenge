@@ -35,7 +35,20 @@ export default function App() {
   } = useGameState();
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col antialiased font-sans select-none pb-12">
+    <div className="h-screen max-h-screen w-screen overflow-hidden bg-slate-50 flex flex-col antialiased font-sans select-none relative">
+      {/* Landscape orientation warning overlay */}
+      <div className="fixed inset-0 z-[9999] bg-slate-950 text-white flex flex-col items-center justify-center p-6 text-center space-y-6 portrait:flex landscape:hidden">
+        <div className="w-20 h-20 bg-[#FDE047] border-4 border-black rounded-3xl flex items-center justify-center text-4xl shadow-[4px_4px_0px_#000] animate-bounce text-black">
+          🔄
+        </div>
+        <h1 className="text-2xl font-black uppercase tracking-tight text-[#FDE047] font-display">
+          Putar Layar Anda!
+        </h1>
+        <p className="text-sm font-semibold max-w-xs leading-relaxed text-slate-300">
+          Tantangan Sekolah Data dioptimalkan untuk tampilan mendatar (landscape). Aktifkan rotasi layar otomatis pada perangkat Anda dan putar perangkat.
+        </p>
+      </div>
+
       <AnimatePresence mode="wait">
         {pageView === 'start' && (
           <SplashPage

@@ -33,7 +33,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
-      className="flex-1 max-w-5xl mx-auto w-full p-4 md:p-8 space-y-6"
+      className="flex-1 max-w-5xl mx-auto w-full p-4 md:p-8 space-y-6 overflow-y-auto max-h-screen"
+
     >
       {/* Header / Top Navigation */}
       <div className="bg-white rounded-3xl border-4 border-black p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-[6px_6px_0px_#000000]">

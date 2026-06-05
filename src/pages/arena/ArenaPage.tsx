@@ -53,7 +53,8 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
       initial={{ opacity: 0, scale: 0.99 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.99 }}
-      className="flex-1 max-w-6xl mx-auto w-full p-4 md:p-8 space-y-6"
+      className="flex-1 max-w-6xl mx-auto w-full p-4 md:p-8 space-y-6 overflow-y-auto max-h-screen"
+
     >
       {/* IN-PAGE HUD/BREADCRUMB HEADER */}
       <div className="bg-white rounded-3xl border-4 border-black p-4 md:p-5 flex flex-col md:flex-row items-center justify-between gap-4 shadow-[6px_6px_0px_rgba(0,0,0,1)]">
