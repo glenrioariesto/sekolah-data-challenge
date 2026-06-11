@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { School, Brain, Target, Play, ChevronRight, ArrowLeft, Flame } from 'lucide-react';
+import { Play } from 'lucide-react';
 import { GameLevel, GameStage } from '@/src/types';
 import { StudentCounter } from '@/src/pages/arena/components/StudentCounter';
 import { DataEntryTable } from '@/src/pages/arena/components/DataEntryTable';
@@ -17,9 +17,11 @@ interface ArenaPageProps {
   activeLevel: GameLevel;
   totalScore: number;
   levelPointsAccumulator: number;
+  userCountedData?: Record<string, { present: number, permit: number, sick: number, alpha: number }> | null;
   onBackToRoadmap: () => void;
+  onGoBackStage: () => void;
   startCurrentLevelPlay: () => void;
-  handleRosterStepFinished: (bonus: number) => void;
+  handleRosterStepFinished: (bonus: number, countedRecords: any) => void;
   handleTableStepFinished: (bonus: number) => void;
   handleChartStepFinished: (bonus: number) => void;
   handleQuizStepFinished: (bonus: number) => void;
@@ -36,7 +38,9 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
   activeLevel,
   totalScore,
   levelPointsAccumulator,
+  userCountedData,
   onBackToRoadmap,
+  onGoBackStage,
   startCurrentLevelPlay,
   handleRosterStepFinished,
   handleTableStepFinished,
@@ -58,95 +62,8 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
       className="flex-1 max-w-6xl mx-auto w-full p-1 sm:p-4 space-y-3 sm:space-y-6 overflow-y-auto max-h-screen"
 
     >
-      {/* IN-PAGE HUD/BREADCRUMB HEADER - flat borderless buttons */}
-      <div className="flex flex-row items-center justify-between gap-2 sm:gap-4 py-1 w-full">
-        
-        {/* Back button and Active title info */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          <button
-            type="button"
-            onClick={() => { playSynthesizerNote('btn'); onBackToRoadmap(); }}
-            className="p-2 bg-white hover:bg-slate-100 border-2 border-black rounded-xl text-black hover:scale-105 transition-transform shadow-[2px_2px_0px_#000] cursor-pointer"
-            title="Kembali ke Peta Misi"
-          >
-            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
-          </button>
-          
-          <div className="text-left leading-none">
-            <span className="font-mono text-[9px] font-black bg-rose-500 text-white px-2 py-0.5 rounded border border-black tracking-widest shadow-[1px_1px_0px_#000]">
-              Lvl {activeLevel.id}
-            </span>
-            <h2 className="text-xs sm:text-sm font-black text-slate-900 uppercase font-display mt-1.5 line-clamp-1">
-              {activeLevel.title.split(': ')[1] || activeLevel.title}
-            </h2>
-          </div>
-        </div>
 
-        {/* Steps progression visual trail inside the page bar */}
-        <div className="hidden lg:flex items-center gap-1 bg-white px-2.5 py-1 border-2 border-black rounded-xl shadow-[2px_2px_0px_#000]">
-          {[
-            { key: 'roster', label: 'Dekomposisi' },
-            { key: 'input', label: 'Asosiasi' },
-            { key: 'chart', label: 'Abstraksi' },
-            { key: 'analysis', label: 'Pola' },
-            { key: 'decision', label: 'Kebijakan' },
-            { key: 'complete', label: 'Selesai' }
-          ].map((s, idx, arr) => {
-            const isActive = currentStage === s.key;
-            // If stage is roster but roster doesn't exist, skip rendering progress for it
-            if (s.key === 'roster' && (!activeLevel.rosters || activeLevel.rosters.length === 0)) {
-              return null;
-            }
-            
-            return (
-              <React.Fragment key={s.key}>
-                <span className={`text-[9px] font-mono px-2 py-0.5 rounded-lg border-2 ${
-                  isActive 
-                    ? 'bg-[#FDE047] text-black border-black font-black shadow-[1px_1px_0px_#000]' 
-                    : 'bg-white text-slate-400 border-slate-300 font-bold'
-                }`}>
-                  {s.label}
-                </span>
-                {idx < arr.length - 1 && <span className="text-[10px] text-slate-400 font-bold">›</span>}
-              </React.Fragment>
-            );
-          })}
-        </div>
 
-        {/* HUD Right hand metrics */}
-        <div className="flex items-center gap-2 shrink-0">
-          {/* Active Score HUD */}
-          <div className="bg-[#CCFBF1] border-2 border-black px-2 py-1 rounded-xl flex items-center gap-1.5 shadow-[2px_2px_0px_#000]">
-            <Flame className="w-3.5 h-3.5 text-emerald-700" />
-            <div className="text-left">
-              <p className="text-[8px] font-mono leading-none text-slate-600 uppercase font-bold">Skor</p>
-              <p className="text-xs font-black text-slate-900 font-mono leading-none mt-0.5">
-                {totalScore}
-              </p>
-            </div>
-          </div>
-
-          {/* Computational Thinking Percentage Progress */}
-          <div className="bg-[#FDE047] border-2 border-black px-2 py-1 rounded-xl flex items-center gap-1.5 shadow-[2px_2px_0px_#000]">
-            <Brain className="w-3.5 h-3.5 text-black animate-pulse" />
-            <div className="text-left">
-              <p className="text-[8px] font-mono leading-none text-slate-600 uppercase font-black">Tahapan</p>
-              <p className="text-xs font-black text-slate-900 font-mono leading-none mt-0.5">
-                {getStagePercentage(currentStage)}
-              </p>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      {/* Progress Bar under the header */}
-      <div className="w-full bg-slate-200 h-2 rounded-full border-2 border-black overflow-hidden p-0.5 shadow-[2.5px_2.5px_0px_#000]">
-        <div 
-          className="bg-[#10B981] h-full rounded-full border border-black transition-all duration-300 ease-out"
-          style={{ width: `${activeLevelProgressPercentage()}%` }}
-        />
-      </div>
 
       {/* MAIN LEVEL GAME ARENA VIEWPORT VIEW */}
       <div className="space-y-6">
@@ -160,6 +77,7 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
               <StudentCounter 
                 currentLevel={activeLevel} 
                 onSuccess={handleRosterStepFinished} 
+                onBack={onGoBackStage}
               />
             </motion.div>
           )}
@@ -170,36 +88,19 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
               <DataEntryTable 
                 currentLevel={activeLevel} 
                 onSuccess={handleTableStepFinished} 
+                prefilledData={userCountedData}
+                onBack={onGoBackStage}
               />
             </motion.div>
           )}
 
-          {/* Stage: Interactive Graph adjustment Abstraction */}
-          {currentStage === 'chart' && (
+          {/* Stage: Interactive Graph adjustment Abstraction (kept visible during analysis and decision) */}
+          {(currentStage === 'chart' || currentStage === 'analysis' || currentStage === 'decision') && (
             <motion.div key="chart" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
               <ChartBuilder 
                 currentLevel={activeLevel} 
                 onSuccess={handleChartStepFinished} 
-              />
-            </motion.div>
-          )}
-
-          {/* Stage: Multiple Choice Questions Pattern Recognition */}
-          {currentStage === 'analysis' && (
-            <motion.div key="analysis" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <QuizSection 
-                currentLevel={activeLevel} 
-                onSuccess={handleQuizStepFinished} 
-              />
-            </motion.div>
-          )}
-
-          {/* Stage: Policy makers Decisions Data Literacy */}
-          {currentStage === 'decision' && (
-            <motion.div key="decision" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <DecisionSection 
-                currentLevel={activeLevel} 
-                onSuccess={handleDecisionStepFinished} 
+                onBack={onGoBackStage}
               />
             </motion.div>
           )}
@@ -219,6 +120,52 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
 
         </AnimatePresence>
       </div>
+
+      {/* Modal Overlay for Stage 4: Quiz Section (Analysis) */}
+      <AnimatePresence>
+        {currentStage === 'analysis' && (
+          <div 
+            onClick={onGoBackStage}
+            className="fixed inset-0 bg-black/55 backdrop-blur-xs flex items-center justify-center p-4 z-[990] overflow-y-auto cursor-pointer"
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 15 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 15 }}
+              className="w-full max-w-4xl relative cursor-default"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <QuizSection 
+                currentLevel={activeLevel} 
+                onSuccess={handleQuizStepFinished} 
+              />
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Modal Overlay for Stage 5: Decision Section */}
+      <AnimatePresence>
+        {currentStage === 'decision' && (
+          <div 
+            onClick={onGoBackStage}
+            className="fixed inset-0 bg-black/55 backdrop-blur-xs flex items-center justify-center p-4 z-[990] overflow-y-auto cursor-pointer"
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 15 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 15 }}
+              className="w-full max-w-4xl relative cursor-default"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <DecisionSection 
+                currentLevel={activeLevel} 
+                onSuccess={handleDecisionStepFinished} 
+              />
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* Level Intro Modal Overlay - Cara Bermain */}
       <AnimatePresence>

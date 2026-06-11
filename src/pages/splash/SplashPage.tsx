@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Play, School } from 'lucide-react';
 import { playSynthesizerNote } from '@/src/utils/audio';
+import logoPusbuk from '@/assets/logo-pusbuk.webp';
 
 interface SplashPageProps {
   onStartGame: () => void;
@@ -17,9 +18,8 @@ export const SplashPage: React.FC<SplashPageProps> = ({ onStartGame }) => {
       className="relative w-screen h-screen flex flex-col items-center justify-center p-1 md:p-6 text-center select-none overflow-hidden"
     >
       {/* Logo Pojok Kiri Atas - Responsive sizing */}
-      <div className="absolute top-2 left-2 md:top-6 md:left-6 flex items-center gap-1 bg-white border-2 md:border-4 border-black px-2 py-0.5 md:px-4 md:py-2 rounded-xl md:rounded-2xl text-black font-black uppercase text-[9px] md:text-sm shadow-[1.5px_1.5px_0px_#000] md:shadow-[4px_4px_0px_#000] z-50">
-        <School className="w-3 h-3 md:w-5 md:h-5 text-indigo-600" />
-        <span>Sekolah Data</span>
+      <div className="absolute top-2 left-2 md:top-6 md:left-6 z-50">
+        <img src={logoPusbuk} alt="Logo Pusbuk" className="h-6 w-auto md:h-10 object-contain" />
       </div>
 
       {/* Main Content Area */}

@@ -1,44 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GameLevel } from '@/src/types';
-import { motion, AnimatePresence } from 'motion/react';
-import { Check, ArrowRight, Table, HelpCircle, RefreshCw, Star, Info, ListFilter, RotateCcw } from 'lucide-react';
+import { motion } from 'motion/react';
+import { Check, Table, Info, RotateCcw } from 'lucide-react';
 
 interface DataEntryTableProps {
   currentLevel: GameLevel;
   onSuccess: (scoreBonus: number) => void;
+  prefilledData?: Record<string, { present: number, permit: number, sick: number, alpha: number }> | null;
+  onBack?: () => void;
 }
 
 export const DataEntryTable: React.FC<DataEntryTableProps> = ({
   currentLevel,
   onSuccess,
+  prefilledData,
+  onBack,
 }) => {
-  // Available numbers to click and place as tokens
   const records = currentLevel.records;
   
   // Find all possible numbers in this level's records to make "Data Pills"
-  // For Level 2: {SeninH: 10, SeninTH: 2, SelasaH: 11, SelasaTH: 1, RabuH: 9, RabuTH: 3, KamisH: 12, KamisTH: 0, JumatH: 8, JumatTH: 4}
-  // Let's pool all valid numbers and shuffle them slightly
   const availablePills: number[] = Array.from(new Set<number>(
-    records.flatMap(r => [r.present, r.absent])
+    records.flatMap(r => [r.present, r.permit, r.sick, r.alpha])
   )).sort((a: number, b: number) => a - b);
 
   // User bound values: Record<string, number | null>
-  // Keys will be `${day}-present` or `${day}-absent`
+  // Keys will be `${day}-present`, `${day}-permit`, `${day}-sick`, `${day}-alpha`
   const [gridValues, setGridValues] = useState<Record<string, number | null>>(() => {
     const initial: Record<string, number | null> = {};
     records.forEach(r => {
-      initial[`${r.day}-present`] = null;
-      initial[`${r.day}-absent`] = null;
+      if (prefilledData && prefilledData[r.day]) {
+        const pre = prefilledData[r.day];
+        initial[`${r.day}-present`] = pre.present;
+        initial[`${r.day}-permit`] = pre.permit;
+        initial[`${r.day}-sick`] = pre.sick;
+        initial[`${r.day}-alpha`] = pre.alpha;
+      } else {
+        initial[`${r.day}-present`] = null;
+        initial[`${r.day}-permit`] = null;
+        initial[`${r.day}-sick`] = null;
+        initial[`${r.day}-alpha`] = null;
+      }
     });
     return initial;
   });
+
+  useEffect(() => {
+    const initial: Record<string, number | null> = {};
+    records.forEach(r => {
+      if (prefilledData && prefilledData[r.day]) {
+        const pre = prefilledData[r.day];
+        initial[`${r.day}-present`] = pre.present;
+        initial[`${r.day}-permit`] = pre.permit;
+        initial[`${r.day}-sick`] = pre.sick;
+        initial[`${r.day}-alpha`] = pre.alpha;
+      } else {
+        initial[`${r.day}-present`] = null;
+        initial[`${r.day}-permit`] = null;
+        initial[`${r.day}-sick`] = null;
+        initial[`${r.day}-alpha`] = null;
+      }
+    });
+    setGridValues(initial);
+    setSelectedCell(null);
+    setWarningMessage(null);
+  }, [currentLevel, prefilledData, records]);
 
   // Keep track of which cell is currently selected for pill injection
   const [selectedCell, setSelectedCell] = useState<string | null>(null);
   
   // Validation messages
   const [warningMessage, setWarningMessage] = useState<string | null>(null);
-  const [attempts, setAttempts] = useState<number>(0);
 
   const selectCell = (cellKey: string) => {
     setSelectedCell(cellKey);
@@ -47,7 +78,7 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
 
   const placePill = (value: number) => {
     if (!selectedCell) {
-      setWarningMessage("👉 Silakan klik salah satu kotak kosong berwarna biru di tabel terlebih dahulu!");
+      setWarningMessage("👉 Silakan klik salah satu kotak kosong di tabel terlebih dahulu!");
       return;
     }
 
@@ -57,7 +88,12 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
     }));
 
     // Auto move to the next empty cell for fluid gameplay
-    const cellIds = records.flatMap(r => [`${r.day}-present`, `${r.day}-absent`]);
+    const cellIds = records.flatMap(r => [
+      `${r.day}-present`,
+      `${r.day}-permit`,
+      `${r.day}-sick`,
+      `${r.day}-alpha`
+    ]);
     const currentIndex = cellIds.indexOf(selectedCell);
     let nextCell = null;
     for (let i = 1; i < cellIds.length; i++) {
@@ -71,21 +107,13 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
     setWarningMessage(null);
   };
 
-  const handleManualChange = (day: string, field: 'present' | 'absent', valStr: string) => {
-    const key = `${day}-${field}`;
-    const val = valStr === '' ? null : parseInt(valStr, 10);
-    setGridValues(prev => ({
-      ...prev,
-      [key]: val
-    }));
-    setWarningMessage(null);
-  };
-
   const handleClear = () => {
     const cleared: Record<string, number | null> = {};
     records.forEach(r => {
       cleared[`${r.day}-present`] = null;
-      cleared[`${r.day}-absent`] = null;
+      cleared[`${r.day}-permit`] = null;
+      cleared[`${r.day}-sick`] = null;
+      cleared[`${r.day}-alpha`] = null;
     });
     setGridValues(cleared);
     setSelectedCell(null);
@@ -93,11 +121,12 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
   };
 
   const handleAutofill = () => {
-    // Fill values with the right ones
     const correct: Record<string, number | null> = {};
     records.forEach(r => {
       correct[`${r.day}-present`] = r.present;
-      correct[`${r.day}-absent`] = r.absent;
+      correct[`${r.day}-permit`] = r.permit;
+      correct[`${r.day}-sick`] = r.sick;
+      correct[`${r.day}-alpha`] = r.alpha;
     });
     setGridValues(correct);
     setSelectedCell(null);
@@ -106,13 +135,14 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
 
   const handleVerifyTable = () => {
     setWarningMessage(null);
-    setAttempts(a => a + 1);
 
     // Verify all cells are filled
     for (const r of records) {
       const pVal = gridValues[`${r.day}-present`];
-      const aVal = gridValues[`${r.day}-absent`];
-      if (pVal === null || aVal === null) {
+      const iVal = gridValues[`${r.day}-permit`];
+      const sVal = gridValues[`${r.day}-sick`];
+      const aVal = gridValues[`${r.day}-alpha`];
+      if (pVal === null || iVal === null || sVal === null || aVal === null) {
         setWarningMessage("⚠️ Mohon lengkapi seluruh sel kosong di tabel terlebih dahulu!");
         return;
       }
@@ -121,14 +151,24 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
     // Compare values
     for (const r of records) {
       const pVal = gridValues[`${r.day}-present`];
-      const aVal = gridValues[`${r.day}-absent`];
+      const iVal = gridValues[`${r.day}-permit`];
+      const sVal = gridValues[`${r.day}-sick`];
+      const aVal = gridValues[`${r.day}-alpha`];
       
       if (pVal !== r.present) {
         setWarningMessage(`⚠️ Periksa kembali data hari ${r.day}! Nilai kehadiran (Hadir) masih belum sesuai.`);
         return;
       }
-      if (aVal !== r.absent) {
-        setWarningMessage(`⚠️ Periksa kembali data hari ${r.day}! Nilai ketidakhadiran (Tidak Hadir) belum sesuai.`);
+      if (iVal !== r.permit) {
+        setWarningMessage(`⚠️ Periksa kembali data hari ${r.day}! Nilai izin (Izin) masih belum sesuai.`);
+        return;
+      }
+      if (sVal !== r.sick) {
+        setWarningMessage(`⚠️ Periksa kembali data hari ${r.day}! Nilai sakit (Sakit) masih belum sesuai.`);
+        return;
+      }
+      if (aVal !== r.alpha) {
+        setWarningMessage(`⚠️ Periksa kembali data hari ${r.day}! Nilai alfa (Alfa) masih belum sesuai.`);
         return;
       }
     }
@@ -137,40 +177,13 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
     onSuccess(15);
   };
 
-  // Determine standard reference values to display as aid
-  // For Level 2, we show calculated lists summary below
   return (
-    <div className="bg-white rounded-2xl sm:rounded-3xl border-2 sm:border-4 border-black p-2 sm:p-5 md:p-8 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)]">
-      
-      {/* Title block */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between border-b-2 border-black pb-3 sm:pb-5 mb-3 sm:mb-6 gap-3">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="px-2 py-0.5 bg-[#A5F3FC] text-black border-2 border-black rounded-lg text-xs font-black font-mono shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)]">TAHAP 2</span>
-            <h2 className="text-lg md:text-xl font-black text-slate-900 font-display uppercase tracking-tight">
-              Input & Organisasi Data ke Tabel Digital
-            </h2>
-          </div>
-          <p className="text-xs text-slate-700 font-bold">
-            Tata data kehadiran harian ke dalam grid tabel administrasi. Klik salah satu sel kosong, lalu pilih angka dari "Kotak Token Data" untuk memasukkannya!
-          </p>
-        </div>
-
-        <div className="bg-[#FBCFE8] p-2 sm:p-3 rounded-lg sm:rounded-xl border-2 border-black max-w-sm shadow-[3px_3px_0px_rgba(0,0,0,1)] text-black">
-          <div className="flex items-start gap-2">
-            <Info className="w-4 h-4 text-black mt-0.5 shrink-0" />
-            <p className="text-xs text-black leading-relaxed font-sans font-bold">
-              <strong className="font-extrabold text-black">Kiat Pengenalan Pola:</strong> Anda menyusun pola lurus tabel agar data dapat diproses menjadi sebuah visualisasi yang rapi.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-3 sm:gap-2 sm:gap-4 md:gap-6 md:gap-8">
+    <div className="bg-white rounded-2xl sm:rounded-3xl border-2 sm:border-4 border-black p-2 sm:p-4 md:p-6 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)]">
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-3 sm:gap-4 md:gap-6">
         
         {/* Left column: Central Database Table Grid */}
         <div className="xl:col-span-7">
-          <div className="bg-white rounded-2xl p-3 sm:p-5 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)]">
+          <div className="bg-white rounded-2xl p-2.5 sm:p-4 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)]">
             <div className="flex items-center justify-between mb-2 sm:mb-4">
               <h3 className="text-sm font-black text-slate-900 uppercase flex items-center gap-2">
                 <Table className="w-4.5 h-4.5 text-indigo-600 font-black" />
@@ -190,94 +203,136 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
 
             {/* Interactive Grid styled nicely as a professional school system ledger */}
             <div className="overflow-hidden rounded-xl border-4 border-black shadow-[3px_3px_0px_rgba(0,0,0,1)] bg-white">
-              <table className="w-full text-center border-collapse">
-                <thead>
-                  <tr className="bg-[#A5F3FC] text-xs font-black text-black font-display border-b-2 border-black">
-                    <th className="py-1.5 px-2.5 sm:py-3 sm:px-4 text-left border-r-2 border-black">HARI SEKOLAH</th>
-                    <th className="py-1.5 px-2 sm:py-3 sm:px-3 uppercase tracking-wider border-r-2 border-black text-center">Hadir (H)</th>
-                    <th className="py-1.5 px-2 sm:py-3 sm:px-3 uppercase tracking-wider border-r-2 border-black text-center">Tidak Hadir (TH)</th>
-                    <th className="py-1.5 px-2 sm:py-3 sm:px-3 text-center">VALIDASI</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y-2 divide-black">
-                  {records.map((r) => {
-                    const presentKey = `${r.day}-present`;
-                    const absentKey = `${r.day}-absent`;
+              <div className="overflow-x-auto w-full">
+                <table className="w-full text-center border-collapse min-w-[400px]">
+                  <thead>
+                    <tr className="bg-[#A5F3FC] text-[10px] sm:text-xs font-black text-black font-display border-b-2 border-black">
+                      <th className="py-1.5 px-2 text-left border-r-2 border-black">HARI</th>
+                      <th className="py-1.5 px-1 border-r border-black text-center text-emerald-800">HADIR (H)</th>
+                      <th className="py-1.5 px-1 border-r border-black text-center text-sky-850">IZIN (I)</th>
+                      <th className="py-1.5 px-1 border-r border-black text-center text-amber-850">SAKIT (S)</th>
+                      <th className="py-1.5 px-1 border-r-2 border-black text-center text-rose-850">ALFA (A)</th>
+                      <th className="py-1.5 px-2 text-center">VALID</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y-2 divide-black">
+                    {records.map((r) => {
+                      const presentKey = `${r.day}-present`;
+                      const permitKey = `${r.day}-permit`;
+                      const sickKey = `${r.day}-sick`;
+                      const alphaKey = `${r.day}-alpha`;
 
-                    const valP = gridValues[presentKey];
-                    const valA = gridValues[absentKey];
+                      const valP = gridValues[presentKey];
+                      const valI = gridValues[permitKey];
+                      const valS = gridValues[sickKey];
+                      const valA = gridValues[alphaKey];
 
-                    // Check individual correct/status
-                    const isPresentCorr = valP === null ? null : valP === r.present;
-                    const isAbsentCorr = valA === null ? null : valA === r.absent;
+                      const isP = valP === null ? null : valP === r.present;
+                      const isI = valI === null ? null : valI === r.permit;
+                      const isS = valS === null ? null : valS === r.sick;
+                      const isA = valA === null ? null : valA === r.alpha;
 
-                    return (
-                      <tr key={r.day} className="hover:bg-slate-50 transition-colors">
-                        {/* Day Column */}
-                        <td className="py-2 px-3 sm:py-3.5 sm:px-4 text-left font-black text-slate-900 text-sm border-r-2 border-black">
-                          {r.day}
-                        </td>
+                      const allOk = valP !== null && valI !== null && valS !== null && valA !== null && isP && isI && isS && isA;
 
-                        {/* Present input column */}
-                        <td className="py-2 px-2 border-r-2 border-black">
-                          <div 
-                            onClick={() => selectCell(presentKey)}
-                            className={`w-16 mx-auto py-1.5 sm:w-20 sm:py-2.5 rounded-xl border-2 border-black font-mono font-black text-center cursor-pointer transition-all ${
-                              selectedCell === presentKey
-                                ? 'bg-[#FDE047] text-black shadow-[2.5px_2.5px_0px_rgba(0,0,0,1)] scale-105'
-                                : valP !== null
-                                  ? 'bg-[#CCFBF1] text-black shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)]'
-                                  : 'bg-indigo-50/40 text-[#4F46E5] border-dashed border-indigo-400 hover:bg-[#A5F3FC]/30'
-                            }`}
-                          >
-                            {valP !== null ? valP : '?'}
-                          </div>
-                        </td>
+                      return (
+                        <tr key={r.day} className="hover:bg-slate-50 transition-colors">
+                          {/* Day Column */}
+                          <td className="py-1.5 px-2 text-left font-black text-slate-900 text-[10px] sm:text-xs border-r-2 border-black whitespace-nowrap">
+                            {r.day}
+                          </td>
 
-                        {/* Absent input column */}
-                        <td className="py-2 px-2 border-r-2 border-black">
-                          <div 
-                            onClick={() => selectCell(absentKey)}
-                            className={`w-16 mx-auto py-1.5 sm:w-20 sm:py-2.5 rounded-xl border-2 border-black font-mono font-black text-center cursor-pointer transition-all ${
-                              selectedCell === absentKey
-                                ? 'bg-[#FDE047] text-black shadow-[2.5px_2.5px_0px_rgba(0,0,0,1)] scale-105'
-                                : valA !== null
-                                  ? 'bg-[#FBCFE8] text-black shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)]'
-                                  : 'bg-indigo-50/40 text-[#4F46E5] border-dashed border-indigo-400 hover:bg-[#A5F3FC]/30'
-                            }`}
-                          >
-                            {valA !== null ? valA : '?'}
-                          </div>
-                        </td>
+                          {/* Present */}
+                          <td className="py-1.5 px-1 border-r border-black">
+                            <div 
+                              onClick={() => selectCell(presentKey)}
+                              className={`w-8 sm:w-10 mx-auto py-1 sm:py-1.5 rounded-lg border-2 border-black font-mono font-black text-center cursor-pointer transition-all text-[10px] sm:text-xs ${
+                                selectedCell === presentKey
+                                  ? 'bg-[#FDE047] text-black shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] scale-105'
+                                  : valP !== null
+                                    ? 'bg-[#CCFBF1] text-emerald-900 border-emerald-500 shadow-[1px_1px_0px_rgba(0,0,0,1)]'
+                                    : 'bg-indigo-50/40 text-[#4F46E5] border-dashed border-indigo-400 hover:bg-[#A5F3FC]/30'
+                              }`}
+                            >
+                              {valP !== null ? valP : '?'}
+                            </div>
+                          </td>
 
-                        {/* Right live validation icons */}
-                        <td className="py-1.5 px-2 sm:py-2.5 sm:px-3">
-                          <div className="flex items-center justify-center gap-1.5">
-                            {valP === null || valA === null ? (
-                              <span className="text-[10px] text-slate-500 font-bold">Kosong</span>
-                            ) : isPresentCorr && isAbsentCorr ? (
-                              <span className="bg-[#CCFBF1] text-black border-2 border-black text-[10px] px-2 py-0.5 rounded-md font-bold flex items-center gap-1 shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)]">
-                                <Check className="w-3 h-3 text-black font-black" /> OK
-                              </span>
-                            ) : (
-                              <span className="bg-[#FBCFE8] text-black border-2 border-black text-[10px] px-2 py-0.5 rounded-md font-extrabold shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)]">
-                                Cek Ulang
-                              </span>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                          {/* Permit */}
+                          <td className="py-1.5 px-1 border-r border-black">
+                            <div 
+                              onClick={() => selectCell(permitKey)}
+                              className={`w-8 sm:w-10 mx-auto py-1 sm:py-1.5 rounded-lg border-2 border-black font-mono font-black text-center cursor-pointer transition-all text-[10px] sm:text-xs ${
+                                selectedCell === permitKey
+                                  ? 'bg-[#FDE047] text-black shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] scale-105'
+                                  : valI !== null
+                                    ? 'bg-[#E0F2FE] text-sky-900 border-sky-500 shadow-[1px_1px_0px_rgba(0,0,0,1)]'
+                                    : 'bg-indigo-50/40 text-[#4F46E5] border-dashed border-indigo-400 hover:bg-[#A5F3FC]/30'
+                              }`}
+                            >
+                              {valI !== null ? valI : '?'}
+                            </div>
+                          </td>
+
+                          {/* Sick */}
+                          <td className="py-1.5 px-1 border-r border-black">
+                            <div 
+                              onClick={() => selectCell(sickKey)}
+                              className={`w-8 sm:w-10 mx-auto py-1 sm:py-1.5 rounded-lg border-2 border-black font-mono font-black text-center cursor-pointer transition-all text-[10px] sm:text-xs ${
+                                selectedCell === sickKey
+                                  ? 'bg-[#FDE047] text-black shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] scale-105'
+                                  : valS !== null
+                                    ? 'bg-[#FEF3C7] text-amber-900 border-amber-500 shadow-[1px_1px_0px_rgba(0,0,0,1)]'
+                                    : 'bg-indigo-50/40 text-[#4F46E5] border-dashed border-indigo-400 hover:bg-[#A5F3FC]/30'
+                              }`}
+                            >
+                              {valS !== null ? valS : '?'}
+                            </div>
+                          </td>
+
+                          {/* Alpha */}
+                          <td className="py-1.5 px-1 border-r-2 border-black">
+                            <div 
+                              onClick={() => selectCell(alphaKey)}
+                              className={`w-8 sm:w-10 mx-auto py-1 sm:py-1.5 rounded-lg border-2 border-black font-mono font-black text-center cursor-pointer transition-all text-[10px] sm:text-xs ${
+                                selectedCell === alphaKey
+                                  ? 'bg-[#FDE047] text-black shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] scale-105'
+                                  : valA !== null
+                                    ? 'bg-[#FEE2E2] text-rose-900 border-rose-500 shadow-[1px_1px_0px_rgba(0,0,0,1)]'
+                                    : 'bg-indigo-50/40 text-[#4F46E5] border-dashed border-indigo-400 hover:bg-[#A5F3FC]/30'
+                              }`}
+                            >
+                              {valA !== null ? valA : '?'}
+                            </div>
+                          </td>
+
+                          {/* Validation Icon */}
+                          <td className="py-1 px-1">
+                            <div className="flex items-center justify-center">
+                              {valP === null || valI === null || valS === null || valA === null ? (
+                                <span className="text-[9px] text-slate-400 font-bold">...</span>
+                              ) : allOk ? (
+                                <span className="bg-[#CCFBF1] text-emerald-900 border-2 border-black text-[9px] px-1.5 py-0.5 rounded-md font-bold flex items-center gap-0.5 shadow-[1px_1px_0px_rgba(0,0,0,1)]">
+                                  <Check className="w-2.5 h-2.5" /> OK
+                                </span>
+                              ) : (
+                                <span className="bg-[#FBCFE8] text-rose-900 border-2 border-black text-[9px] px-1.5 py-0.5 rounded-md font-extrabold shadow-[1px_1px_0px_rgba(0,0,0,1)]">
+                                  Cek
+                                </span>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
             </div>
 
             {/* Quick reference block */}
-            <div className="mt-2 sm:mt-4 bg-[#FDE047] p-2 sm:p-3 rounded-lg sm:rounded-xl border-2 border-black flex items-center justify-between shadow-[2px_2px_0px_rgba(0,0,0,1)] text-black">
+            <div className="mt-3 bg-[#FDE047] p-2.5 rounded-xl border-2 border-black flex items-center justify-between shadow-[2px_2px_0px_rgba(0,0,0,1)] text-black">
               <span className="text-xs text-black font-extrabold flex items-center gap-1.5 leading-tight">
-                <Star className="w-4 h-4 text-black fill-current shrink-0" />
-                <span>Total kelas terdaftar adalah 12 siswa per hari. (Hadir + TH = 12)</span>
+                💡 <span>Masukkan data dari rekapitulasi data sementara yang telah kamu hitung sebelumnya.</span>
               </span>
               <button 
                 type="button"
@@ -293,16 +348,16 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
 
         {/* Right column: Numbers Pill Board and validator panel */}
         <div className="xl:col-span-5 flex flex-col justify-between">
-          <div className="space-y-3 sm:space-y-5">
+          <div className="space-y-2 sm:space-y-4">
             <div>
-              <h3 className="text-sm font-black text-slate-900 uppercase mb-2 flex items-center gap-1.5">
+              <h3 className="text-xs sm:text-sm font-black text-slate-900 uppercase mb-1 flex items-center gap-1.5">
                 🔢 Sumber Token Data Kehadiran
               </h3>
-              <p className="text-xs text-slate-700 font-bold leading-relaxed mb-2 sm:mb-4">
+              <p className="text-[11px] text-slate-700 font-bold leading-relaxed mb-2">
                 Pilih sel pada tabel sebelah kiri, lalu klik angka di bawah ini untuk mengisinya:
               </p>
               
-              <div className="flex flex-wrap gap-2.5 p-4 bg-[#CCFBF1] rounded-2xl border-2 border-black select-none shadow-[3.5px_3.5px_0px_rgba(0,0,0,1)]">
+              <div className="flex flex-wrap gap-1.5 p-2 bg-[#CCFBF1] rounded-2xl border-2 border-black select-none shadow-[3.5px_3.5px_0px_rgba(0,0,0,1)]">
                 {availablePills.map((val) => (
                   <motion.button
                     type="button"
@@ -311,7 +366,7 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
                     whileTap={{ scale: 0.9 }}
                     onClick={() => placePill(val)}
                     id={`token-pill-${val}`}
-                    className="w-9 h-9 sm:w-12 sm:h-12 rounded-xl bg-white border-2 border-black text-black font-mono font-black text-base flex items-center justify-center shadow-[2px_2px_0px_rgba(0,0,0,1)] cursor-pointer hover:bg-[#FBCFE8] transition-all"
+                    className="w-8.5 h-8.5 sm:w-10 sm:h-10 rounded-xl bg-white border-2 border-black text-black font-mono font-black text-xs sm:text-sm flex items-center justify-center shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] cursor-pointer hover:bg-[#FBCFE8] transition-all"
                   >
                     {val}
                   </motion.button>
@@ -320,37 +375,39 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
             </div>
 
             {/* Selected feedback */}
-            <div className="bg-white border-2 border-black rounded-2xl p-2.5 sm:p-4 shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] sm:shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+            <div className="bg-white border-2 border-black rounded-2xl p-3 shadow-[2px_2px_0px_rgba(0,0,0,1)]">
               <p className="text-xs font-black text-slate-900">Sel Terpilih Saat Ini:</p>
               {selectedCell ? (
-                <div className="mt-2 flex items-center gap-2">
-                  <span className="text-[11px] font-mono bg-[#A5F3FC] text-black border border-black px-2 py-1 rounded-md font-black">
-                    {selectedCell.replace('-present', ' (HADIR)').replace('-absent', ' (TIDAK HADIR)')}
+                <div className="mt-1.5 flex items-center gap-2">
+                  <span className="text-[10px] font-mono bg-[#A5F3FC] text-black border border-black px-2 py-0.5 rounded-md font-black uppercase">
+                    {selectedCell
+                      .replace('-present', ' (HADIR)')
+                      .replace('-permit', ' (IZIN)')
+                      .replace('-sick', ' (SAKIT)')
+                      .replace('-alpha', ' (ALFA)')}
                   </span>
-                  <span className="text-xs text-slate-600 font-bold">Silakan klik tombol angka di atas!</span>
+                  <span className="text-xs text-slate-600 font-bold">Pilih angka di atas!</span>
                 </div>
               ) : (
-                <p className="mt-1 text-xs text-slate-550 italic font-bold">
+                <p className="mt-1 text-xs text-slate-500 italic font-bold">
                   Belum ada sel tabel yang Anda pilih. Silakan klik salah satu sel berlambang tanya "?" pada tabel.
                 </p>
               )}
             </div>
             
-            {/* Direct manual input help for accessibility */}
-            <div className="p-3.5 bg-[#A5F3FC] border-2 border-black rounded-xl shadow-[2.5px_2.5px_0px_#000]">
+            <div className="p-3 bg-[#A5F3FC] border-2 border-black rounded-xl shadow-[2.5px_2.5px_0px_#000]">
               <p className="text-[10px] text-slate-950 font-bold leading-relaxed">
                 💡 <strong className="font-extrabold text-black">Info Edukatif:</strong> Dengan memasukkan data secara digital, sistem komputer akan mempermudah kita mendiagnosis masalah absensi dengan satu klik.
               </p>
             </div>
           </div>
 
-          <div className="mt-2 sm:mt-4 sm:mt-8 pt-3 sm:pt-5 border-t-2 border-black">
-            {/* Dynamic Warnings */}
+          <div className="mt-4 pt-3 border-t-2 border-black">
             {warningMessage && (
               <motion.div 
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mb-2 sm:mb-4 bg-[#FDE047] border-2 border-black rounded-2xl p-3 flex items-start gap-2.5 shadow-[3px_3px_0px_rgba(0,0,0,1)] text-[#1E293B] font-black"
+                className="mb-3 bg-[#FDE047] border-2 border-black rounded-2xl p-3 flex items-start gap-2.5 shadow-[3px_3px_0px_rgba(0,0,0,1)] text-[#1E293B] font-black"
                 id="warning-box"
               >
                 <div className="w-5 h-5 rounded-full bg-white border border-black flex items-center justify-center text-black font-black shrink-0 text-xs text-center shadow-[1px_1px_0px_#000]">!</div>
@@ -360,18 +417,32 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
               </motion.div>
             )}
 
-            {/* Validation Submit Button */}
-            <motion.button
-              type="button"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={handleVerifyTable}
-              className="w-full brutal-btn py-2 sm:py-4 text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer"
-              id="btn-verify-table"
-            >
-              <Check className="w-5 h-5" />
-              <span>Simpan & Verifikasi Tabel</span>
-            </motion.button>
+            {/* Verify Submission & Back buttons */}
+            <div className="flex flex-col sm:flex-row gap-2">
+              {onBack && (
+                <motion.button
+                  type="button"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={onBack}
+                  className="w-full sm:w-1/3 py-3 text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer bg-slate-100 hover:bg-slate-200 border-2 border-black rounded-xl font-black shadow-[2.5px_2.5px_0px_#000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1.5px_1.5px_0px_#000]"
+                  id="btn-back-stage"
+                >
+                  <span>Kembali</span>
+                </motion.button>
+              )}
+              <motion.button
+                type="button"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={handleVerifyTable}
+                className={`flex-1 brutal-btn py-3 text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer ${onBack ? '' : 'w-full'}`}
+                id="btn-verify-table"
+              >
+                <Check className="w-5 h-5" />
+                <span>Simpan & Verifikasi Tabel</span>
+              </motion.button>
+            </div>
           </div>
 
         </div>

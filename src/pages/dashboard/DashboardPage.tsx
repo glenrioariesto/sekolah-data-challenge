@@ -4,6 +4,7 @@ import { ArrowLeft, Lock, ChevronRight } from 'lucide-react';
 
 import { LEVELS } from '@/src/data/levels';
 import { playSynthesizerNote } from '@/src/utils/audio';
+import logoPusbuk from '@/assets/logo-pusbuk.webp';
 
 
 
@@ -36,14 +37,18 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
     >
       {/* Header / Top Navigation - borderless flat buttons */}
       <div className="flex items-center justify-between w-full py-1">
-        <button
-          type="button"
-          onClick={() => { playSynthesizerNote('btn'); onBack(); }}
-          className="p-2 bg-white hover:bg-slate-100 border-2 border-black rounded-xl text-black hover:scale-105 transition-transform shadow-[2px_2px_0px_#000] cursor-pointer"
-          title="Kembali ke Beranda"
-        >
-          <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
-        </button>
+        <div className="flex items-center gap-2.5">
+          <button
+            type="button"
+            onClick={() => { playSynthesizerNote('btn'); onBack(); }}
+            className="p-2 bg-white hover:bg-slate-100 border-2 border-black rounded-xl text-black hover:scale-105 transition-transform shadow-[2px_2px_0px_#000] cursor-pointer"
+            title="Kembali ke Beranda"
+          >
+            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
+          </button>
+          
+          <img src={logoPusbuk} alt="Logo Pusbuk" className="h-6 sm:h-8 w-auto object-contain" />
+        </div>
 
         {import.meta.env.DEV && (
           <button

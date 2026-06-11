@@ -58,7 +58,7 @@ export const LevelComplete: React.FC<LevelCompleteProps> = ({
   const isFinalLevel = currentLevel.id === 5;
 
   return (
-    <div className="bg-white rounded-2xl sm:rounded-3xl border-2 sm:border-4 border-black p-3 sm:p-6 md:p-10 max-w-3xl mx-auto text-center relative overflow-hidden shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)]">
+    <div className="bg-white rounded-2xl sm:rounded-3xl border-2 sm:border-4 border-black p-3 sm:p-6 md:p-10 max-w-3xl mx-auto text-center relative overflow-hidden shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)] max-h-[90vh] overflow-y-auto">
       
       {/* Rarity Trophy badge */}
       <motion.div

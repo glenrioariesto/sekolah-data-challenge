@@ -1,12 +1,15 @@
 export interface AttendanceRecord {
   day: string;
-  present: number;
-  absent: number;
+  present: number; // Hadir
+  permit?: number;  // Izin
+  sick?: number;    // Sakit
+  alpha?: number;   // Alfa
+  absent?: number;  // Tidak Hadir (legacy)
 }
 
 export interface StudentRecord {
   name: string;
-  status: 'Hadir' | 'Tidak Hadir';
+  status: 'Hadir' | 'Izin' | 'Sakit' | 'Alfa' | 'Tidak Hadir';
 }
 
 export interface DailyRoster {

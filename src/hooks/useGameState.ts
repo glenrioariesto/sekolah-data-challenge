@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { GameStage, GameLevel } from '@/src/types';
+import { GameStage, GameLevel, AttendanceRecord, DailyRoster, QuizQuestion } from '@/src/types';
 import { LEVELS, BADGES } from '@/src/data/levels';
 import { playSynthesizerNote } from '@/src/utils/audio';
+import { generateDynamicLevelData, generateDynamicQuestions } from '@/src/utils/dataGenerator';
 
 export const useGameState = () => {
   // Navigation states: 'start' (Beranda Utama) | 'roadmap' (Peta Misi) | 'game' (Arena Misi)
@@ -30,8 +31,31 @@ export const useGameState = () => {
   // Intro Modal State
   const [isIntroModalOpen, setIsIntroModalOpen] = useState<boolean>(false);
 
+  // Dynamic level data states
+  const [dynamicRecords, setDynamicRecords] = useState<AttendanceRecord[]>([]);
+  const [dynamicRosters, setDynamicRosters] = useState<DailyRoster[]>([]);
+  const [dynamicQuestions, setDynamicQuestions] = useState<QuizQuestion[]>([]);
+
+  // Prefilled count data from roster stage
+  const [userCountedData, setUserCountedData] = useState<Record<string, { present: number, permit: number, sick: number, alpha: number }> | null>(null);
+
+  useEffect(() => {
+    const { records, rosters } = generateDynamicLevelData(currentLevelId);
+    const questions = generateDynamicQuestions(currentLevelId, records);
+    setDynamicRecords(records);
+    setDynamicRosters(rosters);
+    setDynamicQuestions(questions);
+    setUserCountedData(null); // Reset prefilled data for new level
+  }, [currentLevelId]);
+
   // Active level data pointer
-  const activeLevel = LEVELS.find(l => l.id === currentLevelId) || LEVELS[0];
+  const staticLevel = LEVELS.find(l => l.id === currentLevelId) || LEVELS[0];
+  const activeLevel: GameLevel = {
+    ...staticLevel,
+    records: dynamicRecords.length > 0 ? dynamicRecords : staticLevel.records,
+    rosters: dynamicRosters.length > 0 ? dynamicRosters : staticLevel.rosters,
+    questions: dynamicQuestions.length > 0 ? dynamicQuestions : staticLevel.questions,
+  };
 
   useEffect(() => {
     // Initialise or lock badge checks
@@ -52,12 +76,8 @@ export const useGameState = () => {
     setCurrentLevelId(levelId);
     setLevelPointsAccumulator(0);
     
-    const targetLvl = LEVELS.find(l => l.id === levelId) || LEVELS[0];
-    if (targetLvl.rosters && targetLvl.rosters.length > 0) {
-      setCurrentStage('roster');
-    } else {
-      setCurrentStage('input');
-    }
+    // Every level now has dynamic rosters, so start with roster stage
+    setCurrentStage('roster');
     
     setIsIntroModalOpen(true);
     setPageView('game');
@@ -69,8 +89,9 @@ export const useGameState = () => {
   };
 
   // Stage Success callback triggers
-  const handleRosterStepFinished = (bonus: number) => {
+  const handleRosterStepFinished = (bonus: number, countedRecords: any) => {
     playSynthesizerNote('success');
+    setUserCountedData(countedRecords);
     setLevelPointsAccumulator(prev => prev + bonus);
     setTotalScore(prev => prev + bonus);
     setCurrentStage('input');
@@ -116,6 +137,21 @@ export const useGameState = () => {
     setCurrentStage('complete');
   };
 
+  const handleGoBackStage = () => {
+    playSynthesizerNote('btn');
+    if (currentStage === 'input') {
+      setCurrentStage('roster');
+    } else if (currentStage === 'chart') {
+      setCurrentStage('input');
+    } else if (currentStage === 'analysis') {
+      setCurrentStage('chart');
+    } else if (currentStage === 'decision') {
+      setCurrentStage('analysis');
+    } else if (currentStage === 'roster') {
+      setPageView('roadmap');
+    }
+  };
+
   const handleNextLevelTransition = () => {
     playSynthesizerNote('btn');
     if (currentLevelId < 5) {
@@ -123,12 +159,7 @@ export const useGameState = () => {
       setCurrentLevelId(nextId);
       setLevelPointsAccumulator(0);
       
-      const nextLvl = LEVELS.find(l => l.id === nextId) || LEVELS[0];
-      if (nextLvl.rosters && nextLvl.rosters.length > 0) {
-        setCurrentStage('roster');
-      } else {
-        setCurrentStage('input');
-      }
+      setCurrentStage('roster');
       setIsIntroModalOpen(true);
     } else {
       setPageView('roadmap');
@@ -143,6 +174,7 @@ export const useGameState = () => {
     setUnlockedLevelIds([1]);
     setUnlockedBadgeIds([]);
     setLevelPointsAccumulator(0);
+    setUserCountedData(null);
     setIsIntroModalOpen(false);
     setPageView('start');
   };
@@ -204,6 +236,7 @@ export const useGameState = () => {
     isBadgeModalOpen,
     isIntroModalOpen,
     activeLevel,
+    userCountedData,
     setIsBadgeModalOpen,
     setIsIntroModalOpen,
     selectLevelFromHub,
@@ -215,6 +248,7 @@ export const useGameState = () => {
     handleDecisionStepFinished,
     handleNextLevelTransition,
     resetAllGameProgress,
+    handleGoBackStage,
     getStagePercentage,
     activeLevelProgressPercentage,
     toggleTeacherMode,

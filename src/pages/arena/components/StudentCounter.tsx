@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { DailyRoster, GameLevel } from '@/src/types';
 import { motion } from 'motion/react';
-import { Check, AlertCircle, HelpCircle, ArrowRight, ClipboardCheck, Info, UserCheck, UserX } from 'lucide-react';
+import { Check, AlertCircle, HelpCircle, ClipboardCheck, Info, UserCheck, UserX } from 'lucide-react';
 
 interface StudentCounterProps {
   currentLevel: GameLevel;
-  onSuccess: (scoreBonus: number, countedRecords: Record<string, { present: number, absent: number }>) => void;
+  onSuccess: (scoreBonus: number, countedRecords: any) => void;
+  onBack?: () => void;
 }
 
 export const StudentCounter: React.FC<StudentCounterProps> = ({
   currentLevel,
   onSuccess,
+  onBack,
 }) => {
   const rosters = currentLevel.rosters || [];
   
@@ -20,11 +22,11 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
   // Highlighting mechanism (helps children checkoff named students while counting)
   const [highlightedStudents, setHighlightedStudents] = useState<Record<string, boolean>>({});
 
-  // User input counts: Record<dayName, { presentInput: string, absentInput: string }>
-  const [inputs, setInputs] = useState<Record<string, { present: string, absent: string }>>(() => {
-    const initial: Record<string, { present: string, absent: string }> = {};
+  // User input counts: Record<dayName, { present, permit, sick, alpha }>
+  const [inputs, setInputs] = useState<Record<string, { present: string, permit: string, sick: string, alpha: string }>>(() => {
+    const initial: Record<string, { present: string, permit: string, sick: string, alpha: string }> = {};
     rosters.forEach(r => {
-      initial[r.day] = { present: '', absent: '' };
+      initial[r.day] = { present: '', permit: '', sick: '', alpha: '' };
     });
     return initial;
   });
@@ -41,7 +43,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
     }));
   };
 
-  const handleInputChange = (day: string, field: 'present' | 'absent', value: string) => {
+  const handleInputChange = (day: string, field: 'present' | 'permit' | 'sick' | 'alpha', value: string) => {
     setInputs(prev => ({
       ...prev,
       [day]: {
@@ -53,16 +55,20 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
   };
 
   const handleAutofillHelper = (day: string) => {
-    // A helpful hint for younger students or debugging
     const dailyRoster = rosters.find(r => r.day === day);
     if (!dailyRoster) return;
     const actualPresent = dailyRoster.students.filter(s => s.status === 'Hadir').length;
-    const actualAbsent = dailyRoster.students.filter(s => s.status === 'Tidak Hadir').length;
+    const actualPermit = dailyRoster.students.filter(s => s.status === 'Izin').length;
+    const actualSick = dailyRoster.students.filter(s => s.status === 'Sakit').length;
+    const actualAlpha = dailyRoster.students.filter(s => s.status === 'Alfa').length;
+    
     setInputs(prev => ({
       ...prev,
       [day]: {
         present: actualPresent.toString(),
-        absent: actualAbsent.toString()
+        permit: actualPermit.toString(),
+        sick: actualSick.toString(),
+        alpha: actualAlpha.toString()
       }
     }));
   };
@@ -74,9 +80,11 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
     // Validate that all fields have been filled
     for (const r of rosters) {
       const pVal = inputs[r.day]?.present.trim();
-      const aVal = inputs[r.day]?.absent.trim();
-      if (!pVal || !aVal) {
-        setErrorWarning(`⚠️ Mohon isi semua kolom Hadir dan Tidak Hadir untuk hari ${r.day}!`);
+      const iVal = inputs[r.day]?.permit.trim();
+      const sVal = inputs[r.day]?.sick.trim();
+      const aVal = inputs[r.day]?.alpha.trim();
+      if (!pVal || !iVal || !sVal || !aVal) {
+        setErrorWarning(`⚠️ Mohon isi semua kolom Hadir, Izin, Sakit, dan Alfa untuk hari ${r.day}!`);
         return;
       }
     }
@@ -84,71 +92,56 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
     // Now check figures
     for (const r of rosters) {
       const userPresent = parseInt(inputs[r.day].present, 10);
-      const userAbsent = parseInt(inputs[r.day].absent, 10);
+      const userPermit = parseInt(inputs[r.day].permit, 10);
+      const userSick = parseInt(inputs[r.day].sick, 10);
+      const userAlpha = parseInt(inputs[r.day].alpha, 10);
 
       // Find actual level record target
       const target = currentLevel.records.find(rec => rec.day === r.day);
       if (!target) continue;
 
-      if (userPresent !== target.present || userAbsent !== target.absent) {
-        setErrorWarning(`⚠️ Hitungan hari ${r.day} belum tepat. Periksa ulang jumlah Hadir (${target.present}) atau Tidak Hadir (${target.absent})!`);
+      if (
+        userPresent !== target.present ||
+        userPermit !== target.permit ||
+        userSick !== target.sick ||
+        userAlpha !== target.alpha
+      ) {
+        setErrorWarning(`⚠️ Hitungan hari ${r.day} belum tepat. Periksa kembali jumlah Hadir (${target.present}), Izin (${target.permit}), Sakit (${target.sick}), atau Alfa (${target.alpha})!`);
         return;
       }
     }
 
     // Convert input state to standard record format
-    const countedRecords: Record<string, { present: number, absent: number }> = {};
+    const countedRecords: Record<string, { present: number, permit: number, sick: number, alpha: number }> = {};
     rosters.forEach(r => {
       countedRecords[r.day] = {
         present: parseInt(inputs[r.day].present, 10),
-        absent: parseInt(inputs[r.day].absent, 10),
+        permit: parseInt(inputs[r.day].permit, 10),
+        sick: parseInt(inputs[r.day].sick, 10),
+        alpha: parseInt(inputs[r.day].alpha, 10),
       };
     });
 
-    // Score: 10 points for perfect data collection
+    // Score: 15 points for perfect data collection
     onSuccess(15, countedRecords);
   };
 
   const activeRoster = rosters[activeTab] || null;
 
   return (
-    <div className="bg-white rounded-2xl sm:rounded-3xl border-2 sm:border-4 border-black p-2 sm:p-5 md:p-8 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)]">
-      {/* Step description */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between border-b-2 border-black pb-3 sm:pb-5 mb-3 sm:mb-6 gap-3">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="px-2 py-0.5 bg-[#FDE047] text-black border-2 border-black rounded-lg text-xs font-black font-mono shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)]">TAHAP 1</span>
-            <h2 className="text-lg md:text-xl font-black text-slate-900 font-display uppercase tracking-tight">
-              Menghitung Data Kehadiran Mentah
-            </h2>
-          </div>
-          <p className="text-xs text-slate-700 font-bold">
-            {currentLevel.description}
-          </p>
-        </div>
-
-        <div className="bg-[#A5F3FC] p-2 sm:p-3 rounded-lg sm:rounded-xl border-2 border-black max-w-sm shadow-[3px_3px_0px_rgba(0,0,0,1)]">
-          <div className="flex items-start gap-2">
-            <Info className="w-4 h-4 text-black mt-0.5 shrink-0" />
-            <p className="text-xs text-slate-900 leading-relaxed font-sans font-bold">
-              <strong className="font-black text-black">Kiat Dekomposisi:</strong> Pecah masalah besar dengan menghitung absensi per siswa di daftar hari demi hari.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-3 sm:gap-2 sm:gap-4 md:gap-6 md:gap-8">
+    <div className="bg-white rounded-2xl sm:rounded-3xl border-2 sm:border-4 border-black p-2 sm:p-4 md:p-6 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)]">
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-3 sm:gap-4 md:gap-6">
         
         {/* Left Side: Roster Viewer */}
         <div className="xl:col-span-7">
           <div className="bg-white rounded-2xl p-2.5 sm:p-4 border border-black sm:border-2 shadow-[2.5px_2.5px_0px_rgba(0,0,0,1)] sm:shadow-[4px_4px_0px_rgba(0,0,0,1)]">
             <div className="flex items-center justify-between mb-2 sm:mb-4">
               <h3 className="text-sm font-black text-slate-900 uppercase flex items-center gap-2">
-                <ClipboardCheck className="w-4 h-4 text-slate-700" />
+                <ClipboardCheck className="w-4.5 h-4.5 text-slate-700" />
                 Lembar Absensi Siswa Harian
               </h3>
               <p className="text-[11px] text-slate-600 font-mono font-bold">
-                Klik nama untuk menandai
+                Klik nama untuk menandai yang selesai dihitung
               </p>
             </div>
 
@@ -172,64 +165,79 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
 
             {/* Student List Grid */}
             {activeRoster && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                {activeRoster.students.map((student, idx) => {
-                  const key = `${activeRoster.day}-${idx}`;
-                  const isHighlighted = highlightedStudents[key];
-                  const isPresent = student.status === 'Hadir';
+              <div className="overflow-y-auto max-h-[160px] sm:max-h-[220px] md:max-h-[280px] pr-1">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {activeRoster.students.map((student, idx) => {
+                    const key = `${activeRoster.day}-${idx}`;
+                    const isHighlighted = highlightedStudents[key];
+                    const status = student.status;
 
-                  return (
-                    <motion.div
-                      key={key}
-                      whileHover={{ scale: 1.01 }}
-                      whileTap={{ scale: 0.99 }}
-                      onClick={() => toggleHighlight(activeRoster.day, idx)}
-                      className={`p-2 sm:p-3 rounded-lg sm:rounded-xl border-2 border-black flex items-center justify-between cursor-pointer select-none transition-all duration-300 shadow-[2px_2px_0px_rgba(0,0,0,1)] ${
-                        isHighlighted 
-                          ? 'bg-slate-200 border-slate-400 opacity-50 line-through text-slate-400' 
-                          : isPresent 
-                            ? 'bg-white hover:bg-emerald-50 text-slate-900 border-black' 
-                            : 'bg-[#FBCFE8] hover:bg-rose-100 text-rose-950 border-black'
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <span className={`w-6 h-6 rounded-lg text-xs font-black font-mono border border-black flex items-center justify-center ${
-                          isHighlighted 
-                            ? 'bg-slate-300 text-slate-500' 
-                            : isPresent 
-                              ? 'bg-[#CCFBF1] text-emerald-800' 
-                              : 'bg-rose-250 text-rose-805'
-                        }`}>
-                          {idx + 1}
-                        </span>
-                        <span className="font-bold text-sm">{student.name}</span>
-                      </div>
+                    let cardStyle = "bg-white hover:bg-slate-50 text-slate-900 border-black";
+                    let statusBadgeStyle = "bg-slate-100 text-slate-900 border-slate-350";
+                    
+                    if (status === 'Hadir') {
+                      cardStyle = "bg-white hover:bg-emerald-50 text-slate-900 border-black";
+                      statusBadgeStyle = "bg-[#CCFBF1] text-emerald-900 border-emerald-400";
+                    } else if (status === 'Izin') {
+                      cardStyle = "bg-white hover:bg-sky-50 text-slate-900 border-black";
+                      statusBadgeStyle = "bg-[#E0F2FE] text-sky-900 border-sky-400";
+                    } else if (status === 'Sakit') {
+                      cardStyle = "bg-white hover:bg-amber-50 text-slate-900 border-black";
+                      statusBadgeStyle = "bg-[#FEF3C7] text-amber-900 border-amber-400";
+                    } else if (status === 'Alfa') {
+                      cardStyle = "bg-white hover:bg-rose-50 text-rose-950 border-rose-500";
+                      statusBadgeStyle = "bg-[#FEE2E2] text-rose-900 border-rose-400";
+                    }
 
-                      <div className="flex items-center gap-2">
-                        {isPresent ? (
-                          <span className={`px-2 py-0.5 rounded-lg text-[10px] font-black border-2 border-black flex items-center gap-1 shadow-[1px_1px_0px_#000] ${
-                            isHighlighted ? 'bg-slate-350 text-slate-500' : 'bg-[#CCFBF1] text-emerald-900'
+                    if (isHighlighted) {
+                      cardStyle = "bg-slate-200 border-slate-400 opacity-50 line-through text-slate-400";
+                      statusBadgeStyle = "bg-slate-300 text-slate-500 border-slate-400";
+                    }
+
+                    return (
+                      <motion.div
+                        key={key}
+                        whileHover={{ scale: 1.01 }}
+                        whileTap={{ scale: 0.99 }}
+                        onClick={() => toggleHighlight(activeRoster.day, idx)}
+                        className={`p-2 sm:p-3 rounded-lg sm:rounded-xl border-2 flex items-center justify-between cursor-pointer select-none transition-all duration-300 shadow-[2px_2px_0px_rgba(0,0,0,1)] ${cardStyle}`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className={`w-6 h-6 rounded-lg text-xs font-black font-mono border border-black flex items-center justify-center ${
+                            isHighlighted 
+                              ? 'bg-slate-300 text-slate-500' 
+                              : status === 'Hadir' 
+                                ? 'bg-[#CCFBF1] text-emerald-805' 
+                                : status === 'Izin'
+                                  ? 'bg-[#E0F2FE] text-sky-850'
+                                  : status === 'Sakit'
+                                    ? 'bg-[#FEF3C7] text-amber-855'
+                                    : 'bg-[#FEE2E2] text-rose-855'
                           }`}>
-                            <UserCheck className="w-3 h-3 text-emerald-900" />
-                            {student.status}
+                            {idx + 1}
                           </span>
-                        ) : (
-                          <span className={`px-2 py-0.5 rounded-lg text-[10px] font-black border-2 border-black flex items-center gap-1 shadow-[1px_1px_0px_#000] ${
-                            isHighlighted ? 'bg-slate-350 text-slate-500' : 'bg-[#FBCFE8] text-rose-950'
-                          }`}>
-                            <UserX className="w-3 h-3 text-rose-900" />
-                            {student.status}
+                          <span className="font-bold text-xs sm:text-sm">{student.name}</span>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <span className={`px-2 py-0.5 rounded-lg text-[10px] font-black border-2 flex items-center gap-1 shadow-[1px_1px_0px_#000] ${statusBadgeStyle}`}>
+                            {status === 'Hadir' ? (
+                              <UserCheck className="w-3 h-3 text-inherit" />
+                            ) : (
+                              <UserX className="w-3 h-3 text-inherit" />
+                            )}
+                            {status}
                           </span>
-                        )}
-                      </div>
-                    </motion.div>
-                  );
-                })}
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </div>
               </div>
             )}
             
             {/* Quick Helper Button for Younger Kids */}
-            <div className="mt-2 sm:mt-4 flex justify-end">
+            <div className="mt-3 flex justify-end">
               <button
                 type="button"
                 onClick={() => handleAutofillHelper(rosters[activeTab].day)}
@@ -247,19 +255,19 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
         {/* Right Side: Working Counter Inputs */}
         <div className="xl:col-span-5 flex flex-col justify-between">
           <div className="space-y-2 sm:space-y-4">
-            <h3 className="text-sm font-black text-slate-900 uppercase flex items-center gap-2 border-b-2 border-black pb-2">
+            <h3 className="text-xs sm:text-sm font-black text-slate-900 uppercase flex items-center gap-2 border-b-2 border-black pb-2">
               📂 Hasil Rekapitulasi Data Sementara
             </h3>
             
-            <p className="text-xs text-slate-700 font-bold leading-relaxed">
-              Ketikkan jumlah total siswa yang <strong className="text-emerald-800 font-black">HADIR (H)</strong> dan <strong className="text-rose-800 font-black">TIDAK HADIR (TH)</strong> pada kolom di bawah setelah Anda menghitungnya dari daftar sebelah kiri.
+            <p className="text-[10px] sm:text-xs text-slate-700 font-bold leading-relaxed">
+              Ketikkan jumlah siswa <strong className="text-emerald-800 font-black">Hadir (H)</strong>, <strong className="text-sky-850 font-black">Izin (I)</strong>, <strong className="text-amber-800 font-black">Sakit (S)</strong>, dan <strong className="text-rose-800 font-black">Alfa (A)</strong> setelah menghitung lembar absen sebelah kiri.
             </p>
 
-            <div className="space-y-3">
+            <div className="space-y-2 max-h-[140px] sm:max-h-[200px] md:max-h-[280px] overflow-y-auto pr-1">
               {rosters.map((r, rIdx) => (
                 <div 
                   key={r.day}
-                  className={`p-2 sm:p-3 rounded-lg sm:rounded-xl border-2 border-black flex items-center justify-between gap-4 transition-all shadow-[3px_3px_0px_rgba(0,0,0,1)] ${
+                  className={`p-2 sm:p-3 rounded-lg sm:rounded-xl border-2 border-black flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-all shadow-[3px_3px_0px_rgba(0,0,0,1)] ${
                     activeTab === rIdx 
                       ? 'bg-[#A5F3FC]' 
                       : 'bg-white hover:bg-slate-50'
@@ -272,39 +280,69 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
                       {r.day.substring(0, 3)}
                     </span>
                     <div>
-                      <p className="text-xs font-black text-slate-900">{r.day}</p>
-                      <p className="text-[10px] text-slate-700 font-semibold font-mono">{r.students.length} Siswa terdaftar</p>
+                      <p className="text-[11px] sm:text-xs font-black text-slate-900">{r.day}</p>
+                      <p className="text-[9px] sm:text-[10px] text-slate-700 font-semibold font-mono">{r.students.length} Siswa terdaftar</p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3">
+                  <div className="flex flex-wrap items-center gap-2">
                     {/* Hadir input */}
                     <div className="flex flex-col items-center">
-                      <label className="text-[9px] font-black text-slate-800 uppercase tracking-wider mb-1 font-mono">Hadir (H)</label>
+                      <label className="text-[8px] font-black text-slate-800 uppercase mb-0.5 font-mono text-emerald-700">Hadir</label>
                       <input
                         type="number"
                         min="0"
-                        max="15"
+                        max="35"
                         placeholder="?"
                         id={`input-present-${r.day}`}
                         value={inputs[r.day]?.present || ''}
                         onChange={(e) => handleInputChange(r.day, 'present', e.target.value)}
-                        className="w-16 p-2 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-black shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+                        className="w-11 p-1 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg focus:outline-none focus:ring-1 focus:ring-black shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-xs"
                       />
                     </div>
 
-                    {/* Tidak Hadir input */}
+                    {/* Izin input */}
                     <div className="flex flex-col items-center">
-                      <label className="text-[9px] font-black text-slate-800 uppercase tracking-wider mb-1 font-mono">TH (Absen)</label>
+                      <label className="text-[8px] font-black text-slate-800 uppercase mb-0.5 font-mono text-sky-700">Izin</label>
                       <input
                         type="number"
                         min="0"
-                        max="15"
+                        max="35"
                         placeholder="?"
-                        id={`input-absent-${r.day}`}
-                        value={inputs[r.day]?.absent || ''}
-                        onChange={(e) => handleInputChange(r.day, 'absent', e.target.value)}
-                        className="w-16 p-2 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-black shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+                        id={`input-permit-${r.day}`}
+                        value={inputs[r.day]?.permit || ''}
+                        onChange={(e) => handleInputChange(r.day, 'permit', e.target.value)}
+                        className="w-11 p-1 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg focus:outline-none focus:ring-1 focus:ring-black shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-xs"
+                      />
+                    </div>
+
+                    {/* Sakit input */}
+                    <div className="flex flex-col items-center">
+                      <label className="text-[8px] font-black text-slate-800 uppercase mb-0.5 font-mono text-amber-700">Sakit</label>
+                      <input
+                        type="number"
+                        min="0"
+                        max="35"
+                        placeholder="?"
+                        id={`input-sick-${r.day}`}
+                        value={inputs[r.day]?.sick || ''}
+                        onChange={(e) => handleInputChange(r.day, 'sick', e.target.value)}
+                        className="w-11 p-1 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg focus:outline-none focus:ring-1 focus:ring-black shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-xs"
+                      />
+                    </div>
+
+                    {/* Alfa input */}
+                    <div className="flex flex-col items-center">
+                      <label className="text-[8px] font-black text-slate-800 uppercase mb-0.5 font-mono text-rose-750">Alfa</label>
+                      <input
+                        type="number"
+                        min="0"
+                        max="35"
+                        placeholder="?"
+                        id={`input-alpha-${r.day}`}
+                        value={inputs[r.day]?.alpha || ''}
+                        onChange={(e) => handleInputChange(r.day, 'alpha', e.target.value)}
+                        className="w-11 p-1 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg focus:outline-none focus:ring-1 focus:ring-black shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-xs"
                       />
                     </div>
                   </div>
@@ -313,13 +351,13 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
             </div>
           </div>
 
-          <div className="mt-2 sm:mt-4 sm:mt-8 pt-3 sm:pt-5 border-t-2 border-black">
+          <div className="mt-4 pt-3 border-t-2 border-black">
             {/* Warning Message */}
             {errorWarning && (
               <motion.div 
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mb-2 sm:mb-4 bg-[#FDE047] border-2 border-black rounded-2xl p-3 flex items-start gap-2.5 shadow-[3px_3px_0px_rgba(0,0,0,1)] text-[#1E293B] font-black"
+                className="mb-3 bg-[#FDE047] border-2 border-black rounded-2xl p-3 flex items-start gap-2.5 shadow-[3px_3px_0px_rgba(0,0,0,1)] text-[#1E293B] font-black"
                 id="warning-box"
               >
                 <AlertCircle className="w-5 h-5 text-black shrink-0 mt-0.5" />
@@ -329,18 +367,32 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
               </motion.div>
             )}
 
-            {/* Verify Submission */}
-            <motion.button
-              type="button"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={verifyCounts}
-              className="w-full brutal-btn py-2 sm:py-4 text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer"
-              id="btn-verify-roster"
-            >
-              <Check className="w-5 h-5" />
-              <span>Verifikasi Hitungan Kehadiran</span>
-            </motion.button>
+            {/* Verify Submission & Back buttons */}
+            <div className="flex flex-col sm:flex-row gap-2">
+              {onBack && (
+                <motion.button
+                  type="button"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={onBack}
+                  className="w-full sm:w-1/3 py-3 text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer bg-slate-100 hover:bg-slate-200 border-2 border-black rounded-xl font-black shadow-[2.5px_2.5px_0px_#000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1.5px_1.5px_0px_#000]"
+                  id="btn-back-stage"
+                >
+                  <span>Kembali</span>
+                </motion.button>
+              )}
+              <motion.button
+                type="button"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={verifyCounts}
+                className={`flex-1 brutal-btn py-3 text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer ${onBack ? '' : 'w-full'} animate-pulse hover:animate-none`}
+                id="btn-verify-roster"
+              >
+                <Check className="w-5 h-5" />
+                <span>Verifikasi Hitungan Kehadiran</span>
+              </motion.button>
+            </div>
           </div>
 
         </div>

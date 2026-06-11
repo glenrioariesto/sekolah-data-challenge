@@ -5,6 +5,7 @@ import { SplashPage } from '@/src/pages/splash/SplashPage';
 import { DashboardPage } from '@/src/pages/dashboard/DashboardPage';
 import { ArenaPage } from '@/src/pages/arena/ArenaPage';
 import { BadgeModal } from '@/src/components/BadgeModal';
+import { PortraitWarning } from '@/src/components/PortraitWarning';
 
 export default function App() {
   const {
@@ -18,6 +19,7 @@ export default function App() {
     activeLevel,
     currentStage,
     levelPointsAccumulator,
+    userCountedData,
     setIsBadgeModalOpen,
     toggleTeacherMode,
     selectLevelFromHub,
@@ -29,6 +31,7 @@ export default function App() {
     handleDecisionStepFinished,
     handleNextLevelTransition,
     resetAllGameProgress,
+    handleGoBackStage,
     getStagePercentage,
     activeLevelProgressPercentage,
     setViewStart,
@@ -38,17 +41,7 @@ export default function App() {
   return (
     <div className="h-screen max-h-screen w-screen overflow-hidden bg-slate-50 flex flex-col antialiased font-sans select-none relative">
       {/* Landscape orientation warning overlay */}
-      <div className="fixed inset-0 z-[9999] bg-slate-950 text-white flex flex-col items-center justify-center p-6 text-center space-y-6 portrait:flex landscape:hidden">
-        <div className="w-20 h-20 bg-[#FDE047] border-4 border-black rounded-3xl flex items-center justify-center text-4xl shadow-[4px_4px_0px_#000] animate-bounce text-black">
-          🔄
-        </div>
-        <h1 className="text-2xl font-black uppercase tracking-tight text-[#FDE047] font-display">
-          Putar Layar Anda!
-        </h1>
-        <p className="text-sm font-semibold max-w-xs leading-relaxed text-slate-300">
-          Tantangan Sekolah Data dioptimalkan untuk tampilan mendatar (landscape). Aktifkan rotasi layar otomatis pada perangkat Anda dan putar perangkat.
-        </p>
-      </div>
+      <PortraitWarning />
 
       <AnimatePresence mode="wait">
         {pageView === 'start' && (
@@ -75,7 +68,9 @@ export default function App() {
             activeLevel={activeLevel}
             totalScore={totalScore}
             levelPointsAccumulator={levelPointsAccumulator}
+            userCountedData={userCountedData}
             onBackToRoadmap={setViewRoadmap}
+            onGoBackStage={handleGoBackStage}
             startCurrentLevelPlay={startCurrentLevelPlay}
             handleRosterStepFinished={handleRosterStepFinished}
             handleTableStepFinished={handleTableStepFinished}
