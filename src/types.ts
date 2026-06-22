@@ -59,4 +59,4 @@ export interface Badge {
   achievedAtLevel: number;
 }
 
-export type GameStage = 'intro' | 'roster' | 'input' | 'chart' | 'analysis' | 'decision' | 'complete';
+export type GameStage = 'intro' | 'roster' | 'input' | 'chart' | 'analysis' | 'complete';

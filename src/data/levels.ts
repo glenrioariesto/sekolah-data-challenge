@@ -105,17 +105,22 @@ export const LEVELS: GameLevel[] = [
     questions: [
       {
         id: 'l1-q1',
-        question: 'Berapa jumlah total siswa yang TIDAK HADIR selama 3 hari sekolah tersebut?',
-        options: ['4 Siswa', '6 Siswa', '7 Siswa', '9 Siswa'],
-        correctAnswer: '7 Siswa',
-        explanation: 'Betul! Pada hari Senin ada 2 absen, Selasa 1 absen, dan Rabu 4 absen. 2 + 1 + 4 = 7 siswa.'
+        question: 'Bagaimana penerapan metode Dekomposisi (Berpikir Komputasional) yang paling tepat untuk menghitung total absensi siswa selama 3 hari?',
+        options: [
+          'Menghitung seluruh nama siswa sekaligus di daftar tanpa membaginya per hari',
+          'Mengurai data kehadiran per hari (Senin, Selasa, Rabu), menghitung absen masing-masing hari, lalu menjumlahkannya',
+          'Mengira-ngira jumlah siswa yang bolos tanpa melihat lembar daftar kehadiran',
+          'Menghapus nama-nama siswa yang tidak hadir agar tugas administrasi menjadi lebih cepat selesai'
+        ],
+        correctAnswer: 'Mengurai data kehadiran per hari (Senin, Selasa, Rabu), menghitung absen masing-masing hari, lalu menjumlahkannya',
+        explanation: 'Benar! Dekomposisi dilakukan dengan memecah masalah besar (menghitung total 3 hari) menjadi masalah-masalah kecil (menghitung per hari), lalu menggabungkannya kembali.'
       },
       {
         id: 'l1-q2',
-        question: 'Pada hari apa tingkat kehadiran siswa merupakan yang tertinggi?',
-        options: ['Senin', 'Selasa', 'Rabu', 'Semua hari sama'],
-        correctAnswer: 'Selasa',
-        explanation: 'Hebat! Hari Selasa memiliki jumlah kehadiran terbanyak yaitu 9 siswa hadir (hanya 1 yang absen).'
+        question: 'Berdasarkan penguraian (dekomposisi) data harian tersebut, berapa jumlah total siswa yang TIDAK HADIR selama 3 hari?',
+        options: ['4 Siswa', '6 Siswa', '7 Siswa', '9 Siswa'],
+        correctAnswer: '7 Siswa',
+        explanation: 'Hebat! Pada hari Senin ada 2 absen, Selasa 1 absen, dan Rabu 4 absen. 2 + 1 + 4 = 7 siswa.'
       }
     ],
     decision: {
@@ -207,17 +212,22 @@ export const LEVELS: GameLevel[] = [
     questions: [
       {
         id: 'l2-q1',
-        question: 'Berapakah total kehadiran siswa (Hadir) selama 5 hari pertama di sistem?',
-        options: ['38 Hadir', '40 Hadir', '50 Hadir', '52 Hadir'],
-        correctAnswer: '50 Hadir',
-        explanation: 'Tepat sekali! Total hadir = 10 (Senin) + 11 (Selasa) + 9 (Rabu) + 12 (Kamis) + 8 (Jumat) = 50 kehadiran.'
+        question: 'Dalam memindahkan data kehadiran 12 siswa selama 5 hari ke tabel digital, mengapa kita harus mengikuti urutan langkah terstruktur (Algoritma)?',
+        options: [
+          'Agar data diinput secara acak dan tidak berurutan',
+          'Agar proses pengolahan data konsisten, meminimalkan kesalahan input, dan menghasilkan total hitungan yang akurat',
+          'Agar hasil hitungan akhir selalu berubah-ubah setiap kali dilihat',
+          'Agar data kehadiran siswa yang bolos otomatis terhapus dari sistem'
+        ],
+        correctAnswer: 'Agar proses pengolahan data konsisten, meminimalkan kesalahan input, dan menghasilkan total hitungan yang akurat',
+        explanation: 'Sempurna! Urutan langkah terstruktur (Algoritma) memastikan setiap data diinput dengan prosedur yang benar agar hasilnya valid.'
       },
       {
         id: 'l2-q2',
-        question: 'Pada hari apa sekolah mencapai "Kehadiran Sempurna" (seluruh 12 siswa masuk sekolah)?',
-        options: ['Selasa', 'Kamis', 'Jumat', 'Senin'],
-        correctAnswer: 'Kamis',
-        explanation: 'Benar! Hari Kamis adalah satu-satunya hari di mana 12 siswa hadir dan tidak ada yang absen.'
+        question: 'Berdasarkan tabel digital terstruktur yang sudah kamu lengkapi, berapa total kehadiran (Hadir) seluruh siswa selama 5 hari kerja?',
+        options: ['38 Hadir', '40 Hadir', '50 Hadir', '52 Hadir'],
+        correctAnswer: '50 Hadir',
+        explanation: 'Tepat sekali! Total hadir = 10 (Senin) + 11 (Selasa) + 9 (Rabu) + 12 (Kamis) + 8 (Jumat) = 50 kehadiran.'
       }
     ],
     decision: {
@@ -262,17 +272,22 @@ export const LEVELS: GameLevel[] = [
     questions: [
       {
         id: 'l3-q1',
-        question: 'Ketika kita ingin menyajikan perbandingan jumlah kehadiran antarhari secara jelas dan instan, bentuk penyajian data apa yang paling efektif?',
-        options: ['Tabel mentah tanpa baris', 'Diagram Batang', 'Peta Geografis', 'Tulisan Narasi Panjang'],
-        correctAnswer: 'Diagram Batang',
-        explanation: 'JOSS! Diagram batang memudahkan mata membandingkan perbedaan tinggi (jumlah) antar kategori secara instan.'
+        question: 'Bagaimana metode Abstraksi (Berpikir Komputasional) membantu kita dalam menyajikan data kehadiran kelas ke bentuk Diagram Batang?',
+        options: [
+          'Menampilkan setiap detail nama siswa dan alasan mereka tidak hadir satu per satu secara lengkap',
+          'Mengabaikan detail nama individu dan hanya menampilkan informasi penting berupa total angka kehadiran per hari secara visual',
+          'Menggambar diagram secara sembarangan tanpa memperhatikan data numerik yang sebenarnya',
+          'Menghilangkan hari-hari dengan kehadiran rendah agar grafiknya terlihat selalu bagus'
+        ],
+        correctAnswer: 'Mengabaikan detail nama individu dan hanya menampilkan informasi penting berupa total angka kehadiran per hari secara visual',
+        explanation: 'Betul! Abstraksi adalah memilah informasi penting (total angka harian) dan mengesampingkan detail yang kurang relevan (nama-nama siswa) agar data lebih mudah dipahami secara visual.'
       },
       {
         id: 'l3-q2',
-        question: 'Berdasarkan grafik yang Anda buat, hari apa yang memiliki tingkat ketidakhadiran (Absen) paling mengkhawatirkan (10 siswa)?',
+        question: 'Berdasarkan grafik hasil abstraksi data mingguan tersebut, hari apa yang menunjukkan tren penurunan kehadiran paling drastis (ketidakhadiran tertinggi)?',
         options: ['Senin', 'Rabu', 'Kamis', 'Jumat'],
         correctAnswer: 'Jumat',
-        explanation: 'Benar sekali. Hari Jumat memiliki tingkat ketidakhadiran paling tinggi yaitu mencapai 10 siswa absen.'
+        explanation: 'Benar sekali. Hari Jumat memiliki tingkat ketidakhadiran paling tinggi yaitu mencapai 10 siswa absen (hanya 20 siswa yang hadir).'
       }
     ],
     decision: {
@@ -309,7 +324,6 @@ export const LEVELS: GameLevel[] = [
     badgeIcon: 'TrendingUp',
     // We will have records for week 1 and week 2 separately to compare!
     records: [
-      // Representing Week 1 (Present values)
       { day: 'Senin', present: 22, absent: 8 },
       { day: 'Selasa', present: 24, absent: 6 },
       { day: 'Rabu', present: 20, absent: 10 },
@@ -319,22 +333,27 @@ export const LEVELS: GameLevel[] = [
     questions: [
       {
         id: 'l4-q1',
-        question: 'Di Minggu ke-2, kehadiran Senin=28, Selasa=29, Rabu=27, Kamis=28, Jumat=29. Dibandingkan dengan Minggu ke-1 (Senin=22, Selasa=24, Rabu=20, dll), kesimpulan apa yang kalian dapatkan tentang tren kehadiran?',
+        question: 'Saat membandingkan grafik Minggu 1 dan Minggu 2, pola perubahan apa yang paling mencolok terkait dampak program peningkatan kehadiran siswa?',
         options: [
-          'Minggu ke-2 mengalami penurunan kehadiran',
-          'Minggu ke-2 mengalami peningkatan kehadiran yang sangat signifikan dan lebih stabil',
-          'Kedua minggu sama persis tingkat kehadirannya',
-          'Tidak ada pola yang dapat dibaca sama sekali'
+          'Kehadiran di Minggu 2 mengalami penurunan drastis di semua hari dibanding Minggu 1',
+          'Kehadiran di Minggu 2 mengalami peningkatan konsisten dan jauh lebih stabil mendekati kapasitas maksimal kelas',
+          'Kedua minggu sama persis tingkat kehadirannya tanpa ada perbedaan pola visual apa pun',
+          'Grafik Minggu 2 menjadi sangat acak dan tidak membentuk tren pola yang jelas'
         ],
-        correctAnswer: 'Minggu ke-2 mengalami peningkatan kehadiran yang sangat signifikan dan lebih stabil',
-        explanation: 'Sempurna! Minggu ke-2 menunjukkan barisan grafik yang tinggi-tinggi hampir menyentuh batas atas (27-29 siswa), menandakan program kehadiran sekolah sukses berjalan.'
+        correctAnswer: 'Kehadiran di Minggu 2 mengalami peningkatan konsisten dan jauh lebih stabil mendekati kapasitas maksimal kelas',
+        explanation: 'Sempurna! Pengenalan pola grafik menunjukkan visualisasi Minggu 2 jauh lebih tinggi dan stabil (27-29 hadir) dibanding Minggu 1 (18-25 hadir), menandakan program kehadiran sekolah sukses.'
       },
       {
         id: 'l4-q2',
-        question: 'Pada hari apa di Minggu ke-1 kemerosotan kehadiran terdalam terjadi (absen terbanyak)?',
-        options: ['Selasa', 'Rabu', 'Jumat', 'Senin'],
-        correctAnswer: 'Jumat',
-        explanation: 'Hebat! Di Jumat Minggu ke-1, ada 12 siswa absen, yang merupakan angka ketidakhadiran terbesar dalam periode tersebut.'
+        question: 'Pola fluktuasi di Minggu 1 menunjukkan penurunan kehadiran terendah selalu terjadi di hari Jumat (12 absen). Apakah pola penurunan hari Jumat ini berhasil diperbaiki di Minggu 2?',
+        options: [
+          'Ya, hari Jumat di Minggu 2 tetap menjadi hari dengan kehadiran terendah',
+          'Ya, kehadiran hari Jumat di Minggu 2 meningkat pesat menjadi salah satu yang tertinggi (29 hadir)',
+          'Tidak, kehadiran hari Jumat di Minggu 2 malah turun menjadi 0',
+          'Data hari Jumat di Minggu 2 tidak dapat dianalisis'
+        ],
+        correctAnswer: 'Ya, kehadiran hari Jumat di Minggu 2 meningkat pesat menjadi salah satu yang tertinggi (29 hadir)',
+        explanation: 'Hebat! Pola penurunan hari Jumat berhasil dipecahkan di Minggu 2 (meningkat dari 18 hadir menjadi 29 hadir), membuktikan efektivitas intervensi.'
       }
     ],
     decision: {
@@ -398,22 +417,22 @@ export const LEVELS: GameLevel[] = [
     questions: [
       {
         id: 'l5-q1',
-        question: 'Perhatikan grafik bulanan. Terjadi penurunan tajam kehadiran yang drastis pada Rabu Minggu ke-2 (hanya 10 siswa hadir). Apa istilah yang tepat untuk data yang melonjak aneh di luar pola normal ini?',
-        options: ['Rata-rata data', 'Anomali Data (Pencilan)', 'Data Sempurna', 'Data Konvensional'],
-        correctAnswer: 'Anomali Data (Pencilan)',
+        question: 'Perhatikan grafik bulanan. Terjadi penurunan tajam kehadiran yang drastis pada Rabu Minggu ke-2 (hanya 10 siswa hadir). Dalam analisis data, apa istilah yang tepat untuk titik data ekstrem yang menyimpang jauh dari pola normal ini?',
+        options: ['Nilai Rata-rata (Mean)', 'Anomali Data / Pencilan (Outlier)', 'Tren Linier Naik', 'Data Konvensional'],
+        correctAnswer: 'Anomali Data / Pencilan (Outlier)',
         explanation: 'LUAR BIASA! Anomali atau pencilan adalah titik data yang sangat berbeda dari pola umum dan biasanya disebabkan oleh kejadian luar biasa.'
       },
       {
         id: 'l5-q2',
-        question: 'Setelah diselidiki di catatan cuaca, hari Rabu Minggu ke-2 tersebut rupanya bertepatan dengan badai badai dan banjir bandang di sekitar sekolah. Apakah data penurunan ini harus disikapi sebagai kelalaian membolos masal?',
+        question: 'Jika hasil penelusuran menunjukkan bahwa anomali di Rabu Minggu ke-2 disebabkan oleh bencana banjir bandang, bagaimana seorang analis data menyikapi hal tersebut?',
         options: [
-          'Ya, mereka semua harus dihukum',
-          'Tidak, karena ketidakhadiran disebabkan oleh keadaan darurat cuaca (darurat bencana alam) demi keselamatan siswa',
-          'Dihapus saja heri tersebut agar datanya kembali tinggi',
-          'Mengganti siswa yang rajin untuk mewakili sekolah'
+          'Tetap menganggapnya sebagai kelalaian siswa membolos masal dan memberikan sanksi tegas',
+          'Memahami konteks bencana alam sebagai faktor eksternal di luar kendali siswa, dan tidak menyamakannya dengan membolos biasa',
+          'Menghapus hari tersebut dari laporan bulanan agar rata-rata statistik sekolah terlihat sempurna',
+          'Mengubah angka kehadiran hari tersebut secara manual menjadi 30 siswa agar grafik tidak terlihat turun'
         ],
-        correctAnswer: 'Tidak, karena ketidakhadiran disebabkan oleh keadaan darurat cuaca (darurat bencana alam) demi keselamatan siswa',
-        explanation: 'Betul sekali! Sebagai analis data yang empati, kita harus sadar konteks di balik data sebelum membuat penilaian moral.'
+        correctAnswer: 'Memahami konteks bencana alam sebagai faktor eksternal di luar kendali siswa, dan tidak menyamakannya dengan membolos biasa',
+        explanation: 'Betul sekali! Sebagai analis data yang kritis, kita harus menghubungkan data dengan konteks dunia nyata sebelum mengambil kesimpulan.'
       }
     ],
     decision: {

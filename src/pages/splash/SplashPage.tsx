@@ -19,7 +19,7 @@ export const SplashPage: React.FC<SplashPageProps> = ({ onStartGame }) => {
     >
       {/* Logo Pojok Kiri Atas - Responsive sizing */}
       <div className="absolute top-2 left-2 md:top-6 md:left-6 z-50">
-        <img src={logoPusbuk} alt="Logo Pusbuk" className="h-6 w-auto md:h-10 object-contain" />
+        <img src={logoPusbuk} alt="Logo Pusbuk" className="h-10 w-auto md:h-16 object-contain" />
       </div>
 
       {/* Main Content Area */}
@@ -27,7 +27,7 @@ export const SplashPage: React.FC<SplashPageProps> = ({ onStartGame }) => {
         
         {/* Custom Hero Emblem Badge (Golden Trophy) - Responsive sizing */}
         <div className="relative inline-block mt-2 md:mt-0">
-          <div className="w-14 h-14 md:w-28 md:h-28 bg-[#FDE047] rounded-2xl md:rounded-3xl border-2 md:border-4 border-black flex items-center justify-center text-2xl md:text-6xl shadow-[3px_3px_0px_rgba(0,0,0,1)] md:shadow-[8px_8px_0px_rgba(0,0,0,1)] hover:rotate-6 transition-transform cursor-pointer animate-bounce">
+          <div id="hero-emblem" className="w-14 h-14 md:w-28 md:h-28 bg-[#FDE047] rounded-xl md:rounded-2xl border-2 md:border-4 border-black flex items-center justify-center text-2xl md:text-6xl shadow-[3px_3px_0px_rgba(0,0,0,1)] md:shadow-[8px_8px_0px_rgba(0,0,0,1)] hover:rotate-6 transition-transform cursor-pointer animate-bounce">
             🏆
           </div>
           <div className="absolute -bottom-1 -right-1 md:-bottom-2 md:-right-2 bg-rose-500 border-2 md:border-4 border-black rounded-full h-5 w-5 md:h-10 md:w-10 flex items-center justify-center text-white text-[9px] md:text-sm font-black shadow-[1px_1px_0px_#000] md:shadow-[2px_2px_0px_#000]">
@@ -44,7 +44,7 @@ export const SplashPage: React.FC<SplashPageProps> = ({ onStartGame }) => {
             Tantangan Sekolah Data
           </h1>
           <p className="text-[9px] md:text-sm lg:text-base text-slate-700 font-bold max-w-2xl mx-auto leading-normal md:leading-relaxed">
-            Bantu sekolah mengelola kehadiran siswa secara cerdas dengan menerapkan kompetensi <span className="text-indigo-600 font-black underline">Berpikir Komputasional</span> untuk merumuskan kebijakan sekolah yang tepat.
+            Bantu sekolah mengelola kehadiran siswa secara cerdas dengan menerapkan kompetensi <span className="text-indigo-600 font-black underline">Berpikir Komputasional</span> untuk menganalisis data kehadiran sekolah dengan tepat.
           </p>
         </div>
 
@@ -53,7 +53,7 @@ export const SplashPage: React.FC<SplashPageProps> = ({ onStartGame }) => {
           <button
             type="button"
             onClick={() => { playSynthesizerNote('success'); onStartGame(); }}
-            className="bg-[#FDE047] hover:bg-[#FACC15] text-black font-black text-[10px] md:text-base uppercase px-5 py-2 md:px-14 md:py-5 rounded-xl md:rounded-[2rem] border-2 md:border-4 border-black shadow-[3px_3px_0px_rgba(0,0,0,1)] md:shadow-[8px_8px_0px_rgba(0,0,0,1)] transition-all hover:-translate-y-0.5 hover:shadow-[3px_3px_0px_rgba(0,0,0,1)] md:hover:shadow-[10px_10px_0px_rgba(0,0,0,1)] flex items-center justify-center gap-1.5 md:gap-3 cursor-pointer font-display tracking-wide"
+            className="bg-[#FDE047] hover:bg-[#FACC15] text-black font-black text-[10px] md:text-base uppercase px-5 py-2 md:px-14 md:py-5 rounded-lg md:rounded-xl border-2 md:border-4 border-black shadow-[3px_3px_0px_rgba(0,0,0,1)] md:shadow-[8px_8px_0px_rgba(0,0,0,1)] transition-all hover:-translate-y-0.5 hover:shadow-[3px_3px_0px_rgba(0,0,0,1)] md:hover:shadow-[10px_10px_0px_rgba(0,0,0,1)] flex items-center justify-center gap-1.5 md:gap-3 cursor-pointer font-display tracking-wide"
             id="btn-play-adventure"
           >
             <Play className="w-3.5 h-3.5 md:w-6 md:h-6 text-black fill-black" />

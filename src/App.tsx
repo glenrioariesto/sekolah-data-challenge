@@ -28,7 +28,6 @@ export default function App() {
     handleTableStepFinished,
     handleChartStepFinished,
     handleQuizStepFinished,
-    handleDecisionStepFinished,
     handleNextLevelTransition,
     resetAllGameProgress,
     handleGoBackStage,
@@ -76,12 +75,12 @@ export default function App() {
             handleTableStepFinished={handleTableStepFinished}
             handleChartStepFinished={handleChartStepFinished}
             handleQuizStepFinished={handleQuizStepFinished}
-            handleDecisionStepFinished={handleDecisionStepFinished}
             handleNextLevelTransition={handleNextLevelTransition}
             resetAllGameProgress={resetAllGameProgress}
             getStagePercentage={getStagePercentage}
             activeLevelProgressPercentage={activeLevelProgressPercentage}
             isIntroModalOpen={isIntroModalOpen}
+            teacherMode={teacherMode}
           />
         )}
       </AnimatePresence>

@@ -112,13 +112,6 @@ export const useGameState = () => {
   };
 
   const handleQuizStepFinished = (bonus: number) => {
-    playSynthesizerNote('success');
-    setLevelPointsAccumulator(prev => prev + bonus);
-    setTotalScore(prev => prev + bonus);
-    setCurrentStage('decision');
-  };
-
-  const handleDecisionStepFinished = (bonus: number) => {
     playSynthesizerNote('unlock');
     setLevelPointsAccumulator(prev => prev + bonus);
     setTotalScore(prev => prev + bonus);
@@ -145,8 +138,6 @@ export const useGameState = () => {
       setCurrentStage('input');
     } else if (currentStage === 'analysis') {
       setCurrentStage('chart');
-    } else if (currentStage === 'decision') {
-      setCurrentStage('analysis');
     } else if (currentStage === 'roster') {
       setPageView('roadmap');
     }
@@ -186,7 +177,6 @@ export const useGameState = () => {
       case 'input': return 'Organisasi';
       case 'chart': return 'Abstraksi';
       case 'analysis': return 'Pola';
-      case 'decision': return 'Literasi Kebijakan';
       case 'complete': return 'Misi Selesai';
       default: return 'Progress';
     }
@@ -195,10 +185,9 @@ export const useGameState = () => {
   const activeLevelProgressPercentage = () => {
     switch (currentStage) {
       case 'roster': return 25;
-      case 'input': return 45;
-      case 'chart': return 65;
-      case 'analysis': return 80;
-      case 'decision': return 95;
+      case 'input': return 50;
+      case 'chart': return 75;
+      case 'analysis': return 90;
       case 'complete': return 100;
       default: return 0;
     }
@@ -245,7 +234,6 @@ export const useGameState = () => {
     handleTableStepFinished,
     handleChartStepFinished,
     handleQuizStepFinished,
-    handleDecisionStepFinished,
     handleNextLevelTransition,
     resetAllGameProgress,
     handleGoBackStage,

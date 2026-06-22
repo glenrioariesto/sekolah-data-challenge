@@ -6,7 +6,6 @@ import { StudentCounter } from '@/src/pages/arena/components/StudentCounter';
 import { DataEntryTable } from '@/src/pages/arena/components/DataEntryTable';
 import { ChartBuilder } from '@/src/pages/arena/components/ChartBuilder';
 import { QuizSection } from '@/src/pages/arena/components/QuizSection';
-import { DecisionSection } from '@/src/pages/arena/components/DecisionSection';
 import { LevelComplete } from '@/src/pages/arena/components/LevelComplete';
 import { playSynthesizerNote } from '@/src/utils/audio';
 
@@ -25,12 +24,12 @@ interface ArenaPageProps {
   handleTableStepFinished: (bonus: number) => void;
   handleChartStepFinished: (bonus: number) => void;
   handleQuizStepFinished: (bonus: number) => void;
-  handleDecisionStepFinished: (bonus: number) => void;
   handleNextLevelTransition: () => void;
   resetAllGameProgress: () => void;
   getStagePercentage: (s: string) => string;
   activeLevelProgressPercentage: () => number;
   isIntroModalOpen: boolean;
+  teacherMode: boolean;
 }
 
 export const ArenaPage: React.FC<ArenaPageProps> = ({
@@ -46,12 +45,12 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
   handleTableStepFinished,
   handleChartStepFinished,
   handleQuizStepFinished,
-  handleDecisionStepFinished,
   handleNextLevelTransition,
   resetAllGameProgress,
   getStagePercentage,
   activeLevelProgressPercentage,
   isIntroModalOpen,
+  teacherMode,
 }) => {
   return (
     <motion.div
@@ -59,44 +58,41 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
       initial={{ opacity: 0, scale: 0.99 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.99 }}
-      className="flex-1 max-w-6xl mx-auto w-full p-1 sm:p-4 space-y-3 sm:space-y-6 overflow-y-auto max-h-screen"
-
+      className="flex-1 max-w-7xl mx-auto w-full px-1 py-1 md:px-4 md:py-4 flex flex-col min-h-0 h-full overflow-hidden game-wrapper-padding"
     >
 
-
-
       {/* MAIN LEVEL GAME ARENA VIEWPORT VIEW */}
-      <div className="space-y-6">
+      <div className="flex-1 min-h-0 w-full flex flex-col">
         <AnimatePresence mode="wait">
           
-
-
           {/* Stage: Manual list count Decomposition card */}
           {currentStage === 'roster' && (
-            <motion.div key="roster" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            <motion.div key="roster" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full h-full min-h-0 flex flex-col">
               <StudentCounter 
                 currentLevel={activeLevel} 
                 onSuccess={handleRosterStepFinished} 
                 onBack={onGoBackStage}
+                teacherMode={teacherMode}
               />
             </motion.div>
           )}
 
           {/* Stage: Digital inputs binding */}
           {currentStage === 'input' && (
-            <motion.div key="input" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            <motion.div key="input" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full h-full min-h-0 flex flex-col">
               <DataEntryTable 
                 currentLevel={activeLevel} 
                 onSuccess={handleTableStepFinished} 
                 prefilledData={userCountedData}
                 onBack={onGoBackStage}
+                teacherMode={teacherMode}
               />
             </motion.div>
           )}
 
-          {/* Stage: Interactive Graph adjustment Abstraction (kept visible during analysis and decision) */}
-          {(currentStage === 'chart' || currentStage === 'analysis' || currentStage === 'decision') && (
-            <motion.div key="chart" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+          {/* Stage: Interactive Graph adjustment Abstraction (kept visible during analysis) */}
+          {(currentStage === 'chart' || currentStage === 'analysis') && (
+            <motion.div key="chart" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full h-full min-h-0 flex flex-col">
               <ChartBuilder 
                 currentLevel={activeLevel} 
                 onSuccess={handleChartStepFinished} 
@@ -107,7 +103,7 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
 
           {/* Stage: Success summary and celebratory certificates */}
           {currentStage === 'complete' && (
-            <motion.div key="complete" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            <motion.div key="complete" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full h-full min-h-0 flex flex-col items-center justify-center overflow-y-auto">
               <LevelComplete 
                 currentLevel={activeLevel} 
                 totalScore={totalScore} 
@@ -138,29 +134,6 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
               <QuizSection 
                 currentLevel={activeLevel} 
                 onSuccess={handleQuizStepFinished} 
-              />
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
-      {/* Modal Overlay for Stage 5: Decision Section */}
-      <AnimatePresence>
-        {currentStage === 'decision' && (
-          <div 
-            onClick={onGoBackStage}
-            className="fixed inset-0 bg-black/55 backdrop-blur-xs flex items-center justify-center p-4 z-[990] overflow-y-auto cursor-pointer"
-          >
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0, y: 15 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 15 }}
-              className="w-full max-w-4xl relative cursor-default"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <DecisionSection 
-                currentLevel={activeLevel} 
-                onSuccess={handleDecisionStepFinished} 
               />
             </motion.div>
           </div>
@@ -233,16 +206,6 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
                       {activeLevel.rosters && activeLevel.rosters.length > 0 ? "4. Analisis Pola" : "3. Analisis Pola"}
                     </h4>
                     <p className="text-[9px] sm:text-[11px] text-slate-700 font-bold mt-0.5">Amati pola grafik dan jawab beberapa pertanyaan kuis analisis data.</p>
-                  </div>
-                </div>
-
-                <div className="flex gap-2 sm:gap-3 items-start p-2 sm:p-3 bg-rose-500/20 border-2 border-black rounded-xl sm:rounded-2xl shadow-[2px_2px_0px_#000]">
-                  <span className="text-base sm:text-xl shrink-0">⚙️</span>
-                  <div>
-                    <h4 className="font-black text-[10px] sm:text-xs uppercase text-slate-900">
-                      {activeLevel.rosters && activeLevel.rosters.length > 0 ? "5. Ambil Kebijakan" : "4. Ambil Kebijakan"}
-                    </h4>
-                    <p className="text-[9px] sm:text-[11px] text-slate-700 font-bold mt-0.5">Tentukan kebijakan sekolah terbaik berdasarkan kesimpulan data.</p>
                   </div>
                 </div>
               </div>

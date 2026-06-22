@@ -82,9 +82,6 @@ export const LevelComplete: React.FC<LevelCompleteProps> = ({
         <h2 className="text-2xl md:text-3xl font-black text-slate-1000 font-display mt-3 leading-snug uppercase tracking-tight">
           {isFinalLevel ? '🎉 Selamat! Kamu Adalah Master Berpikir Komputasional!' : `Misi Terlampaui: Level ${currentLevel.id}`}
         </h2>
-        <p className="text-sm text-slate-800 font-bold max-w-lg mx-auto mt-2 leading-relaxed">
-          Semua verifikasi input, analisis pola, serta langkah kebijakan sekolah harian telah tuntas dieksekusi dengan baik.
-        </p>
       </motion.div>
 
       {/* Summary Score Gained Block */}
@@ -129,32 +126,9 @@ export const LevelComplete: React.FC<LevelCompleteProps> = ({
             <h4 className="font-black text-base text-slate-950 font-display uppercase tracking-tight">
               {earnedBadge.name}
             </h4>
-            <p className="text-[11px] text-slate-900 font-bold px-4 leading-relaxed mt-1">
-              {earnedBadge.description}
-            </p>
           </div>
         </motion.div>
       )}
-
-      {/* Pedagogical review card */}
-      <motion.div
-        initial={{ y: 30, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.4 }}
-        className="mt-6 p-4 bg-[#CCFBF1] border-2 border-black rounded-2xl text-left max-w-xl mx-auto flex gap-3.5 shadow-[4px_4px_0px_rgba(0,0,0,1)]"
-      >
-        <div className="p-2 bg-[#FBCFE8] text-black border border-black rounded-xl shrink-0 h-10 w-10 flex items-center justify-center shadow-[1px_1px_0px_#000]">
-          <Brain className="w-5 h-5 text-black" />
-        </div>
-        <div>
-          <h4 className="font-black text-slate-950 text-xs font-sans uppercase">
-            {ctBreakdown.title}
-          </h4>
-          <p className="text-[11px] text-slate-900 font-bold leading-relaxed mt-0.5">
-            {ctBreakdown.desc}
-          </p>
-        </div>
-      </motion.div>
 
       {/* Foot Actions */}
       <motion.div
@@ -166,7 +140,7 @@ export const LevelComplete: React.FC<LevelCompleteProps> = ({
         {isFinalLevel ? (
           <div className="w-full space-y-2 sm:space-y-4">
             <p className="text-xs text-slate-850 font-bold leading-relaxed">
-              🎉 Selamat! Anda telah menamatkan seluruh level Sekolah Data Challenge. Anda kini siap membuat kebijakan berbasis data di mana saja!
+              🎉 Selamat! Anda telah menamatkan seluruh level Sekolah Data Challenge. Anda kini siap menganalisis data secara kritis di mana saja!
             </p>
             <div className="flex gap-4 justify-center">
               <button

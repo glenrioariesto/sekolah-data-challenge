@@ -12,7 +12,7 @@ export const BadgeGallery: React.FC<BadgeGalleryProps> = ({
   unlockedBadgeIds,
 }) => {
   return (
-    <div className="bg-white rounded-3xl border-4 border-black p-5 shadow-[8px_8px_0px_rgba(0,0,0,1)]">
+    <div className="bg-white rounded-xl border-4 border-black p-5 shadow-[8px_8px_0px_rgba(0,0,0,1)]">
       <div className="flex items-center gap-2 border-b-2 border-black pb-3 mb-4">
         <Award className="w-5 h-5 text-rose-600" />
         <h3 className="text-sm font-black text-slate-950 font-display uppercase tracking-tight">
@@ -31,7 +31,7 @@ export const BadgeGallery: React.FC<BadgeGalleryProps> = ({
           return (
             <div 
               key={b.id}
-              className={`p-3 rounded-2xl border-2 border-black transition-all duration-300 flex items-start gap-3.5 shadow-[3px_3px_0px_rgba(0,0,0,1)] ${
+              className={`p-3 rounded-lg border-2 border-black transition-all duration-300 flex items-start gap-3.5 shadow-[3px_3px_0px_rgba(0,0,0,1)] ${
                 isUnlocked 
                   ? b.id === 'data-collector' ? 'bg-[#CCFBF1]' : 
                     b.id === 'graph-maker' ? 'bg-[#FBCFE8]' : 

@@ -127,18 +127,7 @@ export const generateDynamicLevelData = (levelId: number): {
 export const generateDynamicQuestions = (levelId: number, records: AttendanceRecord[]): QuizQuestion[] => {
   if (levelId === 1) {
     const totalAbsent = records.reduce((sum, r) => sum + r.permit + r.sick + r.alpha, 0);
-    const dayNames = records.map(r => r.day);
     
-    // Find day with highest present
-    let maxPresentDay = records[0].day;
-    let maxPresentVal = records[0].present;
-    records.forEach(r => {
-      if (r.present > maxPresentVal) {
-        maxPresentVal = r.present;
-        maxPresentDay = r.day;
-      }
-    });
-
     const q1Options = [
       `${totalAbsent} Siswa`,
       `${totalAbsent + 3} Siswa`,
@@ -159,34 +148,29 @@ export const generateDynamicQuestions = (levelId: number, records: AttendanceRec
     return [
       {
         id: 'l1-q1',
-        question: 'Berapa jumlah total siswa yang TIDAK HADIR (Izin, Sakit, atau Alfa) selama 3 hari sekolah tersebut?',
-        options: uniqueQ1Options,
-        correctAnswer: `${totalAbsent} Siswa`,
-        explanation: explanationQ1
+        question: 'Bagaimana penerapan metode Dekomposisi (Berpikir Komputasional) yang paling tepat untuk menghitung total ketidakhadiran siswa selama 3 hari?',
+        options: [
+          'Menghitung seluruh nama siswa sekaligus di daftar tanpa membaginya per hari',
+          'Mengurai data kehadiran per hari (Senin, Selasa, Rabu), menghitung absen masing-masing hari, lalu menjumlahkannya',
+          'Mengira-ngira jumlah siswa yang bolos tanpa melihat lembar daftar kehadiran',
+          'Menghapus nama-nama siswa yang tidak hadir agar tugas administrasi menjadi lebih cepat selesai'
+        ],
+        correctAnswer: 'Mengurai data kehadiran per hari (Senin, Selasa, Rabu), menghitung absen masing-masing hari, lalu menjumlahkannya',
+        explanation: 'Benar! Dekomposisi dilakukan dengan memecah masalah besar (menghitung total 3 hari) menjadi masalah-masalah kecil (menghitung per hari), lalu menggabungkannya kembali.'
       },
       {
         id: 'l1-q2',
-        question: 'Pada hari apa tingkat kehadiran siswa (Hadir) merupakan yang tertinggi?',
-        options: [...dayNames, 'Semua hari sama'].slice(0, 4),
-        correctAnswer: maxPresentDay,
-        explanation: `Hebat! Hari ${maxPresentDay} memiliki jumlah kehadiran terbanyak yaitu ${maxPresentVal} siswa hadir.`
+        question: 'Berdasarkan dekomposisi data harian tersebut, berapa jumlah total siswa yang TIDAK HADIR (Izin, Sakit, atau Alfa) selama 3 hari sekolah tersebut?',
+        options: uniqueQ1Options,
+        correctAnswer: `${totalAbsent} Siswa`,
+        explanation: explanationQ1
       }
     ];
   }
 
   if (levelId === 2) {
     const totalPresent = records.reduce((sum, r) => sum + r.present, 0);
-    const dayNames = records.map(r => r.day);
     
-    let maxPresentDay = records[0].day;
-    let maxPresentVal = records[0].present;
-    records.forEach(r => {
-      if (r.present > maxPresentVal) {
-        maxPresentVal = r.present;
-        maxPresentDay = r.day;
-      }
-    });
-
     const q1Options = [
       `${totalPresent} Kehadiran`,
       `${totalPresent + 5} Kehadiran`,
@@ -202,17 +186,22 @@ export const generateDynamicQuestions = (levelId: number, records: AttendanceRec
     return [
       {
         id: 'l2-q1',
-        question: 'Berapakah total kehadiran siswa (Hadir) selama 5 hari di sistem?',
-        options: uniqueQ1Options,
-        correctAnswer: `${totalPresent} Kehadiran`,
-        explanation: `Tepat sekali! Total hadir = ${records.map(r => r.present).join(' + ')} = ${totalPresent} kehadiran.`
+        question: 'Dalam memindahkan data kehadiran siswa selama 5 hari ke tabel digital, mengapa kita harus mengikuti urutan langkah terstruktur (Algoritma)?',
+        options: [
+          'Agar data diinput secara acak dan tidak berurutan',
+          'Agar proses pengolahan data konsisten, meminimalkan kesalahan input, dan menghasilkan total hitungan yang akurat',
+          'Agar hasil hitungan akhir selalu berubah-ubah setiap kali dilihat',
+          'Agar data kehadiran siswa yang bolos otomatis terhapus dari sistem'
+        ],
+        correctAnswer: 'Agar proses pengolahan data konsisten, meminimalkan kesalahan input, dan menghasilkan total hitungan yang akurat',
+        explanation: 'Sempurna! Urutan langkah terstruktur (Algoritma) memastikan setiap data diinput dengan prosedur yang benar agar hasilnya valid.'
       },
       {
         id: 'l2-q2',
-        question: 'Pada hari apa sekolah mencapai tingkat kehadiran tertinggi (Hadir paling banyak)?',
-        options: dayNames.slice(0, 4),
-        correctAnswer: maxPresentDay,
-        explanation: `Benar! Hari ${maxPresentDay} adalah hari di mana siswa paling banyak hadir (${maxPresentVal} siswa).`
+        question: 'Berdasarkan tabel digital terstruktur yang sudah kamu lengkapi, berapa total kehadiran (Hadir) seluruh siswa selama 5 hari kerja?',
+        options: uniqueQ1Options,
+        correctAnswer: `${totalPresent} Kehadiran`,
+        explanation: `Tepat sekali! Total hadir = ${records.map(r => r.present).join(' + ')} = ${totalPresent} kehadiran.`
       }
     ];
   }
@@ -231,14 +220,19 @@ export const generateDynamicQuestions = (levelId: number, records: AttendanceRec
     return [
       {
         id: 'l3-q1',
-        question: 'Ketika kita ingin menyajikan perbandingan jumlah kehadiran atau absensi antarhari secara jelas dan instan, bentuk penyajian data apa yang paling efektif?',
-        options: ['Tabel mentah tanpa baris', 'Diagram Batang', 'Peta Geografis', 'Tulisan Narasi Panjang'],
-        correctAnswer: 'Diagram Batang',
-        explanation: 'JOSS! Diagram batang memudahkan mata membandingkan perbedaan tinggi (jumlah) antar kategori secara instan.'
+        question: 'Bagaimana metode Abstraksi (Berpikir Komputasional) membantu kita dalam menyajikan data kehadiran kelas ke bentuk Diagram Batang?',
+        options: [
+          'Menampilkan setiap detail nama siswa dan alasan mereka tidak hadir satu per satu secara lengkap',
+          'Mengabaikan detail nama individu dan hanya menampilkan informasi penting berupa total angka kehadiran per hari secara visual',
+          'Menggambar diagram secara sembarangan tanpa memperhatikan data numerik yang sebenarnya',
+          'Menghilangkan hari-hari dengan kehadiran rendah agar grafiknya terlihat selalu bagus'
+        ],
+        correctAnswer: 'Mengabaikan detail nama individu dan hanya menampilkan informasi penting berupa total angka kehadiran per hari secara visual',
+        explanation: 'Betul! Abstraksi adalah memilah informasi penting (total angka harian) dan mengesampingkan detail yang kurang relevan (nama-nama siswa) agar data lebih mudah dipahami secara visual.'
       },
       {
         id: 'l3-q2',
-        question: 'Berdasarkan grafik yang Anda buat, hari apa yang memiliki tingkat ketidakhadiran (Izin, Sakit, dan Alfa digabung) paling tinggi?',
+        question: 'Berdasarkan grafik hasil abstraksi data mingguan tersebut, hari apa yang menunjukkan tren penurunan kehadiran paling drastis (ketidakhadiran tertinggi)?',
         options: records.map(r => r.day).slice(0, 4),
         correctAnswer: maxAbsDay,
         explanation: `Benar sekali. Hari ${maxAbsDay} memiliki tingkat ketidakhadiran paling tinggi yaitu mencapai ${maxAbsVal} siswa.`
@@ -261,19 +255,19 @@ export const generateDynamicQuestions = (levelId: number, records: AttendanceRec
     return [
       {
         id: 'l4-q1',
-        question: 'Dibandingkan dengan Minggu ke-1, kesimpulan apa yang kalian dapatkan tentang tren kehadiran pada Minggu ke-2?',
+        question: 'Saat membandingkan grafik Minggu 1 dan Minggu 2, pola perubahan apa yang paling mencolok terkait dampak program peningkatan kehadiran siswa?',
         options: [
-          'Minggu ke-2 mengalami penurunan kehadiran',
-          'Minggu ke-2 mengalami peningkatan kehadiran yang sangat signifikan dan lebih stabil',
-          'Kedua minggu sama persis tingkat kehadirannya',
-          'Tidak ada pola yang dapat dibaca sama sekali'
+          'Kehadiran di Minggu 2 mengalami penurunan drastis di semua hari dibanding Minggu 1',
+          'Kehadiran di Minggu 2 mengalami peningkatan konsisten dan jauh lebih stabil mendekati kapasitas maksimal kelas',
+          'Kedua minggu sama persis tingkat kehadirannya tanpa ada perbedaan pola visual apa pun',
+          'Grafik Minggu 2 menjadi sangat acak dan tidak membentuk tren pola yang jelas'
         ],
-        correctAnswer: 'Minggu ke-2 mengalami peningkatan kehadiran yang sangat signifikan dan lebih stabil',
-        explanation: 'Sempurna! Minggu ke-2 menunjukkan tingkat kehadiran yang lebih tinggi dan stabil hampir setiap hari berkat program baru.'
+        correctAnswer: 'Kehadiran di Minggu 2 mengalami peningkatan konsisten dan jauh lebih stabil mendekati kapasitas maksimal kelas',
+        explanation: 'Sempurna! Pengenalan pola grafik menunjukkan visualisasi Minggu 2 jauh lebih tinggi dan stabil dibanding Minggu 1, menandakan program kehadiran sekolah sukses.'
       },
       {
         id: 'l4-q2',
-        question: 'Pada hari apa di Minggu ke-1 kemerosotan kehadiran terdalam terjadi (absen terbanyak)?',
+        question: 'Pola fluktuasi di Minggu 1 menunjukkan penurunan kehadiran terendah (absen terbanyak) terjadi di hari apa?',
         options: week1.map(r => r.day).slice(0, 4),
         correctAnswer: maxAbsDay,
         explanation: `Hebat! Di hari ${maxAbsDay}, ada ${maxAbsVal} siswa absen, yang merupakan angka ketidakhadiran terbesar dalam periode tersebut.`
@@ -285,22 +279,22 @@ export const generateDynamicQuestions = (levelId: number, records: AttendanceRec
   return [
     {
       id: 'l5-q1',
-      question: 'Perhatikan grafik bulanan. Terjadi penurunan tajam kehadiran yang drastis pada Rabu Minggu ke-2. Apa istilah yang tepat untuk data yang melonjak aneh di luar pola normal ini?',
-      options: ['Rata-rata data', 'Anomali Data (Pencilan)', 'Data Sempurna', 'Data Konvensional'],
-      correctAnswer: 'Anomali Data (Pencilan)',
+      question: 'Perhatikan grafik bulanan. Terjadi penurunan tajam kehadiran yang drastis pada Rabu Minggu ke-2 (hanya 10 siswa hadir). Dalam analisis data, apa istilah yang tepat untuk titik data ekstrem yang menyimpang jauh dari pola normal ini?',
+      options: ['Nilai Rata-rata (Mean)', 'Anomali Data / Pencilan (Outlier)', 'Tren Linier Naik', 'Data Konvensional'],
+      correctAnswer: 'Anomali Data / Pencilan (Outlier)',
       explanation: 'LUAR BIASA! Anomali atau pencilan adalah titik data yang sangat berbeda dari pola umum dan biasanya disebabkan oleh kejadian luar biasa.'
     },
     {
       id: 'l5-q2',
-      question: 'Setelah diselidiki di catatan cuaca, hari Rabu Minggu ke-2 tersebut rupanya bertepatan dengan badai badai dan banjir bandang di sekitar sekolah. Apakah data penurunan ini harus disikapi sebagai kelalaian membolos masal?',
+      question: 'Jika hasil penelusuran menunjukkan bahwa anomali di Rabu Minggu ke-2 disebabkan oleh bencana banjir bandang, bagaimana seorang analis data menyikapi hal tersebut?',
       options: [
-        'Ya, mereka semua harus dihukum',
-        'Tidak, karena ketidakhadiran disebabkan oleh keadaan darurat cuaca (darurat bencana alam) demi keselamatan siswa',
-        'Dihapus saja hari tersebut agar datanya kembali tinggi',
-        'Mengganti siswa yang rajin untuk mewakili sekolah'
+        'Tetap menganggapnya sebagai kelalaian siswa membolos masal dan memberikan sanksi tegas',
+        'Memahami konteks bencana alam sebagai faktor eksternal di luar kendali siswa, dan tidak menyamakannya dengan membolos biasa',
+        'Menghapus hari tersebut dari laporan bulanan agar rata-rata statistik sekolah terlihat sempurna',
+        'Mengubah angka kehadiran hari tersebut secara manual menjadi 30 siswa agar grafik tidak terlihat turun'
       ],
-      correctAnswer: 'Tidak, karena ketidakhadiran disebabkan oleh keadaan darurat cuaca (darurat bencana alam) demi keselamatan siswa',
-      explanation: 'Betul sekali! Sebagai analis data yang empati, kita harus sadar konteks di balik data sebelum membuat penilaian moral.'
+      correctAnswer: 'Memahami konteks bencana alam sebagai faktor eksternal di luar kendali siswa, dan tidak menyamakannya dengan membolos biasa',
+      explanation: 'Betul sekali! Sebagai analis data yang kritis, kita harus menghubungkan data dengan konteks dunia nyata sebelum mengambil kesimpulan.'
     }
   ];
 };

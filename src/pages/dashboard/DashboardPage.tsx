@@ -38,30 +38,19 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       {/* Header / Top Navigation - borderless flat buttons */}
       <div className="flex items-center justify-between w-full py-1">
         <div className="flex items-center gap-2.5">
-          <button
-            type="button"
-            onClick={() => { playSynthesizerNote('btn'); onBack(); }}
-            className="p-2 bg-white hover:bg-slate-100 border-2 border-black rounded-xl text-black hover:scale-105 transition-transform shadow-[2px_2px_0px_#000] cursor-pointer"
-            title="Kembali ke Beranda"
-          >
-            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
-          </button>
-          
-          <img src={logoPusbuk} alt="Logo Pusbuk" className="h-6 sm:h-8 w-auto object-contain" />
+          <img src={logoPusbuk} alt="Logo Pusbuk" className="h-10 sm:h-14 w-auto object-contain" />
         </div>
 
-        {import.meta.env.DEV && (
-          <button
-            type="button"
-            onClick={onToggleTeacherMode}
-            className={`px-3 py-2 rounded-xl text-xs font-black font-mono transition-colors border-2 border-black shadow-[2px_2px_0px_#000] cursor-pointer ${
-              teacherMode ? 'bg-[#FDE047] text-black' : 'bg-white text-slate-700 hover:bg-slate-100'
-            }`}
-            id="btn-teacher-roadmap"
-          >
-            {teacherMode ? 'GURU: AKTIF' : 'MODE GURU'}
-          </button>
-        )}
+        <button
+          type="button"
+          onClick={onToggleTeacherMode}
+          className={`px-3 py-2 rounded-xl text-xs font-black font-mono transition-colors border-2 border-black shadow-[2px_2px_0px_#000] cursor-pointer ${
+            teacherMode ? 'bg-[#FDE047] text-black' : 'bg-white text-slate-700 hover:bg-slate-100'
+          }`}
+          id="btn-teacher-roadmap"
+        >
+          {teacherMode ? 'GURU: AKTIF' : 'MODE GURU'}
+        </button>
       </div>
 
 
@@ -85,6 +74,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           return (
             <div
               key={lvl.id}
+              id={`level-card-${lvl.id}`}
               className={`rounded-2xl sm:rounded-3xl border-2 sm:border-4 border-black p-3 sm:p-5 flex flex-col justify-between gap-2 sm:gap-4 shadow-[3px_3px_0px_#000] sm:shadow-[5px_5px_0px_#000] relative transition-all duration-250 w-[200px] sm:w-[220px] shrink-0 ${
                 isUnlocked ? 'hover:-translate-y-1' : ''
               } ${cardColor}`}
@@ -125,6 +115,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                     type="button"
                     onClick={() => onSelectLevel(lvl.id)}
                     className="w-full bg-black hover:bg-slate-900 text-white border-2 border-black text-xs font-black py-2.5 rounded-xl uppercase tracking-wider flex items-center justify-center gap-1 cursor-pointer shadow-[2.5px_2.5px_0px_rgba(0,0,0,1)] active:translate-y-0.5 active:shadow-[1px_1px_0px_#000]"
+                    id={`btn-play-level-${lvl.id}`}
                   >
                     <span>Masuk Misi</span>
                     <ChevronRight className="w-3.5 h-3.5 text-white" />
