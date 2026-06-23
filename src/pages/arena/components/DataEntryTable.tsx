@@ -209,7 +209,7 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
   };
 
   return (
-    <div className="w-full h-full flex flex-row gap-3 sm:gap-4 lg:gap-6 min-h-0 mobile-landscape-compact-gap">
+    <div className="w-full h-fit max-h-[85vh] sm:max-h-[700px] flex flex-row gap-3 sm:gap-4 lg:gap-6 min-h-0 mobile-landscape-compact-gap my-auto">
       
       {/* Left column: Central Database Table Grid (Canvas) */}
       <div className="flex-[7] min-w-0 min-h-0 flex flex-col h-full p-2 sm:p-4 mobile-landscape-flat-container relative">
@@ -474,7 +474,7 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={handleVerifyTable}
-              className={`flex-1 brutal-btn py-3 text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer ${onBack ? '' : 'w-full'}`}
+              className={`flex-1 bg-[#F43F5E] hover:bg-[#FB7185] text-white border-2 border-black rounded-xl font-black shadow-[2.5px_2.5px_0px_#000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1.5px_1.5px_0px_#000] py-3 text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer ${onBack ? '' : 'w-full'}`}
               id="btn-verify-table"
             >
               <Check className="w-5 h-5" />

@@ -146,7 +146,7 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
   const PIE_COLORS = ['#10B981', '#0EA5E9', '#F59E0B', '#EF4444'];
 
   return (
-    <div className="w-full h-full flex flex-row gap-2 sm:gap-4 lg:gap-6 min-h-0 mobile-landscape-compact-gap relative">
+    <div className="w-full h-fit max-h-[85vh] sm:max-h-[700px] flex flex-row gap-2 sm:gap-4 lg:gap-6 min-h-0 mobile-landscape-compact-gap relative my-auto">
       
       {/* Left Column: Format Selection */}
       <div className="flex-[3] sm:flex-[4] min-w-0 min-h-0 flex flex-col h-full bg-white border-2 sm:border-4 border-black rounded-2xl sm:rounded-3xl p-2 sm:p-5 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)] mobile-landscape-compact-card">
