@@ -58,7 +58,7 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
       initial={{ opacity: 0, scale: 0.99 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.99 }}
-      className="flex-1 max-w-7xl mx-auto w-full px-1 py-1 md:px-4 md:py-4 flex flex-col min-h-0 h-full overflow-hidden game-wrapper-padding"
+      className="w-full h-full flex flex-col"
     >
 
       {/* MAIN LEVEL GAME ARENA VIEWPORT VIEW */}

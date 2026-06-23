@@ -1,30 +1,8 @@
 import React, { useState } from 'react';
 import { DailyRoster, GameLevel } from '@/src/types';
 import { motion, AnimatePresence } from 'motion/react';
-import { Check, AlertCircle, HelpCircle, ClipboardCheck, Info, UserCheck, UserX } from 'lucide-react';
-
-import bgCewe from '@/assets/background-cewe.svg';
-import bgCowo from '@/assets/background-cowo.svg';
-import papanNama from '@/assets/papan-nama.svg';
-
-import cewePisah1 from '@/assets/cewe-pisah-1.svg';
-import cewePisah2 from '@/assets/cewe-pisah-2.svg';
-import cewePisah3 from '@/assets/cewe-pisah-3.svg';
-import cewePisah4 from '@/assets/cewe-pisah-4.svg';
-
-import cowoPisah1 from '@/assets/cowo-pisah-1.svg';
-import cowoPisah2 from '@/assets/cowo-pisah-2.svg';
-import cowoPisah3 from '@/assets/cowo-pisah-3.svg';
-import cowoPisah4 from '@/assets/cowo-pisah-4.svg';
-
-const isFemale = (name: string): boolean => {
-  const lower = name.toLowerCase();
-  const femaleList = ['cici', 'eka', 'fani', 'gita', 'kirana', 'lia', 'nita', 'siti', 'susi', 'ani', 'dewi', 'putri', 'rara', 'tari', 'wulan', 'yuni', 'putu', 'made', 'ketut', 'nyoman'];
-  if (femaleList.some(f => lower.includes(f))) return true;
-  const males = ['budi', 'andi', 'dodi', 'hari', 'joko', 'iwan', 'adi'];
-  if (males.some(m => lower.includes(m))) return false;
-  return lower.endsWith('a') || lower.endsWith('i');
-};
+import { Check, AlertCircle, HelpCircle, ClipboardCheck } from 'lucide-react';
+import { StudentCard } from './StudentCard';
 
 interface StudentCounterProps {
   currentLevel: GameLevel;
@@ -40,29 +18,6 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
   teacherMode = false,
 }) => {
   const rosters = currentLevel.rosters || [];
-
-  const getStudentAvatar = (name: string) => {
-    const isCewe = isFemale(name);
-    let hash = 0;
-    for (let i = 0; i < name.length; i++) {
-      hash += name.charCodeAt(i);
-    }
-    const index = (hash % 4) + 1;
-    const bg = isCewe ? bgCewe : bgCowo;
-    let pisah = cewePisah1;
-    if (isCewe) {
-      if (index === 1) pisah = cewePisah1;
-      else if (index === 2) pisah = cewePisah2;
-      else if (index === 3) pisah = cewePisah3;
-      else if (index === 4) pisah = cewePisah4;
-    } else {
-      if (index === 1) pisah = cowoPisah1;
-      else if (index === 2) pisah = cowoPisah2;
-      else if (index === 3) pisah = cowoPisah3;
-      else if (index === 4) pisah = cowoPisah4;
-    }
-    return { bg, pisah };
-  };
   
   // Track selected tab/day for list viewing
   const [activeTab, setActiveTab] = useState<number>(0);
@@ -289,19 +244,13 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
 
   const renderPageBack = (dayName: string) => {
     return (
-      <div 
-        className="w-full h-full flex flex-col bg-[#FAF7F0] border-2 border-black rounded-xl p-2 sm:p-4 pl-6 sm:pl-10  relative select-none"
-        style={{
-          backgroundImage: 'linear-gradient(#e2e8f0 1px, transparent 1px)',
-          backgroundSize: '100% 24px',
-        }}
-      >
+      <div className="w-full h-full flex flex-col bg-[#FAF7F0] border-2 border-black rounded-xl p-2 sm:p-4 pl-6 sm:pl-10 relative select-none">
         {/* Red vertical margin line of the notebook */}
-        <div className="absolute left-[20px] sm:left-[32px] top-0 bottom-0 w-[1.5px] bg-red-450" />
+        <div className="absolute left-[20px] sm:left-[32px] top-0 bottom-0 w-[1.5px] bg-red-450 z-10" />
         
         {/* Page content - school notebook look */}
-        <div className="flex flex-col h-full font-mono text-slate-500 pt-1 sm:pt-2">
-          <div className="flex items-center justify-between border-b border-slate-300 pb-0.5 sm:pb-1 mb-1 sm:mb-2">
+        <div className="flex flex-col h-full font-mono text-slate-500 pl-2 sm:pl-4 z-10">
+          <div className="flex items-center justify-between h-7 sm:h-10 border-b border-[#e2e8f0] pb-1 shrink-0">
             <span className="text-[8px] sm:text-[10px] font-black uppercase text-slate-400">
               Catatan Harian
             </span>
@@ -310,14 +259,24 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
             </span>
           </div>
           
-          <div className="flex-1 flex flex-col justify-center items-center opacity-65 py-2 sm:py-4">
-            <ClipboardCheck className="w-8 h-8 sm:w-12 sm:h-12 text-slate-400 mb-1 sm:mb-2" />
-            <span className="text-[8px] sm:text-[10px] font-black uppercase text-slate-500 tracking-wider">
-              Sudah Direkap
-            </span>
-            <span className="text-[7px] sm:text-[8px] text-slate-400 mt-0.5 sm:mt-1">
-              Sekolah Data Challenge
-            </span>
+          {/* Lined page lines */}
+          <div className="flex-1 flex flex-col justify-start relative min-h-0">
+            {[...Array(5)].map((_, i) => (
+              <div key={i} className="h-7 sm:h-12 border-b border-[#e2e8f0] w-full shrink-0" />
+            ))}
+            
+            {/* Absolute Centered "Sudah Direkap" Rubber Stamp */}
+            <div className="absolute inset-0 flex flex-col justify-center items-center py-2 sm:py-4 bg-[#FAF7F0]/40 backdrop-blur-[0.5px]">
+              <div className="bg-[#ECFDF5] border-4 border-emerald-600 rounded-2xl p-3 sm:p-4 flex flex-col items-center rotate-[-6deg] shadow-lg max-w-[85%] text-center">
+                <ClipboardCheck className="w-8 h-8 sm:w-10 sm:h-10 text-emerald-600 mb-1" />
+                <span className="text-[9px] sm:text-[11px] font-black uppercase text-emerald-800 tracking-wider font-display">
+                  Sudah Direkap
+                </span>
+                <span className="text-[7px] sm:text-[8px] text-emerald-700 font-bold font-mono mt-0.5">
+                  Sekolah Data Challenge
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -329,23 +288,27 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
     if (!roster) return null;
 
     return (
-      <div className="w-full h-full flex flex-col bg-white border-2 border-black rounded-xl p-1.5 sm:p-4 pl-5 sm:pl-4  relative">
-        <div className="flex items-center justify-between mb-1 sm:mb-2">
-          <span className="text-[10px] sm:text-sm font-black text-slate-800 uppercase tracking-wide">
-            Hari: {roster.day}
-          </span>
-          <span className="text-[8px] sm:text-[9px] font-mono text-slate-500">
-            Format: Angka (0-35)
-          </span>
-        </div>
+      <div className="w-full h-full flex flex-col bg-[#FAF7F0] border-2 border-black rounded-xl p-2 sm:p-4 pl-6 sm:pl-10 relative select-none">
+        {/* Red vertical margin line of the notebook */}
+        <div className="absolute left-[20px] sm:left-[32px] top-0 bottom-0 w-[1.5px] bg-red-450 z-10" />
 
-        {/* Neobrutalist input fields grid */}
-        <div className="grid grid-cols-2 gap-1.5 sm:gap-4 my-1 sm:my-2 flex-1 items-center">
-          {/* Hadir */}
-          <div className="bg-[#ECFDF5] border-2 border-black rounded-xl p-1 sm:p-2 flex flex-col items-center shadow-[1.5px_1.5px_0px_#000]">
-            <label className="text-[7px] sm:text-[10px] font-black text-emerald-800 uppercase mb-0.5 font-mono">Hadir</label>
+        {/* Content wrapper to shift content past the red vertical margin line */}
+        <div className="flex flex-col h-full pl-2 sm:pl-4 z-10 justify-between">
+          {/* Header row */}
+          <div className="flex items-center justify-between h-7 sm:h-10 border-b border-[#e2e8f0] pb-1">
+            <span className="text-[10px] sm:text-xs font-black text-slate-800 uppercase tracking-wide">
+              Hari: {roster.day}
+            </span>
+            <span className="text-[8px] sm:text-[9px] font-mono text-slate-500 font-bold">
+              Format: Angka
+            </span>
+          </div>
+
+          {/* Hadir Row */}
+          <div className="flex items-center justify-between h-7 sm:h-12 border-b border-[#e2e8f0] pb-1 w-full">
+            <label className="text-[10px] sm:text-xs font-black text-emerald-700 uppercase font-mono">Hadir</label>
             {isStatic ? (
-              <div className="w-10 sm:w-20 p-0.5 sm:p-2 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-base flex items-center justify-center min-h-[22px] sm:min-h-[42px]">
+              <div className="w-16 sm:w-24 p-0.5 sm:p-1.5 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm flex items-center justify-center min-h-[20px] sm:min-h-[32px]">
                 {inputs[roster.day]?.present || ''}
               </div>
             ) : (
@@ -357,16 +320,16 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
                 id={`input-present-${roster.day}`}
                 value={inputs[roster.day]?.present || ''}
                 onChange={(e) => handleInputChange(roster.day, 'present', e.target.value)}
-                className="w-10 sm:w-20 p-0.5 sm:p-2 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-base"
+                className="w-16 sm:w-24 p-0.5 sm:p-1.5 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm"
               />
             )}
           </div>
 
-          {/* Izin */}
-          <div className="bg-[#F0F9FF] border-2 border-black rounded-xl p-1 sm:p-2 flex flex-col items-center shadow-[1.5px_1.5px_0px_#000]">
-            <label className="text-[7px] sm:text-[10px] font-black text-sky-850 uppercase mb-0.5 font-mono">Izin</label>
+          {/* Izin Row */}
+          <div className="flex items-center justify-between h-7 sm:h-12 border-b border-[#e2e8f0] pb-1 w-full">
+            <label className="text-[10px] sm:text-xs font-black text-sky-700 uppercase font-mono">Izin</label>
             {isStatic ? (
-              <div className="w-10 sm:w-20 p-0.5 sm:p-2 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-base flex items-center justify-center min-h-[22px] sm:min-h-[42px]">
+              <div className="w-16 sm:w-24 p-0.5 sm:p-1.5 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm flex items-center justify-center min-h-[20px] sm:min-h-[32px]">
                 {inputs[roster.day]?.permit || ''}
               </div>
             ) : (
@@ -378,16 +341,16 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
                 id={`input-permit-${roster.day}`}
                 value={inputs[roster.day]?.permit || ''}
                 onChange={(e) => handleInputChange(roster.day, 'permit', e.target.value)}
-                className="w-10 sm:w-20 p-0.5 sm:p-2 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-base"
+                className="w-16 sm:w-24 p-0.5 sm:p-1.5 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm"
               />
             )}
           </div>
 
-          {/* Sakit */}
-          <div className="bg-[#FFFBEB] border-2 border-black rounded-xl p-1 sm:p-2 flex flex-col items-center shadow-[1.5px_1.5px_0px_#000]">
-            <label className="text-[7px] sm:text-[10px] font-black text-amber-800 uppercase mb-0.5 font-mono">Sakit</label>
+          {/* Sakit Row */}
+          <div className="flex items-center justify-between h-7 sm:h-12 border-b border-[#e2e8f0] pb-1 w-full">
+            <label className="text-[10px] sm:text-xs font-black text-amber-700 uppercase font-mono">Sakit</label>
             {isStatic ? (
-              <div className="w-10 sm:w-20 p-0.5 sm:p-2 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-base flex items-center justify-center min-h-[22px] sm:min-h-[42px]">
+              <div className="w-16 sm:w-24 p-0.5 sm:p-1.5 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm flex items-center justify-center min-h-[20px] sm:min-h-[32px]">
                 {inputs[roster.day]?.sick || ''}
               </div>
             ) : (
@@ -399,16 +362,16 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
                 id={`input-sick-${roster.day}`}
                 value={inputs[roster.day]?.sick || ''}
                 onChange={(e) => handleInputChange(roster.day, 'sick', e.target.value)}
-                className="w-10 sm:w-20 p-0.5 sm:p-2 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-base"
+                className="w-16 sm:w-24 p-0.5 sm:p-1.5 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm"
               />
             )}
           </div>
 
-          {/* Alfa */}
-          <div className="bg-[#FEF2F2] border-2 border-black rounded-xl p-1 sm:p-2 flex flex-col items-center shadow-[1.5px_1.5px_0px_#000]">
-            <label className="text-[7px] sm:text-[10px] font-black text-rose-800 uppercase mb-0.5 font-mono">Alfa</label>
+          {/* Alfa Row */}
+          <div className="flex items-center justify-between h-7 sm:h-12 border-b border-[#e2e8f0] pb-1 w-full">
+            <label className="text-[10px] sm:text-xs font-black text-rose-700 uppercase font-mono">Alfa</label>
             {isStatic ? (
-              <div className="w-10 sm:w-20 p-0.5 sm:p-2 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-base flex items-center justify-center min-h-[22px] sm:min-h-[42px]">
+              <div className="w-16 sm:w-24 p-0.5 sm:p-1.5 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm flex items-center justify-center min-h-[20px] sm:min-h-[32px]">
                 {inputs[roster.day]?.alpha || ''}
               </div>
             ) : (
@@ -420,10 +383,13 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
                 id={`input-alpha-${roster.day}`}
                 value={inputs[roster.day]?.alpha || ''}
                 onChange={(e) => handleInputChange(roster.day, 'alpha', e.target.value)}
-                className="w-10 sm:w-20 p-0.5 sm:p-2 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-base"
+                className="w-16 sm:w-24 p-0.5 sm:p-1.5 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm"
               />
             )}
           </div>
+
+          {/* Empty Line Row */}
+          <div className="h-6 sm:h-10 border-b border-[#e2e8f0] w-full shrink-0" />
         </div>
       </div>
     );
@@ -436,9 +402,10 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
   const flippingTabIndex = flipDirection === 'next' ? currentTab : activeTab;
 
   return (
-    <div className="w-full h-fit max-h-[85vh] sm:max-h-[700px] flex flex-row gap-3 sm:gap-4 lg:gap-6 min-h-0 mobile-landscape-compact-gap my-auto">
+    <div className="w-full max-w-7xl mx-auto px-1 py-1 sm:px-4 sm:py-4 flex flex-col min-h-0 h-full overflow-y-auto sm:overflow-hidden game-wrapper-padding">
+      <div className="w-full min-h-screen sm:min-h-0 sm:max-h-[700px] flex flex-col sm:flex-row gap-3 sm:gap-4 lg:gap-6 min-h-0 mobile-landscape-compact-gap sm:my-auto">
       {/* Left Side: Roster Viewer (Canvas) */}
-      <div className="flex-[7] min-w-0 min-h-0 flex flex-col h-full bg-white border-2 sm:border-4 border-black rounded-2xl sm:rounded-3xl p-3 sm:p-5 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)] mobile-landscape-compact-card relative">
+      <div className="flex-[7] min-w-0 min-h-0 flex flex-col h-fit sm:h-full bg-white border-2 sm:border-4 border-black rounded-2xl sm:rounded-3xl p-3 sm:p-5 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)] mobile-landscape-compact-card relative">
         
         {/* Instruction Info Text */}
         <p className="text-[10px] sm:text-[11px] text-slate-600 font-mono font-bold hidden sm:block mobile-landscape-hide mb-2 shrink-0">
@@ -498,121 +465,15 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
               {activeRoster.students.map((student, idx) => {
                 const key = `${activeRoster.day}-${idx}`;
                 const isHighlighted = highlightedStudents[key];
-                const status = student.status;
-
-                const isAbsentStatus = status === 'Alfa' || status === 'Izin' || status === 'Sakit';
-                const isRevealed = !isAbsentStatus || isHighlighted;
-
-                // Mystery State (Absent student not yet revealed)
-                if (!isRevealed) {
-                  return (
-                    <motion.div
-                      key={key}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => toggleHighlight(activeRoster.day, idx)}
-                      className="relative p-1 rounded-lg bg-amber-50/10 hover:bg-amber-100/20 flex flex-col items-center justify-center cursor-pointer select-none transition-all duration-300 w-full aspect-square overflow-hidden"
-                      id={`student-item-${activeRoster.day}-${idx}`}
-                    >
-                      {/* Big Mystery Question Mark */}
-                      <div className="absolute inset-x-0 top-0 bottom-6 sm:bottom-7 md:bottom-10 flex items-center justify-center">
-                        <span className="text-lg sm:text-xl font-black text-slate-400/80 animate-pulse">❓</span>
-                      </div>
-
-                      {/* Name Plate absolute at bottom */}
-                      <div className="absolute bottom-1 left-1 right-1 h-6 sm:h-7 md:h-10 flex items-center justify-center z-10">
-                        <div className="relative w-full h-full">
-                          <img src={papanNama} className="w-full h-full object-contain" alt="Papan Nama" />
-                          <span className="absolute inset-0 flex items-center justify-center font-black text-[8px] sm:text-[10px] md:text-sm text-slate-800 uppercase tracking-wider animate-pulse flex items-center gap-0.5 font-display">
-                            ❓ <span className="font-mono">Klik</span>
-                          </span>
-                        </div>
-                      </div>
-                    </motion.div>
-                  );
-                }
-
-                // Absent State (Revealed, no character avatar, only nameplate and status badge)
-                if (isAbsentStatus) {
-                  let cardStyle = "bg-white";
-                  let statusBadgeStyle = "bg-slate-100 text-slate-900 border-slate-350";
-
-                  if (status === 'Izin') {
-                    cardStyle = "bg-sky-50/40 hover:bg-sky-50/60";
-                    statusBadgeStyle = "bg-[#E0F2FE] text-sky-900 border-sky-400";
-                  } else if (status === 'Sakit') {
-                    cardStyle = "bg-amber-50/40 hover:bg-amber-50/60";
-                    statusBadgeStyle = "bg-[#FEF3C7] text-amber-900 border-amber-400";
-                  } else if (status === 'Alfa') {
-                    cardStyle = "bg-rose-50/40 hover:bg-rose-50/60";
-                    statusBadgeStyle = "bg-[#FEE2E2] text-rose-900 border-rose-400";
-                  }
-
-                  return (
-                    <motion.div
-                      key={key}
-                      whileHover={{ scale: 1.01 }}
-                      whileTap={{ scale: 0.99 }}
-                      onClick={() => toggleHighlight(activeRoster.day, idx)}
-                      className={`relative p-1 rounded-lg flex flex-col items-center justify-center cursor-pointer select-none transition-all duration-300 w-full aspect-square overflow-hidden ${cardStyle}`}
-                      id={`student-item-${activeRoster.day}-${idx}`}
-                    >
-                      {/* Status Badge - Centered in the upper region */}
-                      <div className="absolute inset-x-0 top-0 bottom-6 sm:bottom-7 md:bottom-10 flex items-center justify-center shrink-0 scale-95 sm:scale-100">
-                        <span className={`px-1.5 py-0.5 rounded-lg text-[8px] sm:text-[9px] md:text-[10px] font-black border flex items-center gap-0.5 shadow-[0.5px_0.5px_0px_#000] ${statusBadgeStyle}`}>
-                          <UserX className="w-2 h-2 sm:w-2.5 sm:h-2.5 text-inherit" />
-                          {status}
-                        </span>
-                      </div>
-
-                      {/* Name Plate absolute at bottom */}
-                      <div className="absolute bottom-1 left-1 right-1 h-6 sm:h-7 md:h-10 flex items-center justify-center z-10">
-                        <div className="relative w-full h-full">
-                          <img src={papanNama} className="w-full h-full object-contain" alt="Papan Nama" />
-                          <span className="absolute inset-0 flex items-center justify-center font-black text-[8px] sm:text-[10px] md:text-sm text-slate-800 truncate px-1.5">
-                            {student.name}
-                          </span>
-                        </div>
-                      </div>
-                    </motion.div>
-                  );
-                }
-
-                // Hadir State (Always Revealed, shows avatar and nameplate at bottom, no status badge)
-                let cardStyle = "bg-white hover:bg-emerald-50/50 text-slate-900";
-                if (isHighlighted) {
-                  cardStyle = "bg-slate-100 opacity-60 text-slate-400";
-                }
-
-                const { bg, pisah } = getStudentAvatar(student.name);
-
                 return (
-                  <motion.div
+                  <StudentCard
                     key={key}
-                    whileHover={{ scale: isHighlighted ? 1 : 1.01 }}
-                    whileTap={{ scale: 0.99 }}
-                    onClick={() => toggleHighlight(activeRoster.day, idx)}
-                    className={`relative rounded-lg flex flex-col items-center justify-between cursor-pointer select-none transition-all duration-300 w-full aspect-square overflow-hidden ${cardStyle}`}
-                    id={`student-item-${activeRoster.day}-${idx}`}
-                  >
-                    {/* Avatar Container - takes full size of card */}
-                    <div className="absolute inset-0 w-full h-full pb-3 flex justify-center items-center">
-                      <div className="relative w-full h-full">
-                        <img src={bg} className="absolute inset-0 w-full h-full object-contain" alt="avatar-bg" />
-                        <img src={pisah} className="absolute inset-0 w-full h-full object-contain" alt="avatar-face" />
-                      </div>
-                    </div>
-
-                    {/* Name Plate absolute at bottom */}
-                    <div className="absolute bottom-1 left-1 right-1 h-6 sm:h-7 md:h-10 flex items-center justify-center z-10">
-                      <div className="relative w-full h-full">
-                        <img src={papanNama} className="w-full h-full object-contain" alt="Papan Nama" />
-                        <span className={`absolute inset-0 flex items-center justify-center font-black text-[8px] sm:text-[10px] md:text-sm text-slate-800 truncate px-1.5 ${isHighlighted ? 'line-through text-slate-500' : ''}`}>
-                          {student.name}
-                        </span>
-                      </div>
-                    </div>
-                  </motion.div>
+                    student={student}
+                    idx={idx}
+                    day={activeRoster.day}
+                    isHighlighted={isHighlighted}
+                    onToggleHighlight={toggleHighlight}
+                  />
                 );
               })}
             </div>
@@ -622,7 +483,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
 
       {/* Right Side: Working Counter Control Panel Card (Buku Rekapitulasi dengan Efek 3D Page Flip) */}
       <div 
-        className="flex-[5] min-w-0 min-h-0 flex flex-col justify-between h-full bg-[#FAF7F0] border-2 sm:border-4 border-black rounded-2xl sm:rounded-3xl p-3 sm:p-5 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)] mobile-landscape-compact-card relative overflow-hidden"
+        className="flex-[5] min-w-0 min-h-0 flex flex-col justify-between h-fit sm:h-full bg-[#FAF7F0] border-2 sm:border-4 border-black rounded-2xl sm:rounded-3xl p-3 sm:p-5 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)] mobile-landscape-compact-card relative overflow-hidden"
         style={{ perspective: '1500px' }}
       >
         <div className="pl-2 flex flex-col min-h-0 flex-1 z-10">
@@ -761,15 +622,6 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
             >
               ← Prev
             </button>
-            
-            <div className="flex items-center gap-1">
-              {[...Array(rosters.length)].map((_, i) => (
-                <div 
-                  key={i} 
-                  className={`w-1.5 h-1.5 rounded-full border border-black/40 ${i === activeTab ? 'bg-[#FDE047]' : 'bg-slate-350'}`}
-                />
-              ))}
-            </div>
 
             <button
               type="button"
@@ -842,6 +694,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
           </div>
         )}
       </AnimatePresence>
+      </div>
     </div>
   );
 };

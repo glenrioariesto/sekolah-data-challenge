@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { GameLevel } from '@/src/types';
 import { motion, AnimatePresence } from 'motion/react';
-import { Check, Table, Info, RotateCcw, AlertCircle, HelpCircle } from 'lucide-react';
+import { Check, RotateCcw, AlertCircle, HelpCircle, ClipboardCheck } from 'lucide-react';
+import { DataTableCell } from './DataTableCell';
 
 interface DataEntryTableProps {
   currentLevel: GameLevel;
@@ -60,6 +61,7 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
   
   // Validation messages
   const [warningMessage, setWarningMessage] = useState<string | null>(null);
+  const [showRekapModal, setShowRekapModal] = useState<boolean>(false);
 
 
 
@@ -209,10 +211,11 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
   };
 
   return (
-    <div className="w-full h-fit max-h-[85vh] sm:max-h-[700px] flex flex-row gap-3 sm:gap-4 lg:gap-6 min-h-0 mobile-landscape-compact-gap my-auto">
+    <div className="w-full max-w-7xl mx-auto px-1 py-1 sm:px-4 sm:py-4 flex flex-col min-h-0 h-full overflow-y-auto sm:overflow-hidden game-wrapper-padding">
+      <div className="w-full min-h-screen sm:min-h-0 sm:h-full flex flex-col sm:flex-row gap-3 sm:gap-4 lg:gap-6 min-h-0 mobile-landscape-compact-gap">
       
       {/* Left column: Central Database Table Grid (Canvas) */}
-      <div className="flex-[7] min-w-0 min-h-0 flex flex-col h-full p-2 sm:p-4 mobile-landscape-flat-container relative">
+      <div className="flex-[7] min-w-0 min-h-0 flex flex-col h-fit sm:h-full p-2 sm:p-4 mobile-landscape-flat-container relative">
 
 
         <div className="flex items-center justify-between mb-3 shrink-0 mobile-landscape-compact-text">
@@ -229,6 +232,17 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
               id="btn-restart-grid"
             >
               <RotateCcw className="w-5 h-5" />
+            </button>
+
+            {/* View Rekap Button */}
+            <button
+              type="button"
+              onClick={() => setShowRekapModal(true)}
+              className="p-1.5 border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_#000] cursor-pointer transition-all active:translate-y-0.5 active:shadow-none hover:bg-emerald-100 bg-[#34D399] text-black flex items-center justify-center"
+              title="Lihat Data Rekapitulasi Roster"
+              id="btn-view-rekap"
+            >
+              <ClipboardCheck className="w-5 h-5 text-black" />
             </button>
 
             {/* Hint Button */}
@@ -300,70 +314,46 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
 
                       {/* Present */}
                       <td className="py-2 px-1 border-r border-black mobile-landscape-table-cell">
-                        <div 
+                        <DataTableCell
+                          cellKey={presentKey}
+                          value={valP}
+                          isSelected={selectedCell === presentKey}
+                          type="present"
                           onClick={() => selectCell(presentKey)}
-                          className={`w-8.5 sm:w-10 mx-auto py-1 sm:py-1.5 rounded-lg border-2 border-black font-mono font-black text-center cursor-pointer transition-all text-[10px] sm:text-xs mobile-landscape-table-btn ${
-                            selectedCell === presentKey
-                              ? 'bg-[#FDE047] text-black shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] scale-105'
-                              : valP !== null
-                                ? 'bg-[#CCFBF1] text-emerald-900 border-emerald-500 shadow-[1px_1px_0px_rgba(0,0,0,1)]'
-                                : 'bg-indigo-50/40 text-[#4F46E5] border-dashed border-indigo-400 hover:bg-[#A5F3FC]/30'
-                          }`}
-                          id={`cell-${r.day}-present`}
-                        >
-                          {valP !== null ? valP : '?'}
-                        </div>
+                        />
                       </td>
 
                       {/* Permit */}
                       <td className="py-2 px-1 border-r border-black mobile-landscape-table-cell">
-                        <div 
+                        <DataTableCell
+                          cellKey={permitKey}
+                          value={valI}
+                          isSelected={selectedCell === permitKey}
+                          type="permit"
                           onClick={() => selectCell(permitKey)}
-                          className={`w-8.5 sm:w-10 mx-auto py-1 sm:py-1.5 rounded-lg border-2 border-black font-mono font-black text-center cursor-pointer transition-all text-[10px] sm:text-xs mobile-landscape-table-btn ${
-                            selectedCell === permitKey
-                              ? 'bg-[#FDE047] text-black shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] scale-105'
-                              : valI !== null
-                                ? 'bg-[#E0F2FE] text-sky-900 border-sky-500 shadow-[1px_1px_0px_rgba(0,0,0,1)]'
-                                : 'bg-indigo-50/40 text-[#4F46E5] border-dashed border-indigo-400 hover:bg-[#A5F3FC]/30'
-                          }`}
-                          id={`cell-${r.day}-permit`}
-                        >
-                          {valI !== null ? valI : '?'}
-                        </div>
+                        />
                       </td>
 
                       {/* Sick */}
                       <td className="py-2 px-1 border-r border-black mobile-landscape-table-cell">
-                        <div 
+                        <DataTableCell
+                          cellKey={sickKey}
+                          value={valS}
+                          isSelected={selectedCell === sickKey}
+                          type="sick"
                           onClick={() => selectCell(sickKey)}
-                          className={`w-8.5 sm:w-10 mx-auto py-1 sm:py-1.5 rounded-lg border-2 border-black font-mono font-black text-center cursor-pointer transition-all text-[10px] sm:text-xs mobile-landscape-table-btn ${
-                            selectedCell === sickKey
-                              ? 'bg-[#FDE047] text-black shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] scale-105'
-                              : valS !== null
-                                ? 'bg-[#FEF3C7] text-amber-900 border-amber-500 shadow-[1px_1px_0px_rgba(0,0,0,1)]'
-                                : 'bg-indigo-50/40 text-[#4F46E5] border-dashed border-indigo-400 hover:bg-[#A5F3FC]/30'
-                          }`}
-                          id={`cell-${r.day}-sick`}
-                        >
-                          {valS !== null ? valS : '?'}
-                        </div>
+                        />
                       </td>
 
                       {/* Alpha */}
                       <td className="py-2 px-1 border-r-2 border-black mobile-landscape-table-cell">
-                        <div 
+                        <DataTableCell
+                          cellKey={alphaKey}
+                          value={valA}
+                          isSelected={selectedCell === alphaKey}
+                          type="alpha"
                           onClick={() => selectCell(alphaKey)}
-                          className={`w-8.5 sm:w-10 mx-auto py-1 sm:py-1.5 rounded-lg border-2 border-black font-mono font-black text-center cursor-pointer transition-all text-[10px] sm:text-xs mobile-landscape-table-btn ${
-                            selectedCell === alphaKey
-                              ? 'bg-[#FDE047] text-black shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] scale-105'
-                              : valA !== null
-                                ? 'bg-[#FEE2E2] text-rose-900 border-rose-500 shadow-[1px_1px_0px_rgba(0,0,0,1)]'
-                                : 'bg-indigo-50/40 text-[#4F46E5] border-dashed border-indigo-400 hover:bg-[#A5F3FC]/30'
-                          }`}
-                          id={`cell-${r.day}-alpha`}
-                        >
-                          {valA !== null ? valA : '?'}
-                        </div>
+                        />
                       </td>
 
                       {/* Validation Icon */}
@@ -399,7 +389,7 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
       </div>
 
       {/* Right column: Numbers Pill Board and validator panel (Control Card) */}
-      <div className="flex-[5] min-w-0 min-h-0 flex flex-col justify-between h-full bg-white border-2 sm:border-4 border-black rounded-2xl sm:rounded-3xl p-3 sm:p-5 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)] mobile-landscape-compact-card">
+      <div className="flex-[5] min-w-0 min-h-0 flex flex-col justify-between h-fit sm:h-full bg-white border-2 sm:border-4 border-black rounded-2xl sm:rounded-3xl p-3 sm:p-5 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)] mobile-landscape-compact-card">
         <div className="flex flex-col min-h-0 flex-1 space-y-3">
           
 
@@ -508,6 +498,65 @@ export const DataEntryTable: React.FC<DataEntryTableProps> = ({
           </div>
         )}
       </AnimatePresence>
+
+      {/* Modal Lihat Rekap */}
+      <AnimatePresence>
+        {showRekapModal && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-[999] overflow-y-auto">
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 10 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 10 }}
+              className="bg-white rounded-3xl border-4 border-black shadow-[6px_6px_0px_#000] p-4 sm:p-6 max-w-md w-full relative text-left"
+            >
+              <div className="text-center border-b-4 border-black pb-3 mb-4">
+                <h3 className="text-sm sm:text-base font-black uppercase text-slate-900">
+                  Data Hasil Rekapitulasi Anda
+                </h3>
+                <p className="text-[10px] text-slate-500 font-bold font-mono mt-1">
+                  Gunakan data ini untuk mengisi Tabel Digital
+                </p>
+              </div>
+
+              {prefilledData ? (
+                <div className="space-y-3 font-mono text-xs text-slate-800">
+                  <div className="grid grid-cols-5 gap-1 border-b-2 border-black pb-1.5 font-black text-center text-[10px]">
+                    <div className="text-left">HARI</div>
+                    <div className="text-emerald-700">HADIR</div>
+                    <div className="text-sky-700">IZIN</div>
+                    <div className="text-amber-700">SAKIT</div>
+                    <div className="text-rose-700">ALFA</div>
+                  </div>
+                  {Object.entries(prefilledData).map(([day, val]) => (
+                    <div key={day} className="grid grid-cols-5 gap-1 text-center font-bold items-center border-b border-slate-200 py-1">
+                      <div className="text-left font-black text-slate-900">{day}</div>
+                      <div className="bg-emerald-50 text-emerald-850 border border-emerald-300 rounded py-0.5">{val.present}</div>
+                      <div className="bg-sky-50 text-sky-850 border border-sky-300 rounded py-0.5">{val.permit}</div>
+                      <div className="bg-amber-50 text-amber-850 border border-amber-300 rounded py-0.5">{val.sick}</div>
+                      <div className="bg-rose-50 text-rose-850 border border-rose-300 rounded py-0.5">{val.alpha}</div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-xs text-slate-500 italic text-center font-bold py-4">
+                  Belum ada data rekap yang direkam. Selesaikan penghitungan absensi manual di tahap pertama terlebih dahulu!
+                </p>
+              )}
+
+              <div className="mt-5 pt-3 border-t-2 border-black flex justify-center">
+                <button
+                  type="button"
+                  onClick={() => setShowRekapModal(false)}
+                  className="w-full bg-[#F43F5E] hover:bg-[#FB7185] text-white border-2 border-black text-xs font-black py-2.5 rounded-xl shadow-[2px_2px_0px_#000] active:translate-y-0.5 active:shadow-none cursor-pointer"
+                >
+                  Tutup
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+      </div>
     </div>
   );
 };
