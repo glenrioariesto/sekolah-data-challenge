@@ -244,7 +244,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
 
   const renderPageBack = (dayName: string) => {
     return (
-      <div className="w-full h-full flex flex-col bg-[#FAF7F0] border-2 border-black rounded-xl p-2 sm:p-4 pl-6 sm:pl-10 relative select-none">
+      <div className="w-full h-full flex flex-col bg-[#FAF7F0] border-2 border-black rounded-xl pr-6 pt-1 sm:pr-10 sm:pt-2 relative select-none">
         {/* Red vertical margin line of the notebook */}
         <div className="absolute left-[20px] sm:left-[32px] top-0 bottom-0 w-[1.5px] bg-red-450 z-10" />
         
@@ -288,7 +288,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
     if (!roster) return null;
 
     return (
-      <div className="w-full h-full flex flex-col bg-[#FAF7F0] border-2 border-black rounded-xl p-2 sm:p-4 pl-6 sm:pl-10 relative select-none">
+      <div className="w-full h-full flex flex-col bg-[#FAF7F0] border-2 border-black rounded-xl pt-1 sm:pt-2 relative select-none">
         {/* Red vertical margin line of the notebook */}
         <div className="absolute left-[20px] sm:left-[32px] top-0 bottom-0 w-[1.5px] bg-red-450 z-10" />
 
@@ -299,7 +299,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
             <span className="text-[10px] sm:text-xs font-black text-slate-800 uppercase tracking-wide">
               Hari: {roster.day}
             </span>
-            <span className="text-[8px] sm:text-[9px] font-mono text-slate-500 font-bold">
+            <span className="text-[8px] sm:text-[9px] font-mono text-slate-500 font-bold pr-6 sm:pr-10">
               Format: Angka
             </span>
           </div>
@@ -308,7 +308,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
           <div className="flex items-center justify-between h-7 sm:h-12 border-b border-[#e2e8f0] pb-1 w-full">
             <label className="text-[10px] sm:text-xs font-black text-emerald-700 uppercase font-mono">Hadir</label>
             {isStatic ? (
-              <div className="w-16 sm:w-24 p-0.5 sm:p-1.5 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm flex items-center justify-center min-h-[20px] sm:min-h-[32px]">
+              <div className="w-16 sm:w-24 p-0.5 sm:p-1.5 mr-2 sm:mr-4 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm flex items-center justify-center min-h-[20px] sm:min-h-[32px]">
                 {inputs[roster.day]?.present || ''}
               </div>
             ) : (
@@ -320,7 +320,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
                 id={`input-present-${roster.day}`}
                 value={inputs[roster.day]?.present || ''}
                 onChange={(e) => handleInputChange(roster.day, 'present', e.target.value)}
-                className="w-16 sm:w-24 p-0.5 sm:p-1.5 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm"
+                className="w-16 sm:w-24 p-0.5 sm:p-1.5 mr-2 sm:mr-4 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm"
               />
             )}
           </div>
@@ -329,7 +329,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
           <div className="flex items-center justify-between h-7 sm:h-12 border-b border-[#e2e8f0] pb-1 w-full">
             <label className="text-[10px] sm:text-xs font-black text-sky-700 uppercase font-mono">Izin</label>
             {isStatic ? (
-              <div className="w-16 sm:w-24 p-0.5 sm:p-1.5 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm flex items-center justify-center min-h-[20px] sm:min-h-[32px]">
+              <div className="w-16 sm:w-24 p-0.5 sm:p-1.5 mr-2 sm:mr-4 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm flex items-center justify-center min-h-[20px] sm:min-h-[32px]">
                 {inputs[roster.day]?.permit || ''}
               </div>
             ) : (
@@ -341,7 +341,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
                 id={`input-permit-${roster.day}`}
                 value={inputs[roster.day]?.permit || ''}
                 onChange={(e) => handleInputChange(roster.day, 'permit', e.target.value)}
-                className="w-16 sm:w-24 p-0.5 sm:p-1.5 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm"
+                className="w-16 sm:w-24 p-0.5 sm:p-1.5 mr-2 sm:mr-4 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm"
               />
             )}
           </div>
@@ -350,7 +350,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
           <div className="flex items-center justify-between h-7 sm:h-12 border-b border-[#e2e8f0] pb-1 w-full">
             <label className="text-[10px] sm:text-xs font-black text-amber-700 uppercase font-mono">Sakit</label>
             {isStatic ? (
-              <div className="w-16 sm:w-24 p-0.5 sm:p-1.5 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm flex items-center justify-center min-h-[20px] sm:min-h-[32px]">
+              <div className="w-16 sm:w-24 p-0.5 sm:p-1.5 mr-2 sm:mr-4 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm flex items-center justify-center min-h-[20px] sm:min-h-[32px]">
                 {inputs[roster.day]?.sick || ''}
               </div>
             ) : (
@@ -362,7 +362,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
                 id={`input-sick-${roster.day}`}
                 value={inputs[roster.day]?.sick || ''}
                 onChange={(e) => handleInputChange(roster.day, 'sick', e.target.value)}
-                className="w-16 sm:w-24 p-0.5 sm:p-1.5 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm"
+                className="w-16 sm:w-24 p-0.5 sm:p-1.5 mr-2 sm:mr-4 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm"
               />
             )}
           </div>
@@ -371,7 +371,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
           <div className="flex items-center justify-between h-7 sm:h-12 border-b border-[#e2e8f0] pb-1 w-full">
             <label className="text-[10px] sm:text-xs font-black text-rose-700 uppercase font-mono">Alfa</label>
             {isStatic ? (
-              <div className="w-16 sm:w-24 p-0.5 sm:p-1.5 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm flex items-center justify-center min-h-[20px] sm:min-h-[32px]">
+              <div className="w-16 sm:w-24 p-0.5 sm:p-1.5 mr-2 sm:mr-4 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm flex items-center justify-center min-h-[20px] sm:min-h-[32px]">
                 {inputs[roster.day]?.alpha || ''}
               </div>
             ) : (
@@ -383,7 +383,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
                 id={`input-alpha-${roster.day}`}
                 value={inputs[roster.day]?.alpha || ''}
                 onChange={(e) => handleInputChange(roster.day, 'alpha', e.target.value)}
-                className="w-16 sm:w-24 p-0.5 sm:p-1.5 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm"
+                className="w-16 sm:w-24 p-0.5 sm:p-1.5 mr-2 sm:mr-4 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm"
               />
             )}
           </div>
