@@ -59,46 +59,46 @@ export const LEVELS: GameLevel[] = [
       {
         day: 'Senin',
         students: [
-          { name: 'Andi', status: 'Hadir' },
-          { name: 'Budi', status: 'Hadir' },
-          { name: 'Cici', status: 'Tidak Hadir' },
-          { name: 'Dodi', status: 'Hadir' },
-          { name: 'Eka', status: 'Hadir' },
-          { name: 'Fani', status: 'Hadir' },
-          { name: 'Gita', status: 'Hadir' },
-          { name: 'Hari', status: 'Hadir' },
-          { name: 'Iwan', status: 'Tidak Hadir' },
-          { name: 'Joko', status: 'Hadir' }
+          { name: 'Rafathar', status: 'Hadir' },
+          { name: 'Kenzo', status: 'Hadir' },
+          { name: 'Naura', status: 'Tidak Hadir' },
+          { name: 'Kenzie', status: 'Hadir' },
+          { name: 'Alesha', status: 'Hadir' },
+          { name: 'Kayla', status: 'Hadir' },
+          { name: 'Mikayla', status: 'Hadir' },
+          { name: 'Keanu', status: 'Hadir' },
+          { name: 'Rayyanza', status: 'Tidak Hadir' },
+          { name: 'Gibran', status: 'Hadir' }
         ]
       },
       {
         day: 'Selasa',
         students: [
-          { name: 'Andi', status: 'Hadir' },
-          { name: 'Budi', status: 'Hadir' },
-          { name: 'Cici', status: 'Hadir' },
-          { name: 'Dodi', status: 'Tidak Hadir' },
-          { name: 'Eka', status: 'Hadir' },
-          { name: 'Fani', status: 'Hadir' },
-          { name: 'Gita', status: 'Hadir' },
-          { name: 'Hari', status: 'Hadir' },
-          { name: 'Iwan', status: 'Hadir' },
-          { name: 'Joko', status: 'Hadir' }
+          { name: 'Rafathar', status: 'Hadir' },
+          { name: 'Kenzo', status: 'Hadir' },
+          { name: 'Naura', status: 'Hadir' },
+          { name: 'Kenzie', status: 'Tidak Hadir' },
+          { name: 'Alesha', status: 'Hadir' },
+          { name: 'Kayla', status: 'Hadir' },
+          { name: 'Mikayla', status: 'Hadir' },
+          { name: 'Keanu', status: 'Hadir' },
+          { name: 'Rayyanza', status: 'Hadir' },
+          { name: 'Gibran', status: 'Hadir' }
         ]
       },
       {
         day: 'Rabu',
         students: [
-          { name: 'Andi', status: 'Tidak Hadir' },
-          { name: 'Budi', status: 'Hadir' },
-          { name: 'Cici', status: 'Tidak Hadir' },
-          { name: 'Dodi', status: 'Hadir' },
-          { name: 'Eka', status: 'Tidak Hadir' },
-          { name: 'Fani', status: 'Hadir' },
-          { name: 'Gita', status: 'Tidak Hadir' },
-          { name: 'Hari', status: 'Hadir' },
-          { name: 'Iwan', status: 'Hadir' },
-          { name: 'Joko', status: 'Hadir' }
+          { name: 'Rafathar', status: 'Tidak Hadir' },
+          { name: 'Kenzo', status: 'Hadir' },
+          { name: 'Naura', status: 'Tidak Hadir' },
+          { name: 'Kenzie', status: 'Hadir' },
+          { name: 'Alesha', status: 'Tidak Hadir' },
+          { name: 'Kayla', status: 'Hadir' },
+          { name: 'Mikayla', status: 'Tidak Hadir' },
+          { name: 'Keanu', status: 'Hadir' },
+          { name: 'Rayyanza', status: 'Hadir' },
+          { name: 'Gibran', status: 'Hadir' }
         ]
       }
     ],
@@ -166,46 +166,46 @@ export const LEVELS: GameLevel[] = [
       {
         day: 'Senin',
         students: [
-          { name: 'Andi', status: 'Hadir' }, { name: 'Budi', status: 'Hadir' }, { name: 'Cici', status: 'Tidak Hadir' },
-          { name: 'Dodi', status: 'Hadir' }, { name: 'Eka', status: 'Hadir' }, { name: 'Fani', status: 'Hadir' },
-          { name: 'Gita', status: 'Hadir' }, { name: 'Hari', status: 'Hadir' }, { name: 'Iwan', status: 'Tidak Hadir' },
-          { name: 'Joko', status: 'Hadir' }, { name: 'Kirana', status: 'Hadir' }, { name: 'Lia', status: 'Hadir' }
+          { name: 'Rafathar', status: 'Hadir' }, { name: 'Kenzo', status: 'Hadir' }, { name: 'Naura', status: 'Tidak Hadir' },
+          { name: 'Kenzie', status: 'Hadir' }, { name: 'Alesha', status: 'Hadir' }, { name: 'Kayla', status: 'Hadir' },
+          { name: 'Mikayla', status: 'Hadir' }, { name: 'Keanu', status: 'Hadir' }, { name: 'Rayyanza', status: 'Tidak Hadir' },
+          { name: 'Gibran', status: 'Hadir' }, { name: 'Lyodra', status: 'Hadir' }, { name: 'Ziva', status: 'Hadir' }
         ]
       },
       {
         day: 'Selasa',
         students: [
-          { name: 'Andi', status: 'Hadir' }, { name: 'Budi', status: 'Hadir' }, { name: 'Cici', status: 'Hadir' },
-          { name: 'Dodi', status: 'Hadir' }, { name: 'Eka', status: 'Hadir' }, { name: 'Fani', status: 'Tidak Hadir' },
-          { name: 'Gita', status: 'Hadir' }, { name: 'Hari', status: 'Hadir' }, { name: 'Iwan', status: 'Hadir' },
-          { name: 'Joko', status: 'Hadir' }, { name: 'Kirana', status: 'Hadir' }, { name: 'Lia', status: 'Hadir' }
+          { name: 'Rafathar', status: 'Hadir' }, { name: 'Kenzo', status: 'Hadir' }, { name: 'Naura', status: 'Hadir' },
+          { name: 'Kenzie', status: 'Hadir' }, { name: 'Alesha', status: 'Hadir' }, { name: 'Kayla', status: 'Tidak Hadir' },
+          { name: 'Mikayla', status: 'Hadir' }, { name: 'Keanu', status: 'Hadir' }, { name: 'Rayyanza', status: 'Hadir' },
+          { name: 'Gibran', status: 'Hadir' }, { name: 'Lyodra', status: 'Hadir' }, { name: 'Ziva', status: 'Hadir' }
         ]
       },
       {
         day: 'Rabu',
         students: [
-          { name: 'Andi', status: 'Tidak Hadir' }, { name: 'Budi', status: 'Hadir' }, { name: 'Cici', status: 'Tidak Hadir' },
-          { name: 'Dodi', status: 'Hadir' }, { name: 'Eka', status: 'Tidak Hadir' }, { name: 'Fani', status: 'Hadir' },
-          { name: 'Gita', status: 'Hadir' }, { name: 'Hari', status: 'Hadir' }, { name: 'Iwan', status: 'Hadir' },
-          { name: 'Joko', status: 'Hadir' }, { name: 'Kirana', status: 'Hadir' }, { name: 'Lia', status: 'Hadir' }
+          { name: 'Rafathar', status: 'Tidak Hadir' }, { name: 'Kenzo', status: 'Hadir' }, { name: 'Naura', status: 'Tidak Hadir' },
+          { name: 'Kenzie', status: 'Hadir' }, { name: 'Alesha', status: 'Tidak Hadir' }, { name: 'Kayla', status: 'Hadir' },
+          { name: 'Mikayla', status: 'Hadir' }, { name: 'Keanu', status: 'Hadir' }, { name: 'Rayyanza', status: 'Hadir' },
+          { name: 'Gibran', status: 'Hadir' }, { name: 'Lyodra', status: 'Hadir' }, { name: 'Ziva', status: 'Hadir' }
         ]
       },
       {
         day: 'Kamis',
         students: [
-          { name: 'Andi', status: 'Hadir' }, { name: 'Budi', status: 'Hadir' }, { name: 'Cici', status: 'Hadir' },
-          { name: 'Dodi', status: 'Hadir' }, { name: 'Eka', status: 'Hadir' }, { name: 'Fani', status: 'Hadir' },
-          { name: 'Gita', status: 'Hadir' }, { name: 'Hari', status: 'Hadir' }, { name: 'Iwan', status: 'Hadir' },
-          { name: 'Joko', status: 'Hadir' }, { name: 'Kirana', status: 'Hadir' }, { name: 'Lia', status: 'Hadir' }
+          { name: 'Rafathar', status: 'Hadir' }, { name: 'Kenzo', status: 'Hadir' }, { name: 'Naura', status: 'Hadir' },
+          { name: 'Kenzie', status: 'Hadir' }, { name: 'Alesha', status: 'Hadir' }, { name: 'Kayla', status: 'Hadir' },
+          { name: 'Mikayla', status: 'Hadir' }, { name: 'Keanu', status: 'Hadir' }, { name: 'Rayyanza', status: 'Hadir' },
+          { name: 'Gibran', status: 'Hadir' }, { name: 'Lyodra', status: 'Hadir' }, { name: 'Ziva', status: 'Hadir' }
         ]
       },
       {
         day: 'Jumat',
         students: [
-          { name: 'Andi', status: 'Tidak Hadir' }, { name: 'Budi', status: 'Hadir' }, { name: 'Cici', status: 'Tidak Hadir' },
-          { name: 'Dodi', status: 'Hadir' }, { name: 'Eka', status: 'Hadir' }, { name: 'Fani', status: 'Tidak Hadir' },
-          { name: 'Gita', status: 'Tidak Hadir' }, { name: 'Hari', status: 'Hadir' }, { name: 'Iwan', status: 'Hadir' },
-          { name: 'Joko', status: 'Hadir' }, { name: 'Kirana', status: 'Hadir' }, { name: 'Lia', status: 'Hadir' }
+          { name: 'Rafathar', status: 'Tidak Hadir' }, { name: 'Kenzo', status: 'Hadir' }, { name: 'Naura', status: 'Tidak Hadir' },
+          { name: 'Kenzie', status: 'Hadir' }, { name: 'Alesha', status: 'Hadir' }, { name: 'Kayla', status: 'Tidak Hadir' },
+          { name: 'Mikayla', status: 'Tidak Hadir' }, { name: 'Keanu', status: 'Hadir' }, { name: 'Rayyanza', status: 'Hadir' },
+          { name: 'Gibran', status: 'Hadir' }, { name: 'Lyodra', status: 'Hadir' }, { name: 'Ziva', status: 'Hadir' }
         ]
       }
     ],

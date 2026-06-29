@@ -460,8 +460,8 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
 
         {/* Student List Grid */}
         {activeRoster && (
-          <div className="flex-1 min-h-0 overflow-y-auto">
-            <div className="grid grid-cols-4 md:gap-2 ">
+          <div className="flex-1 min-h-0 overflow-y-auto pt-7 px-3 pb-2">
+            <div className="grid grid-cols-4 md:gap-2">
               {activeRoster.students.map((student, idx) => {
                 const key = `${activeRoster.day}-${idx}`;
                 const isHighlighted = highlightedStudents[key];
