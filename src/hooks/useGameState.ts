@@ -94,13 +94,6 @@ export const useGameState = () => {
     setUserCountedData(countedRecords);
     setLevelPointsAccumulator(prev => prev + bonus);
     setTotalScore(prev => prev + bonus);
-    setCurrentStage('input');
-  };
-
-  const handleTableStepFinished = (bonus: number) => {
-    playSynthesizerNote('success');
-    setLevelPointsAccumulator(prev => prev + bonus);
-    setTotalScore(prev => prev + bonus);
     setCurrentStage('chart');
   };
 
@@ -117,7 +110,7 @@ export const useGameState = () => {
     setTotalScore(prev => prev + bonus);
 
     // Update level progressions
-    if (!unlockedLevelIds.includes(currentLevelId + 1) && currentLevelId < 5) {
+    if (!unlockedLevelIds.includes(currentLevelId + 1) && currentLevelId < LEVELS.length) {
       setUnlockedLevelIds(prev => [...prev, currentLevelId + 1]);
     }
 
@@ -132,20 +125,18 @@ export const useGameState = () => {
 
   const handleGoBackStage = () => {
     playSynthesizerNote('btn');
-    if (currentStage === 'input') {
+    if (currentStage === 'chart') {
       setCurrentStage('roster');
-    } else if (currentStage === 'chart') {
-      setCurrentStage('input');
     } else if (currentStage === 'analysis') {
       setCurrentStage('chart');
     } else if (currentStage === 'roster') {
-      setPageView('roadmap');
+      setPageView('start');
     }
   };
 
   const handleNextLevelTransition = () => {
     playSynthesizerNote('btn');
-    if (currentLevelId < 5) {
+    if (currentLevelId < LEVELS.length) {
       const nextId = currentLevelId + 1;
       setCurrentLevelId(nextId);
       setLevelPointsAccumulator(0);
@@ -153,7 +144,7 @@ export const useGameState = () => {
       setCurrentStage('roster');
       setIsIntroModalOpen(true);
     } else {
-      setPageView('roadmap');
+      setPageView('start');
     }
   };
 
@@ -174,7 +165,6 @@ export const useGameState = () => {
     switch (s) {
       case 'intro': return 'Pendaftaran';
       case 'roster': return 'Dekomposisi';
-      case 'input': return 'Organisasi';
       case 'chart': return 'Abstraksi';
       case 'analysis': return 'Pola';
       case 'complete': return 'Misi Selesai';
@@ -184,9 +174,8 @@ export const useGameState = () => {
 
   const activeLevelProgressPercentage = () => {
     switch (currentStage) {
-      case 'roster': return 25;
-      case 'input': return 50;
-      case 'chart': return 75;
+      case 'roster': return 33;
+      case 'chart': return 66;
       case 'analysis': return 90;
       case 'complete': return 100;
       default: return 0;
@@ -201,11 +190,6 @@ export const useGameState = () => {
   const setViewStart = () => {
     playSynthesizerNote('btn');
     setPageView('start');
-  };
-
-  const setViewRoadmap = () => {
-    playSynthesizerNote('success');
-    setPageView('roadmap');
   };
 
   const setViewGame = () => {
@@ -231,7 +215,6 @@ export const useGameState = () => {
     selectLevelFromHub,
     startCurrentLevelPlay,
     handleRosterStepFinished,
-    handleTableStepFinished,
     handleChartStepFinished,
     handleQuizStepFinished,
     handleNextLevelTransition,
@@ -241,7 +224,6 @@ export const useGameState = () => {
     activeLevelProgressPercentage,
     toggleTeacherMode,
     setViewStart,
-    setViewRoadmap,
     setViewGame,
   };
 };

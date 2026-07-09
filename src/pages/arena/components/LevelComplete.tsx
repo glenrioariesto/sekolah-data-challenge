@@ -2,7 +2,7 @@ import React from 'react';
 import { GameLevel, Badge } from '@/src/types';
 import { motion } from 'motion/react';
 import { Award, Star, ArrowRight, RefreshCw, Trophy, ClipboardCheck, Sparkles, Brain, CheckCircle } from 'lucide-react';
-import { BADGES } from '@/src/data/levels';
+import { BADGES, LEVELS } from '@/src/data/levels';
 
 interface LevelCompleteProps {
   currentLevel: GameLevel;
@@ -26,28 +26,8 @@ export const LevelComplete: React.FC<LevelCompleteProps> = ({
     switch (levelId) {
       case 1:
         return {
-          title: "Dekomposisi Berhasil!",
-          desc: "Kamu luar biasa dalam memecah daftar kehadiran siswa harian yang acak menjadi angka-angka statistik individu hari demi hari."
-        };
-      case 2:
-        return {
-          title: "Organisasi Algoritma Sempurna!",
-          desc: "Kamu menyusun langkah demi langkah input tabel dengan presisi untuk mereduksi kesalahan administrasi sekolah."
-        };
-      case 3:
-        return {
           title: "Abstraksi Terpasang!",
           desc: "Kamu berhasil mengaburkan detail individu siswa yang rumit menjadi diagram batang/garis yang informatif."
-        };
-      case 4:
-        return {
-          title: "Pengenalan Pola Aktif!",
-          desc: "Kamu mengidentifikasi perbedaan mencolok tingkat disiplin antar-minggu dan efek positif program apresiasi siswa harian."
-        };
-      case 5:
-        return {
-          title: "Berpikir Komputasional Dikuasai!",
-          desc: "Sempurna! Kamu memahami pencilan anomali badai cuaca dan merancang strategi mitigasi jarak jauh yang prediktif."
         };
       default:
         return { title: '', desc: '' };
@@ -55,7 +35,7 @@ export const LevelComplete: React.FC<LevelCompleteProps> = ({
   };
 
   const ctBreakdown = getCTBreakdown(currentLevel.id);
-  const isFinalLevel = currentLevel.id === 5;
+  const isFinalLevel = currentLevel.id === LEVELS.length;
 
   return (
     <div className="bg-white rounded-2xl sm:rounded-3xl border-2 sm:border-4 border-black p-3 sm:p-6 md:p-10 max-w-3xl mx-auto text-center relative overflow-hidden shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)] max-h-[90vh] overflow-y-auto">

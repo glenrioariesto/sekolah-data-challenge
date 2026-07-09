@@ -2,7 +2,6 @@ import React from 'react';
 import { AnimatePresence } from 'motion/react';
 import { useGameState } from '@/src/hooks/useGameState';
 import { SplashPage } from '@/src/pages/splash/SplashPage';
-import { DashboardPage } from '@/src/pages/dashboard/DashboardPage';
 import { ArenaPage } from '@/src/pages/arena/ArenaPage';
 import { BadgeModal } from '@/src/components/BadgeModal';
 import { PortraitWarning } from '@/src/components/PortraitWarning';
@@ -25,7 +24,6 @@ export default function App() {
     selectLevelFromHub,
     startCurrentLevelPlay,
     handleRosterStepFinished,
-    handleTableStepFinished,
     handleChartStepFinished,
     handleQuizStepFinished,
     handleNextLevelTransition,
@@ -34,7 +32,6 @@ export default function App() {
     getStagePercentage,
     activeLevelProgressPercentage,
     setViewStart,
-    setViewRoadmap,
   } = useGameState();
 
   return (
@@ -45,19 +42,7 @@ export default function App() {
       <AnimatePresence mode="wait">
         {pageView === 'start' && (
           <SplashPage
-            onStartGame={setViewRoadmap}
-          />
-        )}
-
-        {pageView === 'roadmap' && (
-          <DashboardPage
-            unlockedLevelIds={unlockedLevelIds}
-            totalScore={totalScore}
-            unlockedBadgeIds={unlockedBadgeIds}
-            teacherMode={teacherMode}
-            onToggleTeacherMode={toggleTeacherMode}
-            onSelectLevel={selectLevelFromHub}
-            onBack={setViewStart}
+            onStartGame={() => selectLevelFromHub(1)}
           />
         )}
 
@@ -68,11 +53,10 @@ export default function App() {
             totalScore={totalScore}
             levelPointsAccumulator={levelPointsAccumulator}
             userCountedData={userCountedData}
-            onBackToRoadmap={setViewRoadmap}
+            onBackToRoadmap={setViewStart}
             onGoBackStage={handleGoBackStage}
             startCurrentLevelPlay={startCurrentLevelPlay}
             handleRosterStepFinished={handleRosterStepFinished}
-            handleTableStepFinished={handleTableStepFinished}
             handleChartStepFinished={handleChartStepFinished}
             handleQuizStepFinished={handleQuizStepFinished}
             handleNextLevelTransition={handleNextLevelTransition}

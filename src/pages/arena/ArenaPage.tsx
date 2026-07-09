@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Play } from 'lucide-react';
 import { GameLevel, GameStage } from '@/src/types';
 import { StudentCounter } from '@/src/pages/arena/components/StudentCounter';
-import { DataEntryTable } from '@/src/pages/arena/components/DataEntryTable';
 import { ChartBuilder } from '@/src/pages/arena/components/ChartBuilder';
 import { QuizSection } from '@/src/pages/arena/components/QuizSection';
 import { LevelComplete } from '@/src/pages/arena/components/LevelComplete';
@@ -21,7 +20,6 @@ interface ArenaPageProps {
   onGoBackStage: () => void;
   startCurrentLevelPlay: () => void;
   handleRosterStepFinished: (bonus: number, countedRecords: any) => void;
-  handleTableStepFinished: (bonus: number) => void;
   handleChartStepFinished: (bonus: number) => void;
   handleQuizStepFinished: (bonus: number) => void;
   handleNextLevelTransition: () => void;
@@ -42,7 +40,6 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
   onGoBackStage,
   startCurrentLevelPlay,
   handleRosterStepFinished,
-  handleTableStepFinished,
   handleChartStepFinished,
   handleQuizStepFinished,
   handleNextLevelTransition,
@@ -71,19 +68,6 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
               <StudentCounter 
                 currentLevel={activeLevel} 
                 onSuccess={handleRosterStepFinished} 
-                onBack={onGoBackStage}
-                teacherMode={teacherMode}
-              />
-            </motion.div>
-          )}
-
-          {/* Stage: Digital inputs binding */}
-          {currentStage === 'input' && (
-            <motion.div key="input" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full h-full min-h-0 flex flex-col">
-              <DataEntryTable 
-                currentLevel={activeLevel} 
-                onSuccess={handleTableStepFinished} 
-                prefilledData={userCountedData}
                 onBack={onGoBackStage}
                 teacherMode={teacherMode}
               />
@@ -153,7 +137,7 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
               {/* Header Title */}
               <div className="text-center space-y-1 md:space-y-2 border-b-2 sm:border-b-4 border-black pb-2 sm:pb-4 shrink-0">
                 <span className="text-[8px] sm:text-[10px] uppercase font-mono font-black border-2 border-black bg-[#CCFBF1] text-black px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full inline-block tracking-widest shadow-[1.5px_1.5px_0px_#000]">
-                  Level {activeLevel.id}
+                  Sekolah Data Challenge
                 </span>
                 <h2 className="text-lg sm:text-2xl font-black font-display uppercase tracking-tight text-slate-900 pt-0.5 sm:pt-1">
                   Cara Bermain
@@ -162,49 +146,26 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
 
               {/* Dynamic steps based on gameplay flow - scrollable inside flex */}
               <div className="flex-1 overflow-y-auto py-2.5 sm:py-4 space-y-2.5 sm:space-y-3 pr-1">
-                {activeLevel.rosters && activeLevel.rosters.length > 0 ? (
-                  <>
-                    <div className="flex gap-2 sm:gap-3 items-start p-2 sm:p-3 bg-[#A5F3FC]/30 border-2 border-black rounded-xl sm:rounded-2xl shadow-[2px_2px_0px_#000]">
-                      <span className="text-base sm:text-xl shrink-0">🧩</span>
-                      <div>
-                        <h4 className="font-black text-[10px] sm:text-xs uppercase text-slate-900">1. Hitung Kehadiran</h4>
-                        <p className="text-[9px] sm:text-[11px] text-slate-700 font-bold mt-0.5">Hitung jumlah siswa Hadir dan Tidak Hadir di lembar absen manual harian.</p>
-                      </div>
-                    </div>
-                    <div className="flex gap-2 sm:gap-3 items-start p-2 sm:p-3 bg-[#FBCFE8]/30 border-2 border-black rounded-xl sm:rounded-2xl shadow-[2px_2px_0px_#000]">
-                      <span className="text-base sm:text-xl shrink-0">📊</span>
-                      <div>
-                        <h4 className="font-black text-[10px] sm:text-xs uppercase text-slate-900">2. Isi Tabel Digital</h4>
-                        <p className="text-[9px] sm:text-[11px] text-slate-700 font-bold mt-0.5">Masukkan data angka hasil hitunganmu ke dalam tabel sistem sekolah.</p>
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <div className="flex gap-2 sm:gap-3 items-start p-2 sm:p-3 bg-[#FBCFE8]/30 border-2 border-black rounded-xl sm:rounded-2xl shadow-[2px_2px_0px_#000]">
-                    <span className="text-base sm:text-xl shrink-0">📊</span>
-                    <div>
-                      <h4 className="font-black text-[10px] sm:text-xs uppercase text-slate-900">1. Isi Tabel Digital</h4>
-                      <p className="text-[9px] sm:text-[11px] text-slate-700 font-bold mt-0.5">Masukkan data angka kehadiran yang diberikan ke tabel sistem sekolah.</p>
-                    </div>
+                <div className="flex gap-2 sm:gap-3 items-start p-2 sm:p-3 bg-[#A5F3FC]/30 border-2 border-black rounded-xl sm:rounded-2xl shadow-[2px_2px_0px_#000]">
+                  <span className="text-base sm:text-xl shrink-0">🧩</span>
+                  <div>
+                    <h4 className="font-black text-[10px] sm:text-xs uppercase text-slate-900">1. Hitung Kehadiran</h4>
+                    <p className="text-[9px] sm:text-[11px] text-slate-700 font-bold mt-0.5">Hitung jumlah siswa Hadir dan Tidak Hadir di lembar absen manual harian.</p>
                   </div>
-                )}
+                </div>
 
                 <div className="flex gap-2 sm:gap-3 items-start p-2 sm:p-3 bg-[#CCFBF1]/30 border-2 border-black rounded-xl sm:rounded-2xl shadow-[2px_2px_0px_#000]">
                   <span className="text-base sm:text-xl shrink-0">📈</span>
                   <div>
-                    <h4 className="font-black text-[10px] sm:text-xs uppercase text-slate-900">
-                      {activeLevel.rosters && activeLevel.rosters.length > 0 ? "3. Sesuaikan Grafik" : "2. Sesuaikan Grafik"}
-                    </h4>
-                    <p className="text-[9px] sm:text-[11px] text-slate-700 font-bold mt-0.5">Atur tinggi diagram batang atau diagram garis agar sesuai dengan angka tabel.</p>
+                    <h4 className="font-black text-[10px] sm:text-xs uppercase text-slate-900">2. Pilih Tipe Grafik</h4>
+                    <p className="text-[9px] sm:text-[11px] text-slate-700 font-bold mt-0.5">Pilih tipe diagram (Batang, Garis, atau Lingkaran) untuk memvisualisasikan data kehadiran secara otomatis.</p>
                   </div>
                 </div>
 
                 <div className="flex gap-2 sm:gap-3 items-start p-2 sm:p-3 bg-[#FDE047]/30 border-2 border-black rounded-xl sm:rounded-2xl shadow-[2px_2px_0px_#000]">
                   <span className="text-base sm:text-xl shrink-0">🔍</span>
                   <div>
-                    <h4 className="font-black text-[10px] sm:text-xs uppercase text-slate-900">
-                      {activeLevel.rosters && activeLevel.rosters.length > 0 ? "4. Analisis Pola" : "3. Analisis Pola"}
-                    </h4>
+                    <h4 className="font-black text-[10px] sm:text-xs uppercase text-slate-900">3. Analisis Pola</h4>
                     <p className="text-[9px] sm:text-[11px] text-slate-700 font-bold mt-0.5">Amati pola grafik dan jawab beberapa pertanyaan kuis analisis data.</p>
                   </div>
                 </div>
