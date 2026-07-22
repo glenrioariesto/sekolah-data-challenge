@@ -7,8 +7,7 @@ import { ChartBuilder } from '@/src/pages/arena/components/ChartBuilder';
 import { QuizSection } from '@/src/pages/arena/components/QuizSection';
 import { LevelComplete } from '@/src/pages/arena/components/LevelComplete';
 import { playSynthesizerNote } from '@/src/utils/audio';
-
-
+import gameplayBg from '@/assets/gameplay_classroom_bg.webp';
 
 interface ArenaPageProps {
   currentStage: GameStage;
@@ -55,11 +54,19 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
       initial={{ opacity: 0, scale: 0.99 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.99 }}
-      className="w-full h-full flex flex-col"
+      className="w-full h-full flex flex-col relative overflow-hidden"
     >
+      {/* Background Image - top view classroom */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <img
+          src={gameplayBg}
+          alt="Latar Belakang Kelas"
+          className="w-full h-full object-cover opacity-80"
+        />
+      </div>
 
       {/* MAIN LEVEL GAME ARENA VIEWPORT VIEW */}
-      <div className="flex-1 min-h-0 w-full flex flex-col">
+      <div className="flex-1 min-h-0 w-full flex flex-col relative z-10">
         <AnimatePresence mode="wait">
           
           {/* Stage: Manual list count Decomposition card */}

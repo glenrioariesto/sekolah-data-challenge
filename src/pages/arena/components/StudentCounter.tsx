@@ -408,7 +408,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
       <div className="flex-[7] min-w-0 min-h-0 flex flex-col h-fit sm:h-full bg-white border-2 sm:border-4 border-black rounded-2xl sm:rounded-3xl p-3 sm:p-5 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)] mobile-landscape-compact-card relative">
         
         {/* Instruction Info Text */}
-        <p className="text-[10px] sm:text-[11px] text-slate-600 font-mono font-bold hidden sm:block mobile-landscape-hide mb-2 shrink-0">
+        <p className="text-[10px] sm:text-[11px] text-slate-600 font-mono font-bold mb-2 shrink-0">
           Klik nama untuk menandai yang selesai dihitung
         </p>
 
