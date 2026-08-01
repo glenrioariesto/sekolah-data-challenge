@@ -7,7 +7,7 @@ import { ChartBuilder } from '@/src/pages/arena/components/ChartBuilder';
 import { QuizSection } from '@/src/pages/arena/components/QuizSection';
 import { LevelComplete } from '@/src/pages/arena/components/LevelComplete';
 import { playSynthesizerNote } from '@/src/utils/audio';
-import gameplayBg from '@/assets/gameplay_classroom_bg.webp';
+import gameplayBg from '@/assets/bg-arena.webp';
 
 interface ArenaPageProps {
   currentStage: GameStage;
@@ -27,6 +27,7 @@ interface ArenaPageProps {
   activeLevelProgressPercentage: () => number;
   isIntroModalOpen: boolean;
   teacherMode: boolean;
+  onToggleTeacherMode?: () => void;
 }
 
 export const ArenaPage: React.FC<ArenaPageProps> = ({
@@ -47,6 +48,7 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
   activeLevelProgressPercentage,
   isIntroModalOpen,
   teacherMode,
+  onToggleTeacherMode,
 }) => {
   return (
     <motion.div
@@ -61,7 +63,7 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
         <img
           src={gameplayBg}
           alt="Latar Belakang Kelas"
-          className="w-full h-full object-cover opacity-80"
+          className="w-full h-full object-cover opacity-50"
         />
       </div>
 
@@ -77,6 +79,7 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
                 onSuccess={handleRosterStepFinished} 
                 onBack={onGoBackStage}
                 teacherMode={teacherMode}
+                onToggleTeacherMode={onToggleTeacherMode}
               />
             </motion.div>
           )}
@@ -143,9 +146,6 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
             >
               {/* Header Title */}
               <div className="text-center space-y-1 md:space-y-2 border-b-2 sm:border-b-4 border-black pb-2 sm:pb-4 shrink-0">
-                <span className="text-[8px] sm:text-[10px] uppercase font-mono font-black border-2 border-black bg-[#CCFBF1] text-black px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full inline-block tracking-widest shadow-[1.5px_1.5px_0px_#000]">
-                  Sekolah Data Challenge
-                </span>
                 <h2 className="text-lg sm:text-2xl font-black font-display uppercase tracking-tight text-slate-900 pt-0.5 sm:pt-1">
                   Cara Bermain
                 </h2>
@@ -154,25 +154,22 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
               {/* Dynamic steps based on gameplay flow - scrollable inside flex */}
               <div className="flex-1 overflow-y-auto py-2.5 sm:py-4 space-y-2.5 sm:space-y-3 pr-1">
                 <div className="flex gap-2 sm:gap-3 items-start p-2 sm:p-3 bg-[#A5F3FC]/30 border-2 border-black rounded-xl sm:rounded-2xl shadow-[2px_2px_0px_#000]">
-                  <span className="text-base sm:text-xl shrink-0">🧩</span>
                   <div>
-                    <h4 className="font-black text-[10px] sm:text-xs uppercase text-slate-900">1. Hitung Kehadiran</h4>
+                    <h4 className="font-black text-[10px] sm:text-xs uppercase text-slate-900 font-display">1. Hitung Kehadiran</h4>
                     <p className="text-[9px] sm:text-[11px] text-slate-700 font-bold mt-0.5">Hitung jumlah siswa Hadir dan Tidak Hadir di lembar absen manual harian.</p>
                   </div>
                 </div>
 
                 <div className="flex gap-2 sm:gap-3 items-start p-2 sm:p-3 bg-[#CCFBF1]/30 border-2 border-black rounded-xl sm:rounded-2xl shadow-[2px_2px_0px_#000]">
-                  <span className="text-base sm:text-xl shrink-0">📈</span>
                   <div>
-                    <h4 className="font-black text-[10px] sm:text-xs uppercase text-slate-900">2. Pilih Tipe Grafik</h4>
-                    <p className="text-[9px] sm:text-[11px] text-slate-700 font-bold mt-0.5">Pilih tipe diagram (Batang, Garis, atau Lingkaran) untuk memvisualisasikan data kehadiran secara otomatis.</p>
+                    <h4 className="font-black text-[10px] sm:text-xs uppercase text-slate-900 font-display">2. Pilih Tipe Grafik</h4>
+                    <p className="text-[9px] sm:text-[11px] text-slate-700 font-bold mt-0.5">Pilih tipe diagram untuk memvisualisasikan data kehadiran.</p>
                   </div>
                 </div>
 
                 <div className="flex gap-2 sm:gap-3 items-start p-2 sm:p-3 bg-[#FDE047]/30 border-2 border-black rounded-xl sm:rounded-2xl shadow-[2px_2px_0px_#000]">
-                  <span className="text-base sm:text-xl shrink-0">🔍</span>
                   <div>
-                    <h4 className="font-black text-[10px] sm:text-xs uppercase text-slate-900">3. Analisis Pola</h4>
+                    <h4 className="font-black text-[10px] sm:text-xs uppercase text-slate-900 font-display">3. Analisis Pola</h4>
                     <p className="text-[9px] sm:text-[11px] text-slate-700 font-bold mt-0.5">Amati pola grafik dan jawab beberapa pertanyaan kuis analisis data.</p>
                   </div>
                 </div>
@@ -183,7 +180,7 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
                 <button
                   type="button"
                   onClick={startCurrentLevelPlay}
-                  className="w-full bg-[#FDE047] hover:bg-[#FACC15] text-black border-2 sm:border-4 border-black text-[10px] sm:text-xs font-black py-2.5 sm:py-3.5 rounded-xl sm:rounded-2xl uppercase tracking-wider cursor-pointer shadow-[2px_2px_0px_#000] sm:shadow-[4px_4px_0px_#000] active:translate-y-0.5 active:shadow-[1px_1px_0px_#000] flex items-center justify-center gap-1.5"
+                  className="w-full bg-[#FDE047] hover:bg-[#FACC15] text-black border-2 sm:border-4 border-black text-[10px] sm:text-xs font-black py-2.5 sm:py-3.5 rounded-xl sm:rounded-2xl uppercase tracking-wider cursor-pointer shadow-[2px_2px_0px_#000] sm:shadow-[4px_4px_0px_#000] active:translate-y-0.5 active:shadow-[1px_1px_0px_#000] flex items-center justify-center gap-1.5 font-display"
                   id="btn-start-misi"
                 >
                   <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-black fill-black animate-pulse" />

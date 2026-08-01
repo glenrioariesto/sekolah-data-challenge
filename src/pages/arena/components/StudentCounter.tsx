@@ -9,6 +9,7 @@ interface StudentCounterProps {
   onSuccess: (scoreBonus: number, countedRecords: any) => void;
   onBack?: () => void;
   teacherMode?: boolean;
+  onToggleTeacherMode?: () => void;
 }
 
 export const StudentCounter: React.FC<StudentCounterProps> = ({
@@ -16,6 +17,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
   onSuccess,
   onBack,
   teacherMode = false,
+  onToggleTeacherMode,
 }) => {
   const rosters = currentLevel.rosters || [];
   
@@ -296,7 +298,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
         <div className="flex flex-col h-full pl-2 sm:pl-4 z-10 justify-between">
           {/* Header row */}
           <div className="flex items-center justify-between h-7 sm:h-10 border-b border-[#e2e8f0] pb-1">
-            <span className="text-[10px] sm:text-xs font-black text-slate-800 uppercase tracking-wide">
+            <span className="text-[10px] sm:text-xs font-black text-slate-800 uppercase tracking-wide font-display">
               Hari: {roster.day}
             </span>
             <span className="text-[8px] sm:text-[9px] font-mono text-slate-500 font-bold pr-6 sm:pr-10">
@@ -306,7 +308,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
 
           {/* Hadir Row */}
           <div className="flex items-center justify-between h-7 sm:h-12 border-b border-[#e2e8f0] pb-1 w-full">
-            <label className="text-[10px] sm:text-xs font-black text-emerald-700 uppercase font-mono">Hadir</label>
+            <label className="text-[10px] sm:text-xs font-black text-emerald-700 uppercase font-display">Hadir</label>
             {isStatic ? (
               <div className="w-16 sm:w-24 p-0.5 sm:p-1.5 mr-2 sm:mr-4 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm flex items-center justify-center min-h-[20px] sm:min-h-[32px]">
                 {inputs[roster.day]?.present || ''}
@@ -327,7 +329,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
 
           {/* Izin Row */}
           <div className="flex items-center justify-between h-7 sm:h-12 border-b border-[#e2e8f0] pb-1 w-full">
-            <label className="text-[10px] sm:text-xs font-black text-sky-700 uppercase font-mono">Izin</label>
+            <label className="text-[10px] sm:text-xs font-black text-sky-700 uppercase font-display">Izin</label>
             {isStatic ? (
               <div className="w-16 sm:w-24 p-0.5 sm:p-1.5 mr-2 sm:mr-4 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm flex items-center justify-center min-h-[20px] sm:min-h-[32px]">
                 {inputs[roster.day]?.permit || ''}
@@ -348,7 +350,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
 
           {/* Sakit Row */}
           <div className="flex items-center justify-between h-7 sm:h-12 border-b border-[#e2e8f0] pb-1 w-full">
-            <label className="text-[10px] sm:text-xs font-black text-amber-700 uppercase font-mono">Sakit</label>
+            <label className="text-[10px] sm:text-xs font-black text-amber-700 uppercase font-display">Sakit</label>
             {isStatic ? (
               <div className="w-16 sm:w-24 p-0.5 sm:p-1.5 mr-2 sm:mr-4 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm flex items-center justify-center min-h-[20px] sm:min-h-[32px]">
                 {inputs[roster.day]?.sick || ''}
@@ -369,7 +371,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
 
           {/* Alfa Row */}
           <div className="flex items-center justify-between h-7 sm:h-12 border-b border-[#e2e8f0] pb-1 w-full">
-            <label className="text-[10px] sm:text-xs font-black text-rose-700 uppercase font-mono">Alfa</label>
+            <label className="text-[10px] sm:text-xs font-black text-rose-700 uppercase font-display">Alfa</label>
             {isStatic ? (
               <div className="w-16 sm:w-24 p-0.5 sm:p-1.5 mr-2 sm:mr-4 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm flex items-center justify-center min-h-[20px] sm:min-h-[32px]">
                 {inputs[roster.day]?.alpha || ''}
@@ -408,7 +410,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
       <div className="flex-[7] min-w-0 min-h-0 flex flex-col h-fit sm:h-full bg-white border-2 sm:border-4 border-black rounded-2xl sm:rounded-3xl p-3 sm:p-5 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)] mobile-landscape-compact-card relative">
         
         {/* Instruction Info Text */}
-        <p className="text-[10px] sm:text-[11px] text-slate-600 font-mono font-bold mb-2 shrink-0">
+        <p className="text-[10px] sm:text-[11px] text-slate-600 font-mono font-extrabold mb-2 shrink-0">
           Klik nama untuk menandai yang selesai dihitung
         </p>
 
@@ -422,7 +424,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
                 ref={el => { tabRefs.current[idx] = el; }}
                 type="button"
                 onClick={() => setActiveTab(idx)}
-                className={`px-3 py-1.5 sm:px-4 sm:py-2 text-xs font-black rounded-xl border-2 border-black whitespace-nowrap transition-all duration-205 shadow-[2px_2px_0px_#000] day-tab-compact flex-1 text-center ${
+                className={`px-3 py-1.5 sm:px-4 sm:py-2 text-xs font-black rounded-xl border-2 border-black whitespace-nowrap transition-all duration-205 shadow-[2px_2px_0px_#000] day-tab-compact flex-1 text-center font-display uppercase ${
                   activeTab === idx
                     ? 'bg-[#FDE047] text-black scale-105'
                     : 'bg-white text-slate-700 hover:bg-slate-100'
@@ -434,22 +436,32 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
             ))}
           </div>
 
-          {/* Hint Button */}
-          {(() => {
-            if (!teacherMode && autofilledDays.length > 0) {
-              return null;
-            }
-            const currentDay = rosters[activeTab]?.day;
-            let tooltip = teacherMode 
-              ? `Petunjuk (${currentDay}) - Mode Guru` 
-              : `Dapatkan Petunjuk Hari Ini (${currentDay}) (Maks. 1 Hari)`;
+          {/* DEV / Guru Mode Button */}
+          {onToggleTeacherMode && (
+            <button
+              type="button"
+              onClick={onToggleTeacherMode}
+              className={`px-2.5 py-1.5 border-2 border-black rounded-xl shadow-[1.5px_1.5px_0px_#000] cursor-pointer transition-all active:translate-y-0.5 active:shadow-none font-mono font-black text-[10px] sm:text-xs flex items-center justify-center gap-1 shrink-0 ${
+                teacherMode
+                  ? 'bg-purple-600 text-white'
+                  : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+              }`}
+              title={teacherMode ? "Mode Guru / Dev Aktif" : "Aktifkan Mode Guru / Dev"}
+              id="btn-toggle-dev-mode"
+            >
+              <span>{teacherMode ? 'DEV: ON' : 'DEV: OFF'}</span>
+            </button>
+          )}
 
+          {/* Hint Button (Strictly for Dev/Teacher Mode) */}
+          {teacherMode && (() => {
+            const currentDay = rosters[activeTab]?.day;
             return (
               <button
                 type="button"
                 onClick={() => handleAutofillHelper(currentDay)}
                 className="p-1.5 border-2 border-black rounded-xl shadow-[1.5px_1.5px_0px_#000] cursor-pointer transition-all active:translate-y-0.5 active:shadow-none hover:bg-slate-100 bg-[#FDE047] text-black flex items-center justify-center shrink-0"
-                title={tooltip}
+                title={`Petunjuk Autofill (${currentDay}) - Mode Guru/Dev`}
                 id={`autofill-hint-${currentDay}`}
               >
                 <HelpCircle className="w-5 h-5 text-black" />
@@ -490,7 +502,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
           {/* Header */}
           <div className="shrink-0 mb-2">
             <div className="flex items-center justify-between border-b-2 border-black/20 pb-1.5">
-              <h3 className="text-xs sm:text-sm font-black text-slate-900 uppercase flex items-center gap-1">
+              <h3 className="text-xs sm:text-sm font-black text-slate-900 uppercase flex items-center gap-1 font-display">
                 <ClipboardCheck className="w-4 h-4 text-slate-800" />
                 <span>Buku Rekapitulasi</span>
               </h3>
@@ -640,26 +652,14 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
 
         {/* Controls, Help, and Alerts at the Bottom */}
         <div className="mt-2 pt-2 border-t-2 border-black space-y-2.5 shrink-0 mobile-landscape-compact-text z-20">
-          {/* Verify Submission & Back buttons */}
-          <div className="flex flex-col sm:flex-row gap-2">
-            {onBack && (
-              <motion.button
-                type="button"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={onBack}
-                className="w-full sm:w-1/3 py-2.5 sm:py-3 text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer bg-slate-100 hover:bg-slate-200 border-2 border-black rounded-xl font-black shadow-[2.5px_2.5px_0px_#000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1.5px_1.5px_0px_#000]"
-                id="btn-back-stage"
-              >
-                <span>Kembali</span>
-              </motion.button>
-            )}
+          {/* Verify Submission button */}
+          <div className="flex gap-2">
             <motion.button
               type="button"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={verifyCounts}
-              className={`flex-1 bg-[#F43F5E] hover:bg-[#FB7185] text-white border-2 border-black rounded-xl font-black shadow-[2.5px_2.5px_0px_#000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1.5px_1.5px_0px_#000] py-2.5 sm:py-3 text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer ${onBack ? '' : 'w-full'} animate-pulse hover:animate-none`}
+              className="w-full bg-[#F43F5E] hover:bg-[#FB7185] text-white border-2 border-black rounded-xl font-black shadow-[2.5px_2.5px_0px_#000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1.5px_1.5px_0px_#000] py-2.5 sm:py-3 text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer animate-pulse hover:animate-none"
               id="btn-verify-roster"
             >
               <Check className="w-5 h-5" />

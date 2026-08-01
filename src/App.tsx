@@ -65,6 +65,7 @@ export default function App() {
             activeLevelProgressPercentage={activeLevelProgressPercentage}
             isIntroModalOpen={isIntroModalOpen}
             teacherMode={teacherMode}
+            onToggleTeacherMode={toggleTeacherMode}
           />
         )}
       </AnimatePresence>
