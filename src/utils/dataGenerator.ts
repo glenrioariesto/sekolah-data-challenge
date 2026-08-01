@@ -133,8 +133,8 @@ export const generateDynamicQuestions = (levelId: number, records: AttendanceRec
         'Menggambar diagram secara sembarangan tanpa memperhatikan data numerik yang sebenarnya',
         'Menghilangkan hari-hari dengan kehadiran rendah agar grafiknya terlihat selalu bagus'
       ],
-      correctAnswer: 'Mengabaikan detail nama individu dan meampilkan informasi penting berupa total angka kehadiran per hari secara visual',
-      explanation: 'Betul! Abstraksi adalah memilah informasi penting (total angka harian) dan mengesampingkan detail individu (nama-nama siswa) agar data mudah dipahami secara visual.'
+      correctAnswer: 'Mengabaikan detail nama individu dan hanya menampilkan informasi penting berupa total angka kehadiran per hari secara visual',
+      explanation: 'Abstraksi adalah memilah informasi penting (total angka harian) dan mengesampingkan detail individu (nama-nama siswa) agar data mudah dipahami secara visual.'
     },
     // Question 2: Max absence day
     {
@@ -142,7 +142,7 @@ export const generateDynamicQuestions = (levelId: number, records: AttendanceRec
       question: 'Berdasarkan grafik hasil abstraksi data mingguan tersebut, hari apa yang menunjukkan angka ketidakhadiran (Izin, Sakit, Alfa) paling tinggi?',
       options: records.map(r => r.day),
       correctAnswer: maxAbsDay,
-      explanation:`Hari ${maxAbsDay} memiliki tingkat ketidakhadiran tertinggi yaitu mencapai ${maxAbsVal} siswa.`
+      explanation: `Hari ${maxAbsDay} memiliki tingkat ketidakhadiran tertinggi yaitu mencapai ${maxAbsVal} siswa.`
     },
     // Question 3: Max presence day
     {
@@ -150,7 +150,7 @@ export const generateDynamicQuestions = (levelId: number, records: AttendanceRec
       question: 'Hari apakah dalam minggu tersebut yang mencatatkan jumlah siswa HADIR terbanyak di kelas?',
       options: records.map(r => r.day),
       correctAnswer: maxPresDay,
-      explanation: `Tepat! Pada hari ${maxPresDay}, tingkat kehadiran siswa mencapai puncaknya yaitu sejumlah ${maxPresVal} siswa hadir.`
+      explanation: `Pada hari ${maxPresDay}, tingkat kehadiran siswa mencapai puncaknya yaitu sejumlah ${maxPresVal} siswa hadir.`
     },
     // Question 4: Min absence day (best attendance)
     {
@@ -158,7 +158,7 @@ export const generateDynamicQuestions = (levelId: number, records: AttendanceRec
       question: 'Hari apakah yang memiliki tingkat ketidakhadiran PALING SEDIKIT (kehadiran kelas paling tertib)?',
       options: records.map(r => r.day),
       correctAnswer: minAbsDay,
-      explanation: `Hebat! Hari ${minAbsDay} hanya mencatatkan ${minAbsVal} siswa tidak hadir, menjadikannya hari dengan kedisiplinan terbanyak.`
+      explanation: `Hari ${minAbsDay} hanya mencatatkan ${minAbsVal} siswa tidak hadir, menjadikannya hari dengan kedisiplinan terbanyak.`
     },
     // Question 5: Dominant non-attendance reason
     {
@@ -166,7 +166,7 @@ export const generateDynamicQuestions = (levelId: number, records: AttendanceRec
       question: 'Dari total akumulasi ketidakhadiran selama seminggu, alasan/kategori manakah yang memiliki angka kejadian terbanyak?',
       options: ['Izin', 'Sakit', 'Alfa', 'Hadir'],
       correctAnswer: (totalSick >= totalPermit && totalSick >= totalAlpha) ? 'Sakit' : ((totalPermit >= totalAlpha) ? 'Izin' : 'Alfa'),
-      explanation: `Tepat sekali! Kategori ketidakhadiran terbanyak secara akumulatif minggu ini didominasi oleh status tersebut.`
+      explanation: `Kategori ketidakhadiran terbanyak secara akumulatif minggu ini didominasi oleh status tersebut.`
     },
     // Question 6: Data Representation Purpose
     {
@@ -179,7 +179,7 @@ export const generateDynamicQuestions = (levelId: number, records: AttendanceRec
         'Karena lembar manual tidak memiliki warna sama sekali'
       ],
       correctAnswer: 'Karena grafik memudahkan kita melihat perbandingan dan pola tren kehadiran dengan cepat tanpa membaca satu per satu',
-      explanation: 'Benar! Visualisasi grafik mengubah data mentah menjadi pola yang mudah dianalisis oleh pikiran manusia dengan sekejap.'
+      explanation: 'Visualisasi grafik mengubah data mentah menjadi pola yang mudah dianalisis oleh pikiran manusia dengan sekejap.'
     }
   ];
 

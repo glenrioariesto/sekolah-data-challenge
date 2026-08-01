@@ -38,29 +38,26 @@ export const LevelComplete: React.FC<LevelCompleteProps> = ({
   const isFinalLevel = currentLevel.id === LEVELS.length;
 
   return (
-    <div className="bg-white rounded-2xl sm:rounded-3xl border-2 sm:border-4 border-black p-3 sm:p-6 md:p-10 max-w-3xl mx-auto text-center relative overflow-hidden shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)] max-h-[90vh] overflow-y-auto">
+    <div className="bg-white rounded-2xl sm:rounded-3xl border-2 sm:border-4 border-black p-3 sm:p-6 md:p-10 w-full max-w-lg sm:max-w-xl md:max-w-2xl mx-auto text-center relative overflow-hidden shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)] max-h-[85vh] sm:max-h-none flex flex-col justify-between sm:justify-start">
       
-      {/* Rarity Trophy badge */}
+      {/* Top Trophy badge */}
       <motion.div
         initial={{ scale: 0.3, rotate: -30 }}
         animate={{ scale: 1, rotate: 0 }}
         transition={{ type: "spring", stiffness: 100 }}
-        className="w-20 h-20 bg-[#FDE047] border-2 border-black rounded-full flex items-center justify-center mx-auto mb-6 text-black shadow-[3px_3px_0px_rgba(0,0,0,1)] animate-pulse"
+        className="w-10 h-10 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-[#FDE047] border-2 border-black rounded-full flex items-center justify-center mx-auto mb-1.5 sm:mb-4 md:mb-6 text-black shadow-[2px_2px_0px_rgba(0,0,0,1)] sm:shadow-[3px_3px_0px_rgba(0,0,0,1)] animate-pulse shrink-0"
       >
-        <Trophy className="w-10 h-10" />
+        <Trophy className="w-5 h-5 sm:w-8 sm:h-8 md:w-10 md:h-10" />
       </motion.div>
 
       {/* Main congratz text */}
       <motion.div
-        initial={{ y: 20, opacity: 0 }}
+        initial={{ y: 15, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.1 }}
       >
-        <span className="text-[10px] font-mono font-black bg-[#CCFBF1] text-black px-3 py-1 rounded-full uppercase tracking-widest border border-black shadow-[1.5px_1.5px_0px_#000]">
-          Sesi Sukses Terverifikasi
-        </span>
-        <h2 className="text-2xl md:text-3xl font-black text-slate-1000 font-display mt-3 leading-snug uppercase tracking-tight">
-          {isFinalLevel ? '🎉 Selamat! Kamu Adalah Master Berpikir Komputasional!' : `Misi Terlampaui: Level ${currentLevel.id}`}
+        <h2 className="text-xs sm:text-xl md:text-2xl font-black text-slate-950 font-display leading-tight uppercase tracking-tight sm:mt-2 md:mt-3">
+          Selamat! Kamu Adalah Master Berpikir Komputasional!
         </h2>
       </motion.div>
 
@@ -69,62 +66,37 @@ export const LevelComplete: React.FC<LevelCompleteProps> = ({
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 0.2 }}
-        className="mt-6 p-4 bg-white border-2 border-black rounded-2xl max-w-md mx-auto grid grid-cols-2 gap-4 divide-x-2 divide-black shadow-[4px_4px_0px_#000]"
+        className="my-2 sm:mt-6 sm:mb-2 p-2.5 sm:p-4 bg-[#FDE047] border-2 border-black rounded-xl sm:rounded-2xl max-w-xs sm:max-w-sm mx-auto shadow-[2.5px_2.5px_0px_#000] sm:shadow-[4px_4px_0px_#000]"
       >
-        <div>
-          <span className="text-[10px] uppercase font-black text-slate-700 font-mono tracking-wider">Subtotal Skor</span>
-          <p className="text-xl font-mono font-black text-black">+{levelBonus} poin</p>
-        </div>
-        <div>
-          <span className="text-[10px] uppercase font-black text-slate-700 font-mono tracking-wider">Skor Kumulatif</span>
-          <p className="text-xl font-mono font-black text-slate-900">{totalScore} poin</p>
-        </div>
+        <span className="text-[9px] sm:text-[11px] uppercase font-black text-black font-display tracking-wider block">Nilai Akhir Analisis</span>
+        <p className="text-xl sm:text-3xl font-mono font-black text-black mt-0.5">{totalScore} <span className="text-xs sm:text-base font-bold text-slate-800">/ 100</span></p>
       </motion.div>
-
-      {/* Earned Badge Announcement Card */}
-      {earnedBadge && (
-        <motion.div
-          initial={{ y: 40, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ type: "spring", delay: 0.3 }}
-          className="mt-8 p-5 bg-[#A5F3FC] border-2 border-black rounded-3xl max-w-md mx-auto shadow-[4px_4px_0px_#000] flex flex-col items-center gap-3 text-black"
-        >
-          <div className="flex items-center gap-1.5 text-xs font-black text-black uppercase tracking-widest font-mono">
-            <Sparkles className="w-4 h-4 text-black fill-[#FDE047]" />
-            Lencana Baru Terbuka
-          </div>
-          
-          {/* Badge Visual Icon */}
-          <div className="w-16 h-16 bg-white border-2 border-black rounded-2xl flex items-center justify-center text-3xl shadow-[2.5px_2.5px_0px_#000]">
-            {earnedBadge.id === 'data-collector' && '📊'}
-            {earnedBadge.id === 'graph-maker' && '📈'}
-            {earnedBadge.id === 'data-analyst' && '🔍'}
-            {earnedBadge.id === 'school-statistician' && '🏆'}
-          </div>
-
-          <div>
-            <h4 className="font-black text-base text-slate-950 font-display uppercase tracking-tight">
-              {earnedBadge.name}
-            </h4>
-          </div>
-        </motion.div>
-      )}
 
       {/* Foot Actions */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-        className="mt-8 pt-6 border-t-2 border-black flex flex-col sm:flex-row items-center justify-center gap-4"
+        transition={{ delay: 0.3 }}
+        className="pt-2 sm:pt-6 sm:mt-6 border-t-2 border-black flex flex-row items-center justify-center gap-2 sm:gap-4"
       >
         <button
           type="button"
           onClick={onNextLevel}
-          className="w-full sm:w-auto bg-[#FDE047] hover:bg-[#FACC15] text-black font-black px-8 py-3.5 rounded-2xl text-sm flex items-center justify-center gap-2 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-colors cursor-pointer font-display uppercase tracking-tight"
+          className="flex-1 sm:flex-none bg-[#FDE047] hover:bg-[#FACC15] text-black font-black px-3 sm:px-6 py-2 sm:py-3.5 rounded-xl sm:rounded-2xl text-[10px] sm:text-xs md:text-sm flex items-center justify-center gap-1 sm:gap-2 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] sm:shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-colors cursor-pointer font-display uppercase tracking-tight whitespace-nowrap"
           id="btn-play-again"
         >
-          <RotateCcw className="w-5 h-5" />
+          <RotateCcw className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
           <span>Main Lagi</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={onRestartGame}
+          className="flex-1 sm:flex-none bg-[#CCFBF1] hover:bg-[#99F6E4] text-black font-black px-3 sm:px-6 py-2 sm:py-3.5 rounded-xl sm:rounded-2xl text-[10px] sm:text-xs md:text-sm flex items-center justify-center gap-1 sm:gap-2 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] sm:shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-colors cursor-pointer font-display uppercase tracking-tight whitespace-nowrap"
+          id="btn-play-new-data"
+        >
+          <RefreshCw className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
+          <span>Main Sesi Baru</span>
         </button>
       </motion.div>
 

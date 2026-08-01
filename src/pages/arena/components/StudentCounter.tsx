@@ -184,8 +184,8 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
       };
     });
 
-    // Score: 15 points for perfect data collection
-    onSuccess(15, countedRecords);
+    // Score: 40 points for perfect data collection
+    onSuccess(40, countedRecords);
   };
 
   const activeRoster = rosters[activeTab] || null;

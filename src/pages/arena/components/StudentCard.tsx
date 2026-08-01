@@ -8,46 +8,98 @@ import bgCewe from '@/assets/background-cewe.svg';
 import bgCowo from '@/assets/background-cowo.svg';
 import papanNama from '@/assets/papan-nama.svg';
 
-import cewePisah1 from '@/assets/cewe-pisah-1.svg';
-import cewePisah2 from '@/assets/cewe-pisah-2.svg';
-import cewePisah3 from '@/assets/cewe-pisah-3.svg';
-import cewePisah4 from '@/assets/cewe-pisah-4.svg';
+// Import Cewe Avatar Assets (1 - 18)
+import cewe1 from '@/assets/cewe-1-v2.svg';
+import cewe2 from '@/assets/cewe-2-v2.svg';
+import cewe3 from '@/assets/cewe-3-v2.svg';
+import cewe4 from '@/assets/cewe-4-v2.svg';
+import cewe5 from '@/assets/cewe-5-v2.svg';
+import cewe6 from '@/assets/cewe-6-v2.svg';
+import cewe7 from '@/assets/cewe-7-v2.svg';
+import cewe8 from '@/assets/cewe-8-v2.svg';
+import cewe9 from '@/assets/cewe-9-v2.svg';
+import cewe10 from '@/assets/cewe-10-v2.svg';
+import cewe11 from '@/assets/cewe-11-v2.svg';
+import cewe12 from '@/assets/cewe-12-v2.svg';
+import cewe13 from '@/assets/cewe-13-v2.svg';
+import cewe14 from '@/assets/cewe-14-v2.svg';
+import cewe15 from '@/assets/cewe-15-v2.svg';
+import cewe16 from '@/assets/cewe-16-v2.svg';
+import cewe17 from '@/assets/cewe-17-v2.svg';
+import cewe18 from '@/assets/cewe-18-v2.svg';
 
-import cowoPisah1 from '@/assets/cowo-pisah-1.svg';
-import cowoPisah2 from '@/assets/cowo-pisah-2.svg';
-import cowoPisah3 from '@/assets/cowo-pisah-3.svg';
-import cowoPisah4 from '@/assets/cowo-pisah-4.svg';
+// Import Cowok Avatar Assets (1 - 12)
+import cowok1 from '@/assets/cowok-1-v2.svg';
+import cowok2 from '@/assets/cowok-2-v2.svg';
+import cowok3 from '@/assets/cowok-3-v2.svg';
+import cowok4 from '@/assets/cowok-4-v2.svg';
+import cowok5 from '@/assets/cowok-5-v2.svg';
+import cowok6 from '@/assets/cowok-6-v2.svg';
+import cowok7 from '@/assets/cowok-7-v2.svg';
+import cowok8 from '@/assets/cowok-8-v2.svg';
+import cowok9 from '@/assets/cowok-9-v2.svg';
+import cowok10 from '@/assets/cowok-10-v2.svg';
+import cowok11 from '@/assets/cowok-11-v2.svg';
+import cowok12 from '@/assets/cowok-12-v2.svg';
+
+const CEWE_AVATARS = [
+  cewe1, cewe2, cewe3, cewe4, cewe5, cewe6, cewe7, cewe8, cewe9,
+  cewe10, cewe11, cewe12, cewe13, cewe14, cewe15, cewe16, cewe17, cewe18
+];
+
+const COWOK_AVATARS = [
+  cowok1, cowok2, cowok3, cowok4, cowok5, cowok6,
+  cowok7, cowok8, cowok9, cowok10, cowok11, cowok12
+];
 
 const isFemale = (name: string): boolean => {
   const lower = name.toLowerCase();
-  const femaleList = ['cici', 'eka', 'fani', 'gita', 'kirana', 'lia', 'nita', 'siti', 'susi', 'ani', 'dewi', 'putri', 'rara', 'tari', 'wulan', 'yuni', 'putu', 'made', 'ketut', 'nyoman', 'naura', 'alesha', 'kayla', 'mikayla', 'lyodra', 'ziva'];
+  const femaleList = ['cici', 'eka', 'fani', 'gita', 'kirana', 'lia', 'nita', 'siti', 'susi', 'ani', 'dewi', 'putri', 'rara', 'tari', 'wulan', 'yuni', 'putu', 'made', 'ketut', 'nyoman', 'naura', 'alesha', 'kayla', 'mikayla', 'lyodra', 'ziva', 'amel', 'endang', 'fitri', 'indah', 'kartika', 'mega', 'novi', 'ratna', 'sari', 'euis', 'lilis'];
   if (femaleList.some(f => lower.includes(f))) return true;
-  const males = ['budi', 'andi', 'dodi', 'hari', 'joko', 'iwan', 'adi', 'rayyanza', 'rafathar', 'keanu', 'kenzo', 'kenzie', 'gibran'];
+  const males = ['budi', 'andi', 'dodi', 'hari', 'iwan', 'joko', 'maman', 'oki', 'puji', 'rian', 'tono', 'udin', 'yudi', 'zacky', 'adit', 'bambang', 'hendra', 'lukman', 'putra', 'tri', 'asep', 'cecep', 'dadang', 'guruh', 'indra', 'jajang', 'koko', 'mamat'];
   if (males.some(m => lower.includes(m))) return false;
   return lower.endsWith('a') || lower.endsWith('i');
 };
 
-const getStudentAvatar = (name: string) => {
+// Static deterministic map for all 50 Indonesian names to guarantee zero duplicate avatars per class session
+const ALL_NAMES_GLOBAL_MAP: Record<string, string> = {
+  // Female Students (18 distinct SVG files: cewe1 .. cewe18)
+  'Cici': cewe1,    'Eka': cewe2,     'Fani': cewe3,     'Gita': cewe4,    'Kirana': cewe5,
+  'Lia': cewe6,     'Nina': cewe7,    'Susi': cewe8,     'Wati': cewe9,    'Amel': cewe10,
+  'Dewi': cewe11,   'Endang': cewe12,  'Fitri': cewe13,   'Indah': cewe14,  'Kartika': cewe15,
+  'Mega': cewe16,   'Novi': cewe17,   'Ratna': cewe18,   'Sari': cewe1,    'Vera': cewe2,
+  'Puji': cewe3,    'Euis': cewe4,    'Lilis': cewe5,
+
+  // Male Students (12 distinct SVG files: cowok1 .. cowok12)
+  'Andi': cowok1,   'Budi': cowok2,   'Dodi': cowok3,   'Hari': cowok4,   'Iwan': cowok5,
+  'Joko': cowok6,   'Maman': cowok7,  'Oki': cowok8,    'Rian': cowok9,   'Tono': cowok10,
+  'Udin': cowok11,  'Yudi': cowok12,  'Zacky': cowok1,  'Adit': cowok2,   'Bambang': cowok3,
+  'Hendra': cowok4, 'Lukman': cowok5, 'Putra': cowok6,  'Tri': cowok7,    'Asep': cowok8,
+  'Cecep': cowok9,  'Dadang': cowok10, 'Guruh': cowok11, 'Indra': cowok12, 'Jajang': cowok7,
+  'Koko': cowok8,   'Mamat': cowok9
+};
+
+const getStudentAvatar = (name: string, studentIdxInClass: number = 0) => {
   const isCewe = isFemale(name);
+  const bg = isCewe ? bgCewe : bgCowo;
+
+  if (ALL_NAMES_GLOBAL_MAP[name]) {
+    return { bg, pisah: ALL_NAMES_GLOBAL_MAP[name] };
+  }
+
+  // Fallback hash mapping for any unlisted name
   let hash = 0;
   for (let i = 0; i < name.length; i++) {
-    hash += name.charCodeAt(i);
+    hash += name.charCodeAt(i) * (i + 1);
   }
-  const index = (hash % 4) + 1;
-  const bg = isCewe ? bgCewe : bgCowo;
-  let pisah = cewePisah1;
+  
   if (isCewe) {
-    if (index === 1) pisah = cewePisah1;
-    else if (index === 2) pisah = cewePisah2;
-    else if (index === 3) pisah = cewePisah3;
-    else if (index === 4) pisah = cewePisah4;
+    const index = Math.abs(hash) % CEWE_AVATARS.length;
+    return { bg, pisah: CEWE_AVATARS[index] };
   } else {
-    if (index === 1) pisah = cowoPisah1;
-    else if (index === 2) pisah = cowoPisah2;
-    else if (index === 3) pisah = cowoPisah3;
-    else if (index === 4) pisah = cowoPisah4;
+    const index = Math.abs(hash) % COWOK_AVATARS.length;
+    return { bg, pisah: COWOK_AVATARS[index] };
   }
-  return { bg, pisah };
 };
 
 const getStudentQuote = (name: string, isCewe: boolean, isHighlighted: boolean): string => {
@@ -155,8 +207,8 @@ export const StudentCard: React.FC<StudentCardProps> = ({
         <div className="absolute bottom-1 left-1 right-1 h-6 sm:h-7 md:h-10 flex items-center justify-center z-10">
           <div className="relative w-full h-full">
             <img src={papanNama} className="w-full h-full object-contain" alt="Papan Nama" />
-            <span className="absolute inset-0 flex items-center justify-center font-black text-[8px] sm:text-[10px] md:text-sm text-slate-800 uppercase tracking-wider animate-pulse flex items-center gap-0.5 font-display">
-              ❓ <span className="text-[7px] sm:text-[9px] font-black">Klik</span>
+            <span className="absolute inset-0 flex items-center justify-center font-sans font-black text-[8px] sm:text-[10px] md:text-sm text-slate-800 uppercase tracking-wider animate-pulse flex items-center gap-0.5">
+              ❓ <span className="text-[7px] sm:text-[9px] font-sans font-black">Klik</span>
             </span>
           </div>
         </div>
@@ -206,7 +258,7 @@ export const StudentCard: React.FC<StudentCardProps> = ({
         <div className="absolute bottom-1 left-1 right-1 h-6 sm:h-7 md:h-10 flex items-center justify-center z-10">
           <div className="relative w-full h-full">
             <img src={papanNama} className="w-full h-full object-contain" alt="Papan Nama" />
-            <span className="absolute inset-0 flex items-center justify-center font-black text-[8px] sm:text-[10px] md:text-sm text-slate-800 truncate px-1.5">
+            <span className="absolute inset-0 flex items-center justify-center font-sans font-black text-[8px] sm:text-[10px] md:text-sm text-slate-800 truncate px-1.5">
               {student.name}
             </span>
           </div>
@@ -221,7 +273,7 @@ export const StudentCard: React.FC<StudentCardProps> = ({
     cardStyle = "bg-slate-100 opacity-60 text-slate-400 border border-slate-300/60";
   }
 
-  const { bg, pisah } = getStudentAvatar(student.name);
+  const { bg, pisah } = getStudentAvatar(student.name, idx);
 
   // Framer Motion variants for avatar face layer
   const faceVariants = {
@@ -290,7 +342,7 @@ export const StudentCard: React.FC<StudentCardProps> = ({
             animate={{ opacity: 1, scale: 1, y: 0, x: "-50%" }}
             exit={{ opacity: 0, scale: 0.7, y: 8, x: "-50%" }}
             transition={{ type: "spring", stiffness: 450, damping: 18 }}
-            className="absolute top-[-16px] sm:top-[-23px] left-1/2 z-40 bg-white border-2 border-black px-1.5 py-0.5 rounded-md sm:rounded-lg shadow-[1.5px_2px_0px_#000] text-[7px] sm:text-[9px] md:text-[10px] font-black text-slate-800 flex items-center justify-center whitespace-nowrap leading-none"
+            className="absolute top-[-16px] sm:top-[-23px] left-1/2 z-40 bg-white border-2 border-black px-1.5 py-0.5 rounded-md sm:rounded-lg shadow-[1.5px_2px_0px_#000] text-[7px] sm:text-[9px] md:text-[10px] font-black text-slate-800 flex items-center justify-center whitespace-nowrap leading-none font-sans font-black"
           >
             <span>{quote}</span>
             {/* Triangular arrow below speech bubble */}
@@ -323,7 +375,7 @@ export const StudentCard: React.FC<StudentCardProps> = ({
       <div className="absolute bottom-1 left-1 right-1 h-6 sm:h-7 md:h-10 flex items-center justify-center z-10">
         <div className="relative w-full h-full">
           <img src={papanNama} className="w-full h-full object-contain" alt="Papan Nama" />
-          <span className={`absolute inset-0 flex items-center justify-center font-black text-[8px] sm:text-[10px] md:text-sm text-slate-800 truncate px-1.5 ${isHighlighted ? 'line-through text-slate-500 font-bold' : ''}`}>
+          <span className={`absolute inset-0 flex items-center justify-center font-sans font-black text-[8px] sm:text-[10px] md:text-sm text-slate-800 truncate px-1.5 ${isHighlighted ? 'line-through text-slate-500 font-bold' : ''}`}>
             {student.name}
           </span>
         </div>

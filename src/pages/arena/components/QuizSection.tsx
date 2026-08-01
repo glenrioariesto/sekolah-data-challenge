@@ -41,7 +41,7 @@ export const QuizSection: React.FC<QuizSectionProps> = ({
     const isCorrect = selectedOption === activeQuestion.correctAnswer;
 
     if (isCorrect) {
-      setQuizScore(prev => prev + 15);
+      setQuizScore(prev => prev + 20);
     } else {
       // Show wrong-answer modal
       setShowWrongModal(true);
@@ -75,7 +75,7 @@ export const QuizSection: React.FC<QuizSectionProps> = ({
           <span className="text-[9px] md:text-[10px] font-display font-black bg-[#CCFBF1] text-black px-2 md:px-2.5 py-0.5 md:py-1 rounded-full uppercase tracking-wider border border-black shadow-[1.5px_1.5px_0px_#000]">
             Pertanyaan {currentIdx + 1} dari {questions.length}
           </span>
-          <span className="text-[10px] md:text-xs text-slate-800 font-black font-display uppercase">Bobot: +15 Poin</span>
+          <span className="text-[10px] md:text-xs text-slate-800 font-black font-display uppercase">Bobot: +20 Poin</span>
         </div>
 
         {/* Actual Question */}
@@ -221,7 +221,7 @@ export const QuizSection: React.FC<QuizSectionProps> = ({
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="w-full bg-black hover:bg-slate-900 text-white font-black border-2 border-black px-3 md:px-5 py-1.5 md:py-3.5 rounded-lg md:rounded-xl text-[10px] md:text-md flex items-center justify-center gap-1 md:gap-2 transition-all cursor-pointer"
+                  className="w-full bg-black hover:bg-slate-900 text-white font-black border-2 border-black px-3 md:px-5 py-1.5 md:py-3.5 rounded-lg md:rounded-xl text-[10px] md:text-md flex items-center justify-center gap-1 md:gap-2 transition-all cursor-pointer font-display uppercase tracking-tight"
                   id="btn-wrong-modal-next"
                 >
                   <span>{currentIdx < questions.length - 1 ? 'Mengerti, Lanjut Soal' : 'Mengerti, Kirim Nilai'}</span>

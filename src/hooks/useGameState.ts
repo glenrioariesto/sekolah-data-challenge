@@ -139,12 +139,20 @@ export const useGameState = () => {
     // Restart current game session with the same dataset; fresh dataset generates on page refresh
     setUserCountedData(null);
     setLevelPointsAccumulator(0);
+    setTotalScore(0);
     setCurrentStage('roster');
     setIsIntroModalOpen(true);
   };
 
   const resetAllGameProgress = () => {
     playSynthesizerNote('success');
+    // Generate fresh dynamic dataset for new challenge session
+    const { records, rosters } = generateDynamicLevelData(1);
+    const questions = generateDynamicQuestions(1, records);
+    setDynamicRecords(records);
+    setDynamicRosters(rosters);
+    setDynamicQuestions(questions);
+    
     setCurrentLevelId(1);
     setCurrentStage('roster');
     setTotalScore(0);
@@ -152,8 +160,7 @@ export const useGameState = () => {
     setUnlockedBadgeIds([]);
     setLevelPointsAccumulator(0);
     setUserCountedData(null);
-    setIsIntroModalOpen(false);
-    setPageView('start');
+    setIsIntroModalOpen(true);
   };
 
   const getStagePercentage = (s: string) => {
