@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { Play } from 'lucide-react';
 import { playSynthesizerNote } from '@/src/utils/audio';
 import logoPusbuk from '@/assets/logo-pusbuk.webp';
-import studentSplashBg from '@/assets/Student_size_adjusted_ages_12_202607221344.webp';
+import studentSplashBg from '@/assets/bg-splash.webp';
 
 interface SplashPageProps {
   onStartGame: () => void;
@@ -36,7 +36,7 @@ export const SplashPage: React.FC<SplashPageProps> = ({ onStartGame }) => {
       <div className="relative z-10 w-[85%] max-w-[240px] sm:max-w-[240px] md:max-w-xs lg:max-w-sm 2xl:max-w-lg bg-white p-2 sm:p-4 md:p-6 2xl:p-8 rounded-xl md:rounded-3xl border-2 md:border-4 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)] md:shadow-[8px_8px_0px_rgba(0,0,0,1)] flex flex-col items-stretch space-y-4 md:space-y-6">
         
         {/* Title */}
-        <h1 className="text-base sm:text-base md:text-2xl xl:text-3xl font-black text-slate-900 font-display uppercase tracking-tight leading-none">
+        <h1 className="text-[22px] sm:text-[20px] md:text-[28px] lg:text-[34px] xl:text-[34px] 2xl:text-[45px] text-justify font-black text-slate-900 font-display uppercase tracking-tight leading-none">
           Grafik Kehadiran <br className="hidden sm:inline" /> Siswa di Sekolah
         </h1>
 
