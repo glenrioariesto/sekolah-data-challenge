@@ -91,22 +91,22 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
           Pilih tipe diagram di bawah ini untuk memvisualisasikan data kehadiran secara instan:
         </p>
 
-        <div className="flex-1 min-h-0 overflow-y-auto pr-1 space-y-2 sm:space-y-3">
+        <div className="flex flex-col space-y-2 sm:space-y-3">
           {/* Bar Chart Choice */}
           <button
             type="button"
             onClick={() => { setSelectedChartType('batang'); setWarning(null); }}
-            className={`w-full p-2 sm:p-3.5 rounded-xl border-2 border-black text-left flex items-center sm:items-start gap-2 sm:gap-3 transition-all cursor-pointer shadow-[2.5px_2.5px_0px_#000] active:translate-y-0.5 active:shadow-[1px_1px_0px_#000] ${
+            className={`w-full p-2 sm:p-3 rounded-xl border-2 border-black text-left flex items-center gap-2 sm:gap-3 transition-all cursor-pointer shadow-[2.5px_2.5px_0px_#000] active:translate-y-0.5 active:shadow-[1px_1px_0px_#000] ${
               selectedChartType === 'batang'
                 ? 'bg-[#A5F3FC] text-black scale-[1.01]'
                 : 'bg-white text-slate-800 hover:bg-slate-50'
             }`}
             id="btn-chart-batang"
           >
-            <div className={`p-1.5 rounded-lg border border-black shrink-0 ${selectedChartType === 'batang' ? 'bg-[#CCFBF1] text-black' : 'bg-purple-100 text-purple-700'}`}>
-              <BarChart2 className="w-4 h-4 font-bold" />
+            <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg border border-black shrink-0 aspect-square flex items-center justify-center ${selectedChartType === 'batang' ? 'bg-[#CCFBF1] text-black' : 'bg-purple-100 text-purple-700'}`}>
+              <BarChart2 className="w-4 h-4 sm:w-5 sm:h-5 font-bold" />
             </div>
-            <div>
+            <div className="flex-1">
               <h4 className="font-extrabold text-[10px] sm:text-xs text-black font-display uppercase">Batang</h4>
               <p className="hidden sm:block text-[9px] sm:text-[10px] mt-0.5 leading-normal text-slate-800 font-bold">
                 Bandingkan total Hadir, Izin, Sakit, dan Alfa (Semua Hari / Per Hari).
@@ -118,17 +118,17 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
           <button
             type="button"
             onClick={() => { setSelectedChartType('garis'); setWarning(null); }}
-            className={`w-full p-2 sm:p-3.5 rounded-xl border-2 border-black text-left flex items-center sm:items-start gap-2 sm:gap-3 transition-all cursor-pointer shadow-[2.5px_2.5px_0px_#000] active:translate-y-0.5 active:shadow-[1px_1px_0px_#000] ${
+            className={`w-full p-2 sm:p-3 rounded-xl border-2 border-black text-left flex items-center gap-2 sm:gap-3 transition-all cursor-pointer shadow-[2.5px_2.5px_0px_#000] active:translate-y-0.5 active:shadow-[1px_1px_0px_#000] ${
               selectedChartType === 'garis'
                 ? 'bg-[#A5F3FC] text-black scale-[1.01]'
                 : 'bg-white text-slate-800 hover:bg-slate-50'
             }`}
             id="btn-chart-garis"
           >
-            <div className={`p-1.5 rounded-lg border border-black shrink-0 ${selectedChartType === 'garis' ? 'bg-[#CCFBF1] text-black' : 'bg-purple-100 text-purple-700'}`}>
-              <TrendingUp className="w-4 h-4 font-bold" />
+            <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg border border-black shrink-0 aspect-square flex items-center justify-center ${selectedChartType === 'garis' ? 'bg-[#CCFBF1] text-black' : 'bg-purple-100 text-purple-700'}`}>
+              <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 font-bold" />
             </div>
-            <div>
+            <div className="flex-1">
               <h4 className="font-extrabold text-[10px] sm:text-xs text-black font-display uppercase">Garis</h4>
               <p className="hidden sm:block text-[9px] sm:text-[10px] mt-0.5 leading-normal text-slate-800 font-bold">
                 Pantau tren fluktuasi kehadiran harian siswa sepanjang minggu.
@@ -140,17 +140,17 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
           <button
             type="button"
             onClick={() => { setSelectedChartType('lingkaran'); setWarning(null); }}
-            className={`w-full p-2 sm:p-3.5 rounded-xl border-2 border-black text-left flex items-center sm:items-start gap-2 sm:gap-3 transition-all cursor-pointer shadow-[2.5px_2.5px_0px_#000] active:translate-y-0.5 active:shadow-[1px_1px_0px_#000] ${
+            className={`w-full p-2 sm:p-3 rounded-xl border-2 border-black text-left flex items-center gap-2 sm:gap-3 transition-all cursor-pointer shadow-[2.5px_2.5px_0px_#000] active:translate-y-0.5 active:shadow-[1px_1px_0px_#000] ${
               selectedChartType === 'lingkaran'
                 ? 'bg-[#A5F3FC] text-black scale-[1.01]'
                 : 'bg-white text-slate-800 hover:bg-slate-50'
             }`}
             id="btn-chart-lingkaran"
           >
-            <div className={`p-1.5 rounded-lg border border-black shrink-0 ${selectedChartType === 'lingkaran' ? 'bg-[#CCFBF1] text-black' : 'bg-purple-100 text-purple-700'}`}>
-              <CircleDot className="w-4 h-4 font-bold" />
+            <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg border border-black shrink-0 aspect-square flex items-center justify-center ${selectedChartType === 'lingkaran' ? 'bg-[#CCFBF1] text-black' : 'bg-purple-100 text-purple-700'}`}>
+              <CircleDot className="w-4 h-4 sm:w-5 sm:h-5 font-bold" />
             </div>
-            <div>
+            <div className="flex-1">
               <h4 className="font-extrabold text-[10px] sm:text-xs text-black font-display uppercase">Lingkaran</h4>
               <p className="hidden sm:block text-[9px] sm:text-[10px] mt-0.5 leading-normal text-slate-800 font-bold">
                 Visualisasikan perbandingan persentase rasio kehadiran (Semua Hari / Per Hari).
@@ -164,24 +164,19 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
       <div className="flex-[9] sm:flex-[8] min-w-0 flex flex-col justify-between h-fit sm:h-full bg-white border-2 sm:border-4 border-black rounded-2xl sm:rounded-3xl p-2 sm:p-5 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)] mobile-landscape-compact-card">
         
         {/* Header statement with Day Filter Tabs */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3 border-b-2 border-black pb-2.5 shrink-0">
-          <div className="flex items-center justify-between gap-2">
-            <span className="text-xs font-black text-slate-900 font-display uppercase tracking-wide">
-              Visualisasi: {selectedChartType ? `Diagram ${selectedChartType}` : 'Pilih Format'}
-            </span>
-            <span className="text-[10px] font-mono text-slate-700 font-black">
-              Total: {grandTotal} Absensi
-            </span>
-          </div>
+        <div className="flex items-center justify-between gap-2 mb-3 border-b-2 border-black pb-2.5 shrink-0 min-w-0">
+          <span className="text-xs font-black text-slate-900 font-display uppercase tracking-wide shrink-0">
+            Visualisasi: {selectedChartType ? `Diagram ${selectedChartType}` : 'Pilih Format'}
+          </span>
 
           {/* Filter Per Hari (for Batang & Lingkaran) */}
           {(selectedChartType === 'batang' || selectedChartType === 'lingkaran') && (
-            <div className="flex items-center gap-1 overflow-x-auto p-0.5 scrollbar-none">
-              <span className="text-[9px] font-display font-black text-slate-600 mr-1 uppercase">Filter:</span>
+            <div className="flex items-center gap-1 overflow-x-auto p-0.5 scrollbar-none whitespace-nowrap shrink min-w-0">
+              <span className="text-[9px] font-display font-black text-slate-600 mr-1 uppercase shrink-0">Filter:</span>
               <button
                 type="button"
                 onClick={() => setSelectedDay('semua')}
-                className={`px-2 py-0.5 text-[9px] font-display font-black rounded-md border border-black uppercase transition-all cursor-pointer ${
+                className={`px-2 py-0.5 text-[9px] font-display font-black rounded-md border border-black uppercase transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                   selectedDay === 'semua' ? 'bg-[#FDE047] text-black shadow-[1px_1px_0px_#000]' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                 }`}
               >
@@ -192,7 +187,7 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
                   key={r.day}
                   type="button"
                   onClick={() => setSelectedDay(r.day)}
-                  className={`px-2 py-0.5 text-[9px] font-display font-black rounded-md border border-black uppercase transition-all cursor-pointer ${
+                  className={`px-2 py-0.5 text-[9px] font-display font-black rounded-md border border-black uppercase transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                     selectedDay === r.day ? 'bg-[#FDE047] text-black shadow-[1px_1px_0px_#000]' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                   }`}
                 >
