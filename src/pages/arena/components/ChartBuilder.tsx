@@ -19,8 +19,9 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
 }) => {
   const records = currentLevel.records;
   
-  // Choose chart type
+  // Choose chart type & optional day filter ('semua' | 'Senin' | 'Selasa' | ...)
   const [selectedChartType, setSelectedChartType] = useState<ChartType | null>(null);
+  const [selectedDay, setSelectedDay] = useState<string>('semua');
   
   // Validation indicator
   const [isValidated, setIsValidated] = useState<boolean>(false);
@@ -39,10 +40,9 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
     return () => mediaQuery.removeEventListener('change', handler);
   }, []);
 
-
-
   useEffect(() => {
     setSelectedChartType(null);
+    setSelectedDay('semua');
     setIsValidated(false);
     setWarning(null);
   }, [currentLevel]);
@@ -67,13 +67,13 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
     onSuccess(20);
   };
 
-  // Calculate weekly totals for categories
-  const totalPresent = records.reduce((sum, r) => sum + r.present, 0);
-  const totalPermit = records.reduce((sum, r) => sum + (r.permit || 0), 0);
-  const totalSick = records.reduce((sum, r) => sum + (r.sick || 0), 0);
-  const totalAlpha = records.reduce((sum, r) => sum + (r.alpha || 0), 0);
+  // Calculate totals for categories based on day filter
+  const targetRecords = selectedDay === 'semua' ? records : records.filter(r => r.day === selectedDay);
+  const totalPresent = targetRecords.reduce((sum, r) => sum + r.present, 0);
+  const totalPermit = targetRecords.reduce((sum, r) => sum + (r.permit || 0), 0);
+  const totalSick = targetRecords.reduce((sum, r) => sum + (r.sick || 0), 0);
+  const totalAlpha = targetRecords.reduce((sum, r) => sum + (r.alpha || 0), 0);
   const grandTotal = totalPresent + totalPermit + totalSick + totalAlpha;
-
 
   return (
     <div className="w-full max-w-7xl mx-auto px-1 py-1 sm:px-4 sm:py-4 flex flex-col min-h-0 h-full overflow-y-auto sm:overflow-hidden game-wrapper-padding">
@@ -87,7 +87,7 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
           </h3>
         </div>
         
-        <p className="hidden sm:block text-[10px] sm:text-xs text-slate-700 font-bold mb-4 shrink-0">
+        <p className="hidden sm:block text-[10px] sm:text-xs text-slate-700 font-bold mb-3 shrink-0">
           Pilih tipe diagram di bawah ini untuk memvisualisasikan data kehadiran secara instan:
         </p>
 
@@ -109,7 +109,7 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
             <div>
               <h4 className="font-extrabold text-[10px] sm:text-xs text-black font-display uppercase">Batang</h4>
               <p className="hidden sm:block text-[9px] sm:text-[10px] mt-0.5 leading-normal text-slate-800 font-bold">
-                Bandingkan total Hadir, Izin, Sakit, dan Alfa secara visual.
+                Bandingkan total Hadir, Izin, Sakit, dan Alfa (Semua Hari / Per Hari).
               </p>
             </div>
           </button>
@@ -153,7 +153,7 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
             <div>
               <h4 className="font-extrabold text-[10px] sm:text-xs text-black font-display uppercase">Lingkaran</h4>
               <p className="hidden sm:block text-[9px] sm:text-[10px] mt-0.5 leading-normal text-slate-800 font-bold">
-                Visualisasikan perbandingan persentase rasio kehadiran kelas.
+                Visualisasikan perbandingan persentase rasio kehadiran (Semua Hari / Per Hari).
               </p>
             </div>
           </button>
@@ -163,14 +163,44 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
       {/* Right Column: Chart Canvas & Actions */}
       <div className="flex-[9] sm:flex-[8] min-w-0 flex flex-col justify-between h-fit sm:h-full bg-white border-2 sm:border-4 border-black rounded-2xl sm:rounded-3xl p-2 sm:p-5 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)] mobile-landscape-compact-card">
         
-        {/* Header statement */}
-        <div className="flex items-center justify-between mb-3 border-b-2 border-black pb-2.5 shrink-0">
-          <span className="text-xs font-black text-slate-900 font-display uppercase tracking-wide">
-            Visualisasi Grafik: {selectedChartType ? `Diagram ${selectedChartType}` : 'Pilih Format'}
-          </span>
-          <span className="text-[10px] font-mono text-slate-700 font-black">
-            Total: {grandTotal} Absensi
-          </span>
+        {/* Header statement with Day Filter Tabs */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3 border-b-2 border-black pb-2.5 shrink-0">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs font-black text-slate-900 font-display uppercase tracking-wide">
+              Visualisasi: {selectedChartType ? `Diagram ${selectedChartType}` : 'Pilih Format'}
+            </span>
+            <span className="text-[10px] font-mono text-slate-700 font-black">
+              Total: {grandTotal} Absensi
+            </span>
+          </div>
+
+          {/* Filter Per Hari (for Batang & Lingkaran) */}
+          {(selectedChartType === 'batang' || selectedChartType === 'lingkaran') && (
+            <div className="flex items-center gap-1 overflow-x-auto p-0.5 scrollbar-none">
+              <span className="text-[9px] font-display font-black text-slate-600 mr-1 uppercase">Filter:</span>
+              <button
+                type="button"
+                onClick={() => setSelectedDay('semua')}
+                className={`px-2 py-0.5 text-[9px] font-display font-black rounded-md border border-black uppercase transition-all cursor-pointer ${
+                  selectedDay === 'semua' ? 'bg-[#FDE047] text-black shadow-[1px_1px_0px_#000]' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                }`}
+              >
+                Semua Hari
+              </button>
+              {records.map(r => (
+                <button
+                  key={r.day}
+                  type="button"
+                  onClick={() => setSelectedDay(r.day)}
+                  className={`px-2 py-0.5 text-[9px] font-display font-black rounded-md border border-black uppercase transition-all cursor-pointer ${
+                    selectedDay === r.day ? 'bg-[#FDE047] text-black shadow-[1px_1px_0px_#000]' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  }`}
+                >
+                  {r.day}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* If no chart chosen */}
@@ -189,6 +219,7 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
             <ChartVisualizer
               selectedChartType={selectedChartType}
               records={records}
+              selectedDay={selectedDay}
               isMobileLandscape={isMobileLandscape}
             />
           </div>

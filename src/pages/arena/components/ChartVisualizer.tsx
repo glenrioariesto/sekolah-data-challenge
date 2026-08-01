@@ -16,12 +16,14 @@ import {
 interface ChartVisualizerProps {
   selectedChartType: 'batang' | 'garis' | 'lingkaran';
   records: GameLevel['records'];
+  selectedDay?: string;
   isMobileLandscape: boolean;
 }
 
 export const ChartVisualizer: React.FC<ChartVisualizerProps> = ({
   selectedChartType,
   records,
+  selectedDay = 'semua',
   isMobileLandscape,
 }) => {
   // Manual chart container measurement via callback ref
@@ -59,11 +61,16 @@ export const ChartVisualizer: React.FC<ChartVisualizerProps> = ({
     observerRef.current = observer;
   }, []);
 
-  // Calculate weekly totals for categories
-  const totalPresent = records.reduce((sum, r) => sum + r.present, 0);
-  const totalPermit = records.reduce((sum, r) => sum + (r.permit || 0), 0);
-  const totalSick = records.reduce((sum, r) => sum + (r.sick || 0), 0);
-  const totalAlpha = records.reduce((sum, r) => sum + (r.alpha || 0), 0);
+  // Filter records based on selectedDay ('semua' | dayName)
+  const targetRecords = (selectedChartType === 'garis' || selectedDay === 'semua')
+    ? records 
+    : records.filter(r => r.day === selectedDay);
+
+  // Calculate totals for categories
+  const totalPresent = targetRecords.reduce((sum, r) => sum + r.present, 0);
+  const totalPermit = targetRecords.reduce((sum, r) => sum + (r.permit || 0), 0);
+  const totalSick = targetRecords.reduce((sum, r) => sum + (r.sick || 0), 0);
+  const totalAlpha = targetRecords.reduce((sum, r) => sum + (r.alpha || 0), 0);
   const grandTotal = totalPresent + totalPermit + totalSick + totalAlpha;
 
   // Max value among categories for scale
