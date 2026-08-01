@@ -80,9 +80,9 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
       <div className="w-full min-h-screen sm:min-h-0 sm:h-full flex flex-col sm:flex-row gap-2 sm:gap-4 lg:gap-6 min-h-0 mobile-landscape-compact-gap relative">
       
       {/* Left Column: Format Selection */}
-      <div className="flex-[3] sm:flex-[4] min-w-0 min-h-0 flex flex-col h-fit sm:h-full bg-white border-2 sm:border-4 border-black rounded-2xl sm:rounded-3xl p-2 sm:p-5 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)] mobile-landscape-compact-card">
+      <div className="flex-[3] sm:flex-[4] min-w-0 flex flex-col h-fit sm:h-full bg-white border-2 sm:border-4 border-black rounded-2xl sm:rounded-3xl p-2 sm:p-5 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)] mobile-landscape-compact-card">
         <div className="flex items-center gap-1.5 sm:gap-2 mb-2 sm:mb-3 shrink-0">
-          <h3 className="text-[10px] sm:text-sm font-black text-slate-900 uppercase">
+          <h3 className="text-[10px] sm:text-sm font-black text-slate-900 uppercase font-display">
             Penyajian Data
           </h3>
         </div>
@@ -107,7 +107,7 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
               <BarChart2 className="w-4 h-4 font-bold" />
             </div>
             <div>
-              <h4 className="font-extrabold text-[10px] sm:text-xs text-black">Batang</h4>
+              <h4 className="font-extrabold text-[10px] sm:text-xs text-black font-display uppercase">Batang</h4>
               <p className="hidden sm:block text-[9px] sm:text-[10px] mt-0.5 leading-normal text-slate-800 font-bold">
                 Bandingkan total Hadir, Izin, Sakit, dan Alfa secara visual.
               </p>
@@ -129,7 +129,7 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
               <TrendingUp className="w-4 h-4 font-bold" />
             </div>
             <div>
-              <h4 className="font-extrabold text-[10px] sm:text-xs text-black">Garis</h4>
+              <h4 className="font-extrabold text-[10px] sm:text-xs text-black font-display uppercase">Garis</h4>
               <p className="hidden sm:block text-[9px] sm:text-[10px] mt-0.5 leading-normal text-slate-800 font-bold">
                 Pantau tren fluktuasi kehadiran harian siswa sepanjang minggu.
               </p>
@@ -151,7 +151,7 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
               <CircleDot className="w-4 h-4 font-bold" />
             </div>
             <div>
-              <h4 className="font-extrabold text-[10px] sm:text-xs text-black">Lingkaran</h4>
+              <h4 className="font-extrabold text-[10px] sm:text-xs text-black font-display uppercase">Lingkaran</h4>
               <p className="hidden sm:block text-[9px] sm:text-[10px] mt-0.5 leading-normal text-slate-800 font-bold">
                 Visualisasikan perbandingan persentase rasio kehadiran kelas.
               </p>
@@ -161,7 +161,7 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
       </div>
 
       {/* Right Column: Chart Canvas & Actions */}
-      <div className="flex-[9] sm:flex-[8] min-w-0 min-h-0 flex flex-col justify-between h-fit sm:h-full bg-white border-2 sm:border-4 border-black rounded-2xl sm:rounded-3xl p-2 sm:p-5 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)] mobile-landscape-compact-card">
+      <div className="flex-[9] sm:flex-[8] min-w-0 flex flex-col justify-between h-fit sm:h-full bg-white border-2 sm:border-4 border-black rounded-2xl sm:rounded-3xl p-2 sm:p-5 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)] mobile-landscape-compact-card">
         
         {/* Header statement */}
         <div className="flex items-center justify-between mb-3 border-b-2 border-black pb-2.5 shrink-0">
@@ -211,16 +211,6 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
 
           {!isValidated && (
             <div className="flex gap-2">
-              {onBack && (
-                <button
-                  type="button"
-                  onClick={onBack}
-                  className="bg-slate-100 hover:bg-slate-200 text-black font-black border-2 border-black text-xs py-2.5 px-4 rounded-xl flex items-center justify-center cursor-pointer shadow-[2.5px_2.5px_0px_#000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1.5px_1.5px_0px_#000]"
-                  id="btn-back-stage"
-                >
-                  Kembali
-                </button>
-              )}
               <button
                 type="button"
                 onClick={handleVerifyChart}

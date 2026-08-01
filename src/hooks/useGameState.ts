@@ -136,16 +136,11 @@ export const useGameState = () => {
 
   const handleNextLevelTransition = () => {
     playSynthesizerNote('btn');
-    if (currentLevelId < LEVELS.length) {
-      const nextId = currentLevelId + 1;
-      setCurrentLevelId(nextId);
-      setLevelPointsAccumulator(0);
-      
-      setCurrentStage('roster');
-      setIsIntroModalOpen(true);
-    } else {
-      setPageView('start');
-    }
+    // Restart current game session with the same dataset; fresh dataset generates on page refresh
+    setUserCountedData(null);
+    setLevelPointsAccumulator(0);
+    setCurrentStage('roster');
+    setIsIntroModalOpen(true);
   };
 
   const resetAllGameProgress = () => {

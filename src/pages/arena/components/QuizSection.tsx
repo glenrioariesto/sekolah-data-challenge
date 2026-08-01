@@ -72,10 +72,10 @@ export const QuizSection: React.FC<QuizSectionProps> = ({
 
         {/* Index counter */}
         <div className="flex items-center justify-between mb-2 md:mb-4">
-          <span className="text-[9px] md:text-[10px] font-mono font-black bg-[#CCFBF1] text-black px-2 md:px-2.5 py-0.5 md:py-1 rounded-full uppercase tracking-wider border border-black shadow-[1.5px_1.5px_0px_#000]">
+          <span className="text-[9px] md:text-[10px] font-display font-black bg-[#CCFBF1] text-black px-2 md:px-2.5 py-0.5 md:py-1 rounded-full uppercase tracking-wider border border-black shadow-[1.5px_1.5px_0px_#000]">
             Pertanyaan {currentIdx + 1} dari {questions.length}
           </span>
-          <span className="text-[10px] md:text-xs text-slate-800 font-black">Bobot: +15 Poin</span>
+          <span className="text-[10px] md:text-xs text-slate-800 font-black font-display uppercase">Bobot: +15 Poin</span>
         </div>
 
         {/* Actual Question */}
@@ -116,7 +116,7 @@ export const QuizSection: React.FC<QuizSectionProps> = ({
                 id={`btn-quiz-choice-${idx}`}
               >
                 <div className="flex items-center gap-2 md:gap-3">
-                  <span className={`w-6 h-6 md:w-7 md:h-7 rounded-lg font-mono font-black border border-black flex items-center justify-center text-[10px] md:text-xs shadow-[1px_1px_0px_#000] shrink-0 ${
+                  <span className={`w-6 h-6 md:w-7 md:h-7 rounded-lg font-display font-black border border-black flex items-center justify-center text-[10px] md:text-xs shadow-[1px_1px_0px_#000] shrink-0 uppercase ${
                     isAnswered && option === activeQuestion.correctAnswer
                       ? 'bg-black text-white'
                       : isSelected

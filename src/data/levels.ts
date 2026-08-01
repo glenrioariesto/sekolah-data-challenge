@@ -54,7 +54,7 @@ export const LEVELS: GameLevel[] = [
         question: 'Berdasarkan grafik hasil abstraksi data mingguan tersebut, hari apa yang menunjukkan tren penurunan kehadiran paling drastis (ketidakhadiran tertinggi)?',
         options: ['Senin', 'Rabu', 'Kamis', 'Jumat'],
         correctAnswer: 'Jumat',
-        explanation: 'Benar sekali. Hari Jumat memiliki tingkat ketidakhadiran paling tinggi yaitu mencapai 10 siswa absen (hanya 20 siswa yang hadir).'
+        explanation: 'Hari Jumat memiliki tingkat ketidakhadiran paling tinggi yaitu mencapai 10 siswa absen (hanya 20 siswa yang hadir).'
       }
     ],
     decision: {

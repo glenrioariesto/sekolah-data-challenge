@@ -1,7 +1,7 @@
 import React from 'react';
 import { GameLevel, Badge } from '@/src/types';
 import { motion } from 'motion/react';
-import { Award, Star, ArrowRight, RefreshCw, Trophy, ClipboardCheck, Sparkles, Brain, CheckCircle } from 'lucide-react';
+import { Award, Star, ArrowRight, RefreshCw, Trophy, ClipboardCheck, Sparkles, Brain, CheckCircle, RotateCcw } from 'lucide-react';
 import { BADGES, LEVELS } from '@/src/data/levels';
 
 interface LevelCompleteProps {
@@ -117,34 +117,15 @@ export const LevelComplete: React.FC<LevelCompleteProps> = ({
         transition={{ delay: 0.5 }}
         className="mt-8 pt-6 border-t-2 border-black flex flex-col sm:flex-row items-center justify-center gap-4"
       >
-        {isFinalLevel ? (
-          <div className="w-full space-y-2 sm:space-y-4">
-            <p className="text-xs text-slate-850 font-bold leading-relaxed">
-              🎉 Selamat! Anda telah menamatkan seluruh level Sekolah Data Challenge. Anda kini siap menganalisis data secara kritis di mana saja!
-            </p>
-            <div className="flex gap-4 justify-center">
-              <button
-                type="button"
-                onClick={onRestartGame}
-                className="bg-[#FBCFE8] hover:bg-rose-300 border-2 border-black text-black font-black px-6 py-3 rounded-2xl text-xs flex items-center gap-2 transition-colors cursor-pointer shadow-[3px_3px_0px_#000]"
-                id="btn-restart-final"
-              >
-                <RefreshCw className="w-4 h-4" />
-                Mulai Dari Awal
-              </button>
-            </div>
-          </div>
-        ) : (
-          <button
-            type="button"
-            onClick={onNextLevel}
-            className="w-full sm:w-auto bg-[#FDE047] hover:bg-[#FACC15] text-black font-black px-8 py-3.5 rounded-2xl text-sm flex items-center justify-center gap-2 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-colors cursor-pointer font-display uppercase tracking-tight"
-            id="btn-continue-next-level"
-          >
-            <span>Lanjutkan ke Level {currentLevel.id + 1}</span>
-            <ArrowRight className="w-5 h-5" />
-          </button>
-        )}
+        <button
+          type="button"
+          onClick={onNextLevel}
+          className="w-full sm:w-auto bg-[#FDE047] hover:bg-[#FACC15] text-black font-black px-8 py-3.5 rounded-2xl text-sm flex items-center justify-center gap-2 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-colors cursor-pointer font-display uppercase tracking-tight"
+          id="btn-play-again"
+        >
+          <RotateCcw className="w-5 h-5" />
+          <span>Main Lagi</span>
+        </button>
       </motion.div>
 
     </div>
