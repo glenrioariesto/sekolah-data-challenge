@@ -61,22 +61,28 @@ const isFemale = (name: string): boolean => {
   return lower.endsWith('a') || lower.endsWith('i');
 };
 
-// Static deterministic map for all 50 Indonesian names to guarantee zero duplicate avatars per class session
+// Static 1-to-1 deterministic map for the 16 class student names:
+// 100% DISTINCT mapping with ZERO avatar asset collisions!
 const ALL_NAMES_GLOBAL_MAP: Record<string, string> = {
-  // Female Students (18 distinct SVG files: cewe1 .. cewe18)
-  'Cici': cewe1,    'Eka': cewe2,     'Fani': cewe3,     'Gita': cewe4,    'Kirana': cewe5,
-  'Lia': cewe6,     'Nina': cewe7,    'Susi': cewe8,     'Wati': cewe9,    'Amel': cewe10,
-  'Dewi': cewe11,   'Endang': cewe12,  'Fitri': cewe13,   'Indah': cewe14,  'Kartika': cewe15,
-  'Mega': cewe16,   'Novi': cewe17,   'Ratna': cewe18,   'Sari': cewe1,    'Vera': cewe2,
-  'Puji': cewe3,    'Euis': cewe4,    'Lilis': cewe5,
+  // 10 Female Students (mapped strictly to cewe1 .. cewe10)
+  'Cici': cewe1,
+  'Eka': cewe2,
+  'Fani': cewe3,
+  'Gita': cewe4,
+  'Kirana': cewe5,
+  'Lia': cewe6,
+  'Nina': cewe7,
+  'Susi': cewe8,
+  'Wati': cewe9,
+  'Amel': cewe10,
 
-  // Male Students (12 distinct SVG files: cowok1 .. cowok12)
-  'Andi': cowok1,   'Budi': cowok2,   'Dodi': cowok3,   'Hari': cowok4,   'Iwan': cowok5,
-  'Joko': cowok6,   'Maman': cowok7,  'Oki': cowok8,    'Rian': cowok9,   'Tono': cowok10,
-  'Udin': cowok11,  'Yudi': cowok12,  'Zacky': cowok1,  'Adit': cowok2,   'Bambang': cowok3,
-  'Hendra': cowok4, 'Lukman': cowok5, 'Putra': cowok6,  'Tri': cowok7,    'Asep': cowok8,
-  'Cecep': cowok9,  'Dadang': cowok10, 'Guruh': cowok11, 'Indra': cowok12, 'Jajang': cowok7,
-  'Koko': cowok8,   'Mamat': cowok9
+  // 6 Male Students (mapped strictly to cowok1 .. cowok6)
+  'Andi': cowok1,
+  'Budi': cowok2,
+  'Dodi': cowok3,
+  'Hari': cowok4,
+  'Iwan': cowok5,
+  'Joko': cowok6,
 };
 
 const getStudentAvatar = (name: string, studentIdxInClass: number = 0) => {
@@ -87,18 +93,12 @@ const getStudentAvatar = (name: string, studentIdxInClass: number = 0) => {
     return { bg, pisah: ALL_NAMES_GLOBAL_MAP[name] };
   }
 
-  // Fallback hash mapping for any unlisted name
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) {
-    hash += name.charCodeAt(i) * (i + 1);
-  }
-  
   if (isCewe) {
-    const index = Math.abs(hash) % CEWE_AVATARS.length;
-    return { bg, pisah: CEWE_AVATARS[index] };
+    const avatarIndex = studentIdxInClass % CEWE_AVATARS.length;
+    return { bg, pisah: CEWE_AVATARS[avatarIndex] };
   } else {
-    const index = Math.abs(hash) % COWOK_AVATARS.length;
-    return { bg, pisah: COWOK_AVATARS[index] };
+    const avatarIndex = studentIdxInClass % COWOK_AVATARS.length;
+    return { bg, pisah: COWOK_AVATARS[avatarIndex] };
   }
 };
 
