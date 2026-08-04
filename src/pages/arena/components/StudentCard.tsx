@@ -208,7 +208,7 @@ export const StudentCard: React.FC<StudentCardProps> = ({
           <div className="relative w-full h-full">
             <img src={papanNama} className="w-full h-full object-contain" alt="Papan Nama" />
             <span className="absolute inset-0 flex items-center justify-center font-sans font-black text-[8px] sm:text-[10px] md:text-sm text-slate-800 uppercase tracking-wider animate-pulse flex items-center gap-0.5">
-              ❓ <span className="text-[7px] sm:text-[9px] font-sans font-black">Klik</span>
+              ❓ <span className="text-[8px] sm:text-[10px] md:text-sm font-sans font-black">Klik</span>
             </span>
           </div>
         </div>
