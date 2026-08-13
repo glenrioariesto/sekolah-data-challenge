@@ -87,7 +87,7 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
           </h3>
         </div>
         
-        <p className="hidden sm:block text-[10px] sm:text-xs text-slate-700 font-bold mb-3 shrink-0">
+        <p className="hidden sm:block text-xs sm:text-sm text-slate-700 font-bold mb-3 shrink-0">
           Pilih tipe diagram di bawah ini untuk memvisualisasikan data kehadiran secara instan:
         </p>
 
@@ -224,7 +224,7 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
         <div className="mt-2 pt-3 border-t-2 border-black flex flex-col sm:flex-row sm:items-center justify-between gap-3 shrink-0">
           <div>
             {!isValidated && (
-              <p className="text-xs text-slate-700 font-bold">
+              <p className="text-sm text-slate-700 font-bold">
                 Pilih format grafik di sebelah kiri, lalu verifikasi untuk lanjut.
               </p>
             )}

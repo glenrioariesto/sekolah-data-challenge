@@ -301,7 +301,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
             <span className="text-[10px] sm:text-xs font-black text-slate-800 uppercase tracking-wide font-display">
               Hari: {roster.day}
             </span>
-            <span className="text-[8px] sm:text-[9px] font-mono text-slate-500 font-bold pr-6 sm:pr-10">
+            <span className="text-[10px] sm:text-xs font-sans text-slate-500 font-extrabold pr-6 sm:pr-10">
               Format: Angka
             </span>
           </div>
@@ -410,7 +410,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
       <div className="flex-[7] min-w-0 min-h-0 flex flex-col h-fit sm:h-full bg-white border-2 sm:border-4 border-black rounded-2xl sm:rounded-3xl p-3 sm:p-5 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)] mobile-landscape-compact-card relative">
         
         {/* Instruction Info Text */}
-        <p className="text-[10px] sm:text-[11px] text-slate-600 font-sans font-extrabold mb-2 shrink-0">
+        <p className="text-xs sm:text-sm text-slate-600 font-sans font-extrabold mb-2 shrink-0">
           Klik nama untuk menandai yang selesai dihitung
         </p>
 
@@ -441,11 +441,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
             <button
               type="button"
               onClick={onToggleTeacherMode}
-              className={`px-2.5 py-1.5 border-2 border-black rounded-xl shadow-[1.5px_1.5px_0px_#000] cursor-pointer transition-all active:translate-y-0.5 active:shadow-none font-mono font-black text-[10px] sm:text-xs flex items-center justify-center gap-1 shrink-0 ${
-                teacherMode
-                  ? 'bg-purple-600 text-white'
-                  : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
-              }`}
+              className="hidden"
               title={teacherMode ? "Mode Guru / Dev Aktif" : "Aktifkan Mode Guru / Dev"}
               id="btn-toggle-dev-mode"
             >
