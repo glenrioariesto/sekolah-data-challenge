@@ -441,11 +441,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
             <button
               type="button"
               onClick={onToggleTeacherMode}
-              className={`px-2.5 py-1.5 border-2 border-black rounded-xl shadow-[1.5px_1.5px_0px_#000] cursor-pointer transition-all active:translate-y-0.5 active:shadow-none font-mono font-black text-[10px] sm:text-xs flex items-center justify-center gap-1 shrink-0 ${
-                teacherMode
-                  ? 'bg-purple-600 text-white'
-                  : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
-              }`}
+              className="hidden"
               title={teacherMode ? "Mode Guru / Dev Aktif" : "Aktifkan Mode Guru / Dev"}
               id="btn-toggle-dev-mode"
             >
@@ -472,7 +468,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
 
         {/* Student List Grid */}
         {activeRoster && (
-          <div className="flex-1 min-h-0 overflow-y-auto pt-7 px-3 pb-2">
+          <div className="flex-1 min-h-0 overflow-y-auto pr-2">
             <div className="grid grid-cols-4 md:gap-2">
               {activeRoster.students.map((student, idx) => {
                 const key = `${activeRoster.day}-${idx}`;
