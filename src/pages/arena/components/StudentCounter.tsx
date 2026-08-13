@@ -301,7 +301,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
             <span className="text-[10px] sm:text-xs font-black text-slate-800 uppercase tracking-wide font-display">
               Hari: {roster.day}
             </span>
-            <span className="text-[10px] sm:text-xs font-sans text-slate-500 font-extrabold pr-6 sm:pr-10">
+            <span className="text-[10px] sm:text-xs font-sans text-slate-500 font-extrabold pr-6">
               Format: Angka
             </span>
           </div>
