@@ -142,48 +142,48 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
               initial={{ scale: 0.95, opacity: 0, y: 10 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 10 }}
-              className="bg-white rounded-3xl border-4 border-black shadow-[6px_6px_0px_#000] p-3 sm:p-6 md:p-8 max-w-lg md:max-w-2xl w-full relative text-left flex flex-col max-h-[88vh] overflow-hidden"
+              className="bg-white rounded-3xl border-4 border-black shadow-[6px_6px_0px_#000] p-2.5 lg:p-8 max-w-lg md:max-w-2xl w-full relative text-left flex flex-col max-h-[88vh] overflow-hidden"
             >
               {/* Header Title */}
-              <div className="text-center space-y-1 md:space-y-2 border-b-2 sm:border-b-4 border-black pb-2 sm:pb-4 md:pb-5 shrink-0">
-                <h2 className="text-lg sm:text-2xl md:text-3xl font-black font-display uppercase tracking-tight text-slate-900 pt-0.5 sm:pt-1">
+              <div className="text-center space-y-1 md:space-y-2 border-b-2 sm:border-b-4 border-black shrink-0">
+                <h2 className="text-[17px] lg:text-2xl font-black font-display uppercase tracking-tight text-slate-900 pt-0.5 sm:pt-1">
                   Cara Bermain
                 </h2>
               </div>
 
               {/* Dynamic steps based on gameplay flow - scrollable inside flex */}
-              <div className="flex-1 overflow-y-auto py-2.5 sm:py-4 md:py-6 space-y-2.5 sm:space-y-4 md:space-y-5 pr-1">
-                <div className="flex gap-2 sm:gap-3 md:gap-4 items-start p-2.5 sm:p-4 md:p-5 bg-[#A5F3FC]/30 border-2 sm:border-3 border-black rounded-xl sm:rounded-2xl shadow-[2px_2px_0px_#000] sm:shadow-[3px_3px_0px_#000]">
+              <div className="flex-1 overflow-y-auto py-2 lg:py-6 space-y-2 sm:space-y-4 md:space-y-5 pr-1">
+                <div className="flex gap-1.5 lg:gap-4 items-start p-2 lg:p-5 bg-[#A5F3FC]/30 border-2 sm:border-3 border-black rounded-xl sm:rounded-2xl shadow-[2px_2px_0px_#000] sm:shadow-[3px_3px_0px_#000]">
                   <div>
-                    <h4 className="font-black text-xs sm:text-sm md:text-lg uppercase text-slate-900 font-display">1. Hitung Kehadiran</h4>
-                    <p className="text-[10px] sm:text-xs md:text-base text-slate-700 font-bold mt-1 leading-relaxed">Hitung jumlah siswa Hadir dan Tidak Hadir di lembar absen manual harian.</p>
+                    <h4 className="font-black text-[11px] lg:text-lg uppercase text-slate-900 font-display">1. Hitung Kehadiran</h4>
+                    <p className="text-[9px] sm:text-xs lg:text-base text-slate-700 font-bold mt-1 leading-relaxed">Hitung jumlah siswa Hadir dan Tidak Hadir di lembar absen manual harian.</p>
                   </div>
                 </div>
 
-                <div className="flex gap-2 sm:gap-3 md:gap-4 items-start p-2.5 sm:p-4 md:p-5 bg-[#CCFBF1]/30 border-2 sm:border-3 border-black rounded-xl sm:rounded-2xl shadow-[2px_2px_0px_#000] sm:shadow-[3px_3px_0px_#000]">
+                <div className="flex gap-1.5 lg:gap-4 items-start p-2 lg:p-5 bg-[#CCFBF1]/30 border-2 sm:border-3 border-black rounded-xl sm:rounded-2xl shadow-[2px_2px_0px_#000] sm:shadow-[3px_3px_0px_#000]">
                   <div>
-                    <h4 className="font-black text-xs sm:text-sm md:text-lg uppercase text-slate-900 font-display">2. Pilih Tipe Grafik</h4>
-                    <p className="text-[10px] sm:text-xs md:text-base text-slate-700 font-bold mt-1 leading-relaxed">Pilih tipe diagram untuk memvisualisasikan data kehadiran.</p>
+                    <h4 className="font-black text-[11px] lg:text-lg uppercase text-slate-900 font-display">2. Pilih Tipe Grafik</h4>
+                    <p className="text-[9px] sm:text-xs lg:text-base text-slate-700 font-bold mt-1 leading-relaxed">Pilih tipe diagram untuk memvisualisasikan data kehadiran.</p>
                   </div>
                 </div>
 
-                <div className="flex gap-2 sm:gap-3 md:gap-4 items-start p-2.5 sm:p-4 md:p-5 bg-[#FDE047]/30 border-2 sm:border-3 border-black rounded-xl sm:rounded-2xl shadow-[2px_2px_0px_#000] sm:shadow-[3px_3px_0px_#000]">
+                <div className="flex gap-1.5 lg:gap-4 items-start p-2 lg:p-5 bg-[#FDE047]/30 border-2 sm:border-3 border-black rounded-xl sm:rounded-2xl shadow-[2px_2px_0px_#000] sm:shadow-[3px_3px_0px_#000]">
                   <div>
-                    <h4 className="font-black text-xs sm:text-sm md:text-lg uppercase text-slate-900 font-display">3. Analisis Pola</h4>
-                    <p className="text-[10px] sm:text-xs md:text-base text-slate-700 font-bold mt-1 leading-relaxed">Amati pola grafik dan jawab beberapa pertanyaan kuis analisis data.</p>
+                    <h4 className="font-black text-[11px] lg:text-lg uppercase text-slate-900 font-display">3. Analisis Pola</h4>
+                    <p className="text-[9px] sm:text-xs lg:text-base text-slate-700 font-bold mt-1 leading-relaxed">Amati pola grafik dan jawab beberapa pertanyaan kuis analisis data.</p>
                   </div>
                 </div>
               </div>
 
               {/* Start button */}
-              <div className="pt-3 sm:pt-4 md:pt-6 border-t-2 sm:border-t-4 border-black flex justify-center shrink-0">
+              <div className="pt-2.5 lg:pt-6 border-t-2 sm:border-t-4 border-black flex justify-center shrink-0">
                 <button
                   type="button"
                   onClick={startCurrentLevelPlay}
-                  className="w-full bg-[#FDE047] hover:bg-[#FACC15] text-black border-2 sm:border-4 border-black text-xs sm:text-sm md:text-lg font-black py-2.5 sm:py-3.5 md:py-4 rounded-xl sm:rounded-2xl uppercase tracking-wider cursor-pointer shadow-[2px_2px_0px_#000] sm:shadow-[4px_4px_0px_#000] active:translate-y-0.5 active:shadow-[1px_1px_0px_#000] flex items-center justify-center gap-2 font-display"
+                  className="w-fit sm:w-full bg-[#FDE047] hover:bg-[#FACC15] text-black border-2 sm:border-4 border-black text-[11px] lg:text-lg font-black py-2.5 lg:py-4 rounded-xl sm:rounded-2xl uppercase tracking-wider cursor-pointer shadow-[2px_2px_0px_#000] sm:shadow-[4px_4px_0px_#000] active:translate-y-0.5 active:shadow-[1px_1px_0px_#000] flex items-center justify-center gap-2 font-display"
                   id="btn-start-misi"
                 >
-                  <Play className="w-4 h-4 md:w-6 md:h-6 text-black fill-black animate-pulse" />
+                  <Play className="w-4 h-4 lg:w-6 lg:h-6 text-black fill-black animate-pulse" />
                   <span>Mulai Bermain</span>
                 </button>
               </div>

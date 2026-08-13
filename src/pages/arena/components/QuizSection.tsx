@@ -68,23 +68,23 @@ export const QuizSection: React.FC<QuizSectionProps> = ({
   return (
     <>
       {/* ── Main Quiz Card ── */}
-      <div className="bg-white rounded-2xl md:rounded-3xl border-2 md:border-4 border-black p-2 md:p-5 md:p-8 shadow-[4px_4px_0px_rgba(0,0,0,1)] md:shadow-[8px_8px_0px_rgba(0,0,0,1)] max-h-[90vh] overflow-y-auto">
+      <div className="bg-white rounded-2xl md:rounded-3xl border-2 md:border-4 border-black p-3 sm:p-5 lg:p-8 shadow-[4px_4px_0px_rgba(0,0,0,1)] md:shadow-[8px_8px_0px_rgba(0,0,0,1)] max-h-[90vh] overflow-y-auto">
 
         {/* Index counter */}
-        <div className="flex items-center justify-between mb-2 md:mb-4">
-          <span className="text-[9px] md:text-[10px] font-display font-black bg-[#CCFBF1] text-black px-2 md:px-2.5 py-0.5 md:py-1 rounded-full uppercase tracking-wider border border-black shadow-[1.5px_1.5px_0px_#000]">
+        <div className="flex items-center justify-between mb-2 sm:mb-4">
+          <span className="text-[9px] sm:text-[10px] font-display font-black bg-[#CCFBF1] text-black px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full uppercase tracking-wider border border-black shadow-[1.5px_1.5px_0px_#000]">
             Pertanyaan {currentIdx + 1} dari {questions.length}
           </span>
-          <span className="text-[10px] md:text-xs text-slate-800 font-black font-display uppercase">Bobot: +20 Poin</span>
+          <span className="text-[10px] sm:text-xs text-slate-800 font-black font-display uppercase">Bobot: +20 Poin</span>
         </div>
 
         {/* Actual Question */}
-        <h3 className="text-xs md:text-base md:text-lg font-black text-slate-900 leading-snug mb-1 md:mb-5">
+        <h3 className="text-xs sm:text-sm lg:text-lg font-black text-slate-900 leading-snug mb-1 sm:mb-4 lg:mb-5">
           {activeQuestion?.question}
         </h3>
 
         {/* Answer Options */}
-        <div className="space-y-1.5 md:space-y-3">
+        <div className="space-y-1.5 sm:space-y-2.5 lg:space-y-3">
           {activeQuestion?.options.map((option, idx) => {
             const letter = String.fromCharCode(65 + idx);
             const isSelected = selectedOption === option;
@@ -112,11 +112,11 @@ export const QuizSection: React.FC<QuizSectionProps> = ({
                 type="button"
                 onClick={() => handleSelectOption(option)}
                 disabled={isAnswered}
-                className={`w-full p-1.5 md:p-4 rounded-xl text-left flex items-center justify-between gap-2 md:gap-4 transition-all cursor-pointer ${optionStyle}`}
+                className={`w-full p-2 sm:p-3 lg:p-4 rounded-xl text-left flex items-center justify-between gap-2 sm:gap-3 lg:gap-4 transition-all cursor-pointer ${optionStyle}`}
                 id={`btn-quiz-choice-${idx}`}
               >
-                <div className="flex items-center gap-2 md:gap-3">
-                  <span className={`w-6 h-6 md:w-7 md:h-7 rounded-lg font-display font-black border border-black flex items-center justify-center text-[10px] md:text-xs shadow-[1px_1px_0px_#000] shrink-0 uppercase ${
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <span className={`w-6 h-6 sm:w-7 sm:h-7 rounded-lg font-display font-black border border-black flex items-center justify-center text-[10px] sm:text-xs shadow-[1px_1px_0px_#000] shrink-0 uppercase ${
                     isAnswered && option === activeQuestion.correctAnswer
                       ? 'bg-black text-white'
                       : isSelected
@@ -125,7 +125,7 @@ export const QuizSection: React.FC<QuizSectionProps> = ({
                   }`}>
                     {letter}
                   </span>
-                  <span className="text-xs md:text-md font-bold leading-normal">{option}</span>
+                  <span className="text-xs sm:text-[13px] lg:text-md font-bold leading-normal">{option}</span>
                 </div>
 
                 {isAnswered && option === activeQuestion.correctAnswer && (
@@ -140,13 +140,13 @@ export const QuizSection: React.FC<QuizSectionProps> = ({
         </div>
 
         {/* Action Buttons */}
-        <div className="mt-2 md:mt-6 flex justify-end">
+        <div className="mt-2 sm:mt-4 lg:mt-6 flex justify-end">
           {!isAnswered ? (
             <button
               type="button"
               onClick={handleConfirmAnswer}
               disabled={!selectedOption}
-              className={`px-3 md:px-6 py-1.5 md:py-3 rounded-xl font-black font-display text-[10px] md:text-md border-2 border-black flex items-center gap-1.5 transition-all cursor-pointer ${
+              className={`px-3 sm:px-4 lg:px-6 py-1.5 sm:py-2 lg:py-3 rounded-xl font-black font-display text-[10px] sm:text-xs lg:text-md border-2 border-black flex items-center gap-1.5 transition-all cursor-pointer ${
                 selectedOption
                   ? 'bg-rose-500 hover:bg-rose-600 text-white shadow-[3px_3px_0px_rgba(0,0,0,1)]'
                   : 'bg-slate-200 text-slate-400 border-slate-300 cursor-not-allowed shadow-none'
@@ -154,17 +154,17 @@ export const QuizSection: React.FC<QuizSectionProps> = ({
               id="btn-confirm-quiz"
             >
               <span>Konfirmasi Jawaban</span>
-              <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4 text-inherit" />
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-inherit" />
             </button>
           ) : (
             <button
               type="button"
               onClick={handleNext}
-              className="bg-black hover:bg-slate-900 text-white font-black border-2 border-black px-3 md:px-6 py-1.5 md:py-3 rounded-xl text-[10px] md:text-md flex items-center gap-1.5 transition-all cursor-pointer shadow-[3px_3px_0px_rgba(0,0,0,1)]"
+              className="bg-black hover:bg-slate-900 text-white font-black border-2 border-black px-3 sm:px-4 lg:px-6 py-1.5 sm:py-2 lg:py-3 rounded-xl text-[10px] sm:text-xs lg:text-md flex items-center gap-1.5 transition-all cursor-pointer shadow-[3px_3px_0px_rgba(0,0,0,1)]"
               id="btn-next-quiz"
             >
               <span>{currentIdx < questions.length - 1 ? 'Pertanyaan Selanjutnya' : 'Kirim Nilai Analisis'}</span>
-              <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4 text-white" />
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
             </button>
           )}
         </div>

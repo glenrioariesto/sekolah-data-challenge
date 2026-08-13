@@ -441,7 +441,11 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
             <button
               type="button"
               onClick={onToggleTeacherMode}
-              className="hidden"
+              className={`px-2.5 py-1.5 border-2 border-black rounded-xl shadow-[1.5px_1.5px_0px_#000] cursor-pointer transition-all active:translate-y-0.5 active:shadow-none font-mono font-black text-[10px] sm:text-xs flex items-center justify-center gap-1 shrink-0 ${
+                teacherMode
+                  ? 'bg-purple-600 text-white'
+                  : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+              }`}
               title={teacherMode ? "Mode Guru / Dev Aktif" : "Aktifkan Mode Guru / Dev"}
               id="btn-toggle-dev-mode"
             >
