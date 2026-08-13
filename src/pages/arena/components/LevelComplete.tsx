@@ -38,16 +38,16 @@ export const LevelComplete: React.FC<LevelCompleteProps> = ({
   const isFinalLevel = currentLevel.id === LEVELS.length;
 
   return (
-    <div className="bg-white rounded-2xl lg:rounded-3xl border-2 lg:border-4 border-black p-2.5 lg:p-8 w-full max-w-md lg:max-w-2xl mx-auto text-center relative overflow-hidden shadow-[4px_4px_0px_rgba(0,0,0,1)] lg:shadow-[8px_8px_0px_rgba(0,0,0,1)] max-h-[90vh] lg:max-h-none flex flex-col justify-between lg:justify-start">
+    <div className="bg-white rounded-2xl lg:rounded-3xl border-2 lg:border-4 border-black p-3 lg:p-8 w-full max-w-md lg:max-w-2xl mx-auto text-center relative overflow-hidden shadow-[4px_4px_0px_rgba(0,0,0,1)] lg:shadow-[8px_8px_0px_rgba(0,0,0,1)] max-h-[90vh] lg:max-h-none flex flex-col justify-between lg:justify-start">
       
       {/* Top Trophy badge */}
       <motion.div
         initial={{ scale: 0.3, rotate: -30 }}
         animate={{ scale: 1, rotate: 0 }}
         transition={{ type: "spring", stiffness: 100 }}
-        className="w-10 h-10 lg:w-20 lg:h-20 bg-[#FDE047] border-2 border-black rounded-full flex items-center justify-center mx-auto mb-1.5 lg:mb-4 text-black shadow-[2px_2px_0px_rgba(0,0,0,1)] lg:shadow-[3px_3px_0px_rgba(0,0,0,1)] animate-pulse shrink-0"
+        className="mx-auto mb-1.5 lg:mb-4 shrink-0"
       >
-        <Trophy className="w-5 h-5 lg:w-10 lg:h-10" />
+        <span className="text-3xl lg:text-5xl leading-none animate-bounce inline-block">🏆</span>
       </motion.div>
 
       {/* Main congratz text */}

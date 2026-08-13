@@ -68,7 +68,7 @@ export const QuizSection: React.FC<QuizSectionProps> = ({
   return (
     <>
       {/* ── Main Quiz Card ── */}
-      <div className="bg-white rounded-2xl md:rounded-3xl border-2 md:border-4 border-black p-3 sm:p-5 lg:p-8 shadow-[4px_4px_0px_rgba(0,0,0,1)] md:shadow-[8px_8px_0px_rgba(0,0,0,1)] max-h-[90vh] overflow-y-auto">
+      <div className="bg-white rounded-2xl md:rounded-3xl border-2 md:border-4 border-black p-3 lg:p-8 shadow-[4px_4px_0px_rgba(0,0,0,1)] md:shadow-[8px_8px_0px_rgba(0,0,0,1)] max-h-[90vh] overflow-y-auto">
 
         {/* Index counter */}
         <div className="flex items-center justify-between mb-2 sm:mb-4">
