@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AnimatePresence } from 'motion/react';
 import { useGameState } from '@/src/hooks/useGameState';
 import { SplashPage } from '@/src/pages/splash/SplashPage';
 import { ArenaPage } from '@/src/pages/arena/ArenaPage';
 import { BadgeModal } from '@/src/components/BadgeModal';
 import { PortraitWarning } from '@/src/components/PortraitWarning';
+import { setupAutoplayUnlock, playSynthesizerNote } from '@/src/utils/audio';
 
 export default function App() {
   const {
@@ -36,6 +37,10 @@ export default function App() {
 
   const [showFullscreenPrompt, setShowFullscreenPrompt] = useState(false);
 
+  useEffect(() => {
+    setupAutoplayUnlock();
+  }, []);
+
   const handleStartFromSplash = () => {
     const isFullscreenSupported = typeof document !== 'undefined' && !!document.documentElement.requestFullscreen;
     const isCurrentlyFullscreen = typeof document !== 'undefined' && !!document.fullscreenElement;
@@ -47,6 +52,7 @@ export default function App() {
   };
 
   const enterFullscreen = async () => {
+    playSynthesizerNote('click');
     try {
       if (document.documentElement.requestFullscreen) {
         await document.documentElement.requestFullscreen();
@@ -94,6 +100,7 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => {
+                  playSynthesizerNote('click');
                   setShowFullscreenPrompt(false);
                   selectLevelFromHub(1);
                 }}

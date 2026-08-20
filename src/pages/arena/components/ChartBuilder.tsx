@@ -3,6 +3,7 @@ import { GameLevel } from '@/src/types';
 import { motion, AnimatePresence } from 'motion/react';
 import { TrendingUp, CircleDot, Check, BarChart2, AlertCircle } from 'lucide-react';
 import { ChartVisualizer } from './ChartVisualizer';
+import { playSynthesizerNote } from '@/src/utils/audio';
 
 interface ChartBuilderProps {
   currentLevel: GameLevel;
@@ -59,9 +60,11 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
 
   const handleVerifyChart = () => {
     if (!selectedChartType) {
+      playSynthesizerNote('fail');
       setWarning("👉 Silakan klik salah satu tombol tipe grafik di atas terlebih dahulu!");
       return;
     }
+    playSynthesizerNote('success');
     setIsValidated(true);
     // Grant 20 score bonus
     onSuccess(20);
@@ -77,7 +80,7 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
 
   return (
     <div className="w-full max-w-7xl mx-auto px-1 py-1 sm:px-4 sm:py-4 flex flex-col min-h-0 h-full overflow-y-auto sm:overflow-hidden game-wrapper-padding">
-      <div className="w-full min-h-screen sm:min-h-0 sm:h-full flex flex-col sm:flex-row gap-2 sm:gap-4 lg:gap-6 min-h-0 mobile-landscape-compact-gap relative">
+      <div className="w-full min-h-screen sm:min-h-0 sm:h-full flex flex-col sm:flex-row gap-2 sm:gap-4 lg:gap-6 min-h-0 mobile-landscape-compact-gap relative sm:my-auto">
       
       {/* Left Column: Format Selection */}
       <div className="flex-[3] sm:flex-[4] min-w-0 flex flex-col h-fit sm:h-full bg-white border-2 sm:border-4 border-black rounded-2xl sm:rounded-3xl p-2 sm:p-5 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)] mobile-landscape-compact-card">
@@ -95,7 +98,7 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
           {/* Bar Chart Choice */}
           <button
             type="button"
-            onClick={() => { setSelectedChartType('batang'); setWarning(null); }}
+            onClick={() => { playSynthesizerNote('select'); setSelectedChartType('batang'); setWarning(null); }}
             className={`w-full p-2 sm:p-3 rounded-xl border-2 border-black text-left flex items-center gap-2 sm:gap-3 transition-all cursor-pointer shadow-[2.5px_2.5px_0px_#000] active:translate-y-0.5 active:shadow-[1px_1px_0px_#000] ${
               selectedChartType === 'batang'
                 ? 'bg-[#A5F3FC] text-black scale-[1.01]'
@@ -117,7 +120,7 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
           {/* Line Chart Choice */}
           <button
             type="button"
-            onClick={() => { setSelectedChartType('garis'); setWarning(null); }}
+            onClick={() => { playSynthesizerNote('select'); setSelectedChartType('garis'); setWarning(null); }}
             className={`w-full p-2 sm:p-3 rounded-xl border-2 border-black text-left flex items-center gap-2 sm:gap-3 transition-all cursor-pointer shadow-[2.5px_2.5px_0px_#000] active:translate-y-0.5 active:shadow-[1px_1px_0px_#000] ${
               selectedChartType === 'garis'
                 ? 'bg-[#A5F3FC] text-black scale-[1.01]'
@@ -139,7 +142,7 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
           {/* Donut Chart Choice */}
           <button
             type="button"
-            onClick={() => { setSelectedChartType('lingkaran'); setWarning(null); }}
+            onClick={() => { playSynthesizerNote('select'); setSelectedChartType('lingkaran'); setWarning(null); }}
             className={`w-full p-2 sm:p-3 rounded-xl border-2 border-black text-left flex items-center gap-2 sm:gap-3 transition-all cursor-pointer shadow-[2.5px_2.5px_0px_#000] active:translate-y-0.5 active:shadow-[1px_1px_0px_#000] ${
               selectedChartType === 'lingkaran'
                 ? 'bg-[#A5F3FC] text-black scale-[1.01]'
@@ -175,7 +178,7 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
               <span className="text-[9px] font-display font-black text-slate-600 mr-1 uppercase shrink-0">Filter:</span>
               <button
                 type="button"
-                onClick={() => setSelectedDay('semua')}
+                onClick={() => { playSynthesizerNote('click'); setSelectedDay('semua'); }}
                 className={`px-2 py-0.5 text-[9px] font-display font-black rounded-md border border-black uppercase transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                   selectedDay === 'semua' ? 'bg-[#FDE047] text-black shadow-[1px_1px_0px_#000]' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                 }`}
@@ -186,7 +189,7 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
                 <button
                   key={r.day}
                   type="button"
-                  onClick={() => setSelectedDay(r.day)}
+                  onClick={() => { playSynthesizerNote('click'); setSelectedDay(r.day); }}
                   className={`px-2 py-0.5 text-[9px] font-display font-black rounded-md border border-black uppercase transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                     selectedDay === r.day ? 'bg-[#FDE047] text-black shadow-[1px_1px_0px_#000]' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                   }`}

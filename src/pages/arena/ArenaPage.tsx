@@ -6,7 +6,10 @@ import { StudentCounter } from '@/src/pages/arena/components/StudentCounter';
 import { ChartBuilder } from '@/src/pages/arena/components/ChartBuilder';
 import { QuizSection } from '@/src/pages/arena/components/QuizSection';
 import { LevelComplete } from '@/src/pages/arena/components/LevelComplete';
+import { AudioToggle } from '@/src/components/AudioToggle';
+import { useAudio } from '@/src/hooks/useAudio';
 import { playSynthesizerNote } from '@/src/utils/audio';
+import logoPusbuk from '@/assets/logo-pusbuk.webp';
 import gameplayBg from '@/assets/bg-arena.webp';
 
 interface ArenaPageProps {
@@ -50,6 +53,8 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
   teacherMode,
   onToggleTeacherMode,
 }) => {
+  const { isMuted, toggle } = useAudio();
+
   return (
     <motion.div
       key="game-page"
@@ -65,6 +70,20 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
           alt="Latar Belakang Kelas"
           className="w-full h-full object-cover opacity-50"
         />
+      </div>
+
+      {/* Logo Pojok Kiri Atas - Fixed Floating on lg+ screens */}
+      <div className="hidden lg:block fixed top-3 left-4 md:top-4 md:left-6 2xl:top-6 2xl:left-8 z-40 select-none pointer-events-none">
+        <img 
+          src={logoPusbuk} 
+          alt="Logo Pusbuk" 
+          className="lg:h-14 2xl:h-20 w-auto object-contain drop-shadow" 
+        />
+      </div>
+
+      {/* Button Mute/Unmuted Pojok Kanan Atas - Fixed Floating on lg+ screens */}
+      <div className="hidden lg:block fixed top-3 right-4 md:top-4 md:right-6 2xl:top-6 2xl:right-8 z-40 select-none">
+        <AudioToggle isMuted={isMuted} onToggle={toggle} />
       </div>
 
       {/* MAIN LEVEL GAME ARENA VIEWPORT VIEW */}
@@ -179,7 +198,10 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
               <div className="pt-2.5 lg:pt-6 border-t-2 sm:border-t-4 border-black flex justify-center shrink-0">
                 <button
                   type="button"
-                  onClick={startCurrentLevelPlay}
+                  onClick={() => {
+                    playSynthesizerNote('click');
+                    startCurrentLevelPlay();
+                  }}
                   className="w-fit sm:w-full bg-[#FDE047] hover:bg-[#FACC15] text-black border-2 sm:border-4 border-black text-[11px] lg:text-lg font-black py-2.5 lg:py-4 rounded-xl sm:rounded-2xl uppercase tracking-wider cursor-pointer shadow-[2px_2px_0px_#000] sm:shadow-[4px_4px_0px_#000] active:translate-y-0.5 active:shadow-[1px_1px_0px_#000] flex items-center justify-center gap-2 font-display"
                   id="btn-start-misi"
                 >

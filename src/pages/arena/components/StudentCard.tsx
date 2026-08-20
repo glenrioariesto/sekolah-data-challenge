@@ -334,19 +334,38 @@ export const StudentCard: React.FC<StudentCardProps> = ({
       } ${cardStyle}`}
       id={`student-item-${day}-${idx}`}
     >
-      {/* Cartoon Speech Bubble Dialog */}
+      {/* Cartoon Speech Bubble Dialog - Non-clipped smart positioning */}
       <AnimatePresence>
         {isHovered && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.7, y: 8, x: "-50%" }}
-            animate={{ opacity: 1, scale: 1, y: 0, x: "-50%" }}
-            exit={{ opacity: 0, scale: 0.7, y: 8, x: "-50%" }}
+            initial={{ 
+              opacity: 0, 
+              scale: 0.7, 
+              y: 6, 
+              x: idx % 4 === 0 ? "0%" : (idx % 4 === 3 ? "0%" : "-50%") 
+            }}
+            animate={{ 
+              opacity: 1, 
+              scale: 1, 
+              y: 0, 
+              x: idx % 4 === 0 ? "0%" : (idx % 4 === 3 ? "0%" : "-50%") 
+            }}
+            exit={{ 
+              opacity: 0, 
+              scale: 0.7, 
+              y: 6, 
+              x: idx % 4 === 0 ? "0%" : (idx % 4 === 3 ? "0%" : "-50%") 
+            }}
             transition={{ type: "spring", stiffness: 450, damping: 18 }}
-            className="absolute top-[-16px] sm:top-[-23px] left-1/2 z-40 bg-white border-2 border-black px-1.5 py-0.5 rounded-md sm:rounded-lg shadow-[1.5px_2px_0px_#000] text-[7px] sm:text-[9px] md:text-[10px] font-black text-slate-800 flex items-center justify-center whitespace-nowrap leading-none font-sans font-black"
+            className={`absolute top-[-20px] sm:top-[-26px] z-50 bg-white border-2 border-black px-1.5 sm:px-2 py-0.5 rounded-md sm:rounded-lg shadow-[2px_2px_0px_#000] text-[7px] sm:text-[9px] md:text-[10px] font-black text-slate-800 flex items-center justify-center whitespace-nowrap leading-none font-sans pointer-events-none select-none ${
+              idx % 4 === 0 ? 'left-0 sm:left-1' : (idx % 4 === 3 ? 'right-0 sm:right-1' : 'left-1/2')
+            }`}
           >
             <span>{quote}</span>
             {/* Triangular arrow below speech bubble */}
-            <div className="absolute -bottom-[3px] left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-white border-r-2 border-b-2 border-black rotate-45" />
+            <div className={`absolute -bottom-[3px] w-1.5 h-1.5 bg-white border-r-2 border-b-2 border-black rotate-45 ${
+              idx % 4 === 0 ? 'left-3 sm:left-4' : (idx % 4 === 3 ? 'right-3 sm:right-4' : 'left-1/2 -translate-x-1/2')
+            }`} />
           </motion.div>
         )}
       </AnimatePresence>

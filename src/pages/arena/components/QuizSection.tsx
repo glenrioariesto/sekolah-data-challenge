@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { GameLevel } from '@/src/types';
 import { motion, AnimatePresence } from 'motion/react';
 import { Check, X, ArrowRight, BookOpen } from 'lucide-react';
+import { playSynthesizerNote } from '@/src/utils/audio';
 
 interface QuizSectionProps {
   currentLevel: GameLevel;
@@ -31,6 +32,7 @@ export const QuizSection: React.FC<QuizSectionProps> = ({
 
   const handleSelectOption = (option: string) => {
     if (isAnswered) return;
+    playSynthesizerNote('select');
     setSelectedOption(option);
   };
 
@@ -41,18 +43,22 @@ export const QuizSection: React.FC<QuizSectionProps> = ({
     const isCorrect = selectedOption === activeQuestion.correctAnswer;
 
     if (isCorrect) {
+      playSynthesizerNote('success');
       setQuizScore(prev => prev + 20);
     } else {
+      playSynthesizerNote('fail');
       // Show wrong-answer modal
       setShowWrongModal(true);
     }
   };
 
   const handleCloseWrongModal = () => {
+    playSynthesizerNote('click');
     setShowWrongModal(false);
   };
 
   const handleNext = () => {
+    playSynthesizerNote('click');
     if (currentIdx < questions.length - 1) {
       setCurrentIdx(prev => prev + 1);
       setSelectedOption(null);

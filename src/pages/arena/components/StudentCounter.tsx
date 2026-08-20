@@ -3,6 +3,7 @@ import { DailyRoster, GameLevel } from '@/src/types';
 import { motion, AnimatePresence } from 'motion/react';
 import { Check, AlertCircle, HelpCircle, ClipboardCheck } from 'lucide-react';
 import { StudentCard } from './StudentCard';
+import { playSynthesizerNote } from '@/src/utils/audio';
 
 interface StudentCounterProps {
   currentLevel: GameLevel;
@@ -83,6 +84,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
   const [autofilledDays, setAutofilledDays] = useState<string[]>([]);
 
   const toggleHighlight = (day: string, index: number) => {
+    playSynthesizerNote('pop');
     const key = `${day}-${index}`;
     setHighlightedStudents(prev => ({
       ...prev,
@@ -102,9 +104,11 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
   };
 
   const handleAutofillHelper = (day: string) => {
+    playSynthesizerNote('hint');
     // If not in teacherMode, enforce a maximum of 1 day limit
     if (!teacherMode) {
       if (autofilledDays.length > 0 && !autofilledDays.includes(day)) {
+        playSynthesizerNote('fail');
         setErrorWarning("⚠️ Batas penggunaan petunjuk adalah 1 hari saja.");
         return;
       }
@@ -143,6 +147,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
       const sVal = inputs[r.day]?.sick.trim();
       const aVal = inputs[r.day]?.alpha.trim();
       if (!pVal || !iVal || !sVal || !aVal) {
+        playSynthesizerNote('fail');
         setErrorWarning(`⚠️ Mohon isi semua kolom Hadir, Izin, Sakit, dan Alfa untuk hari ${r.day}!`);
         setActiveTab(rIdx); // Switch to the incomplete day tab/page automatically!
         return;
@@ -167,6 +172,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
         userSick !== target.sick ||
         userAlpha !== target.alpha
       ) {
+        playSynthesizerNote('fail');
         setErrorWarning(`⚠️ Hitungan hari ${r.day} belum tepat. Periksa kembali jumlah Hadir, Izin, Sakit, atau Alfa!`);
         setActiveTab(rIdx); // Switch to the incorrect day tab/page automatically!
         return;
@@ -185,6 +191,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
     });
 
     // Score: 40 points for perfect data collection
+    playSynthesizerNote('success');
     onSuccess(40, countedRecords);
   };
 
@@ -423,7 +430,10 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
                 key={r.day}
                 ref={el => { tabRefs.current[idx] = el; }}
                 type="button"
-                onClick={() => setActiveTab(idx)}
+                onClick={() => {
+                  playSynthesizerNote('flip');
+                  setActiveTab(idx);
+                }}
                 className={`px-3 py-1.5 sm:px-4 sm:py-2 text-xs font-black rounded-xl border-2 border-black whitespace-nowrap transition-all duration-205 shadow-[2px_2px_0px_#000] day-tab-compact flex-1 text-center font-display uppercase ${
                   activeTab === idx
                     ? 'bg-[#FDE047] text-black scale-105'
@@ -466,10 +476,10 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
           })()}
         </div>
 
-        {/* Student List Grid */}
+        {/* Student List Grid - with top clearance for speech bubbles */}
         {activeRoster && (
-          <div className="flex-1 min-h-0 overflow-y-auto pr-2">
-            <div className="grid grid-cols-4 md:gap-2">
+          <div className="flex-1 min-h-0 overflow-y-auto pr-1 sm:pr-2 pt-6 sm:pt-7 pb-2 px-1 scrollbar-thin">
+            <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
               {activeRoster.students.map((student, idx) => {
                 const key = `${activeRoster.day}-${idx}`;
                 const isHighlighted = highlightedStudents[key];
@@ -621,7 +631,10 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
             <button
               type="button"
               disabled={activeTab === 0}
-              onClick={() => setActiveTab(prev => Math.max(0, prev - 1))}
+              onClick={() => {
+                playSynthesizerNote('flip');
+                setActiveTab(prev => Math.max(0, prev - 1));
+              }}
               className={`px-2.5 py-1 text-[9px] sm:text-[10px] font-black border-2 border-black rounded-lg flex items-center gap-1 transition-all select-none cursor-pointer ${
                 activeTab === 0 
                   ? 'bg-slate-100 text-slate-400 border-slate-300 cursor-not-allowed'
@@ -634,7 +647,10 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
             <button
               type="button"
               disabled={activeTab === rosters.length - 1}
-              onClick={() => setActiveTab(prev => Math.min(rosters.length - 1, prev + 1))}
+              onClick={() => {
+                playSynthesizerNote('flip');
+                setActiveTab(prev => Math.min(rosters.length - 1, prev + 1));
+              }}
               className={`px-2.5 py-1 text-[9px] sm:text-[10px] font-black border-2 border-black rounded-lg flex items-center gap-1 transition-all select-none cursor-pointer ${
                 activeTab === rosters.length - 1 
                   ? 'bg-slate-100 text-slate-400 border-slate-300 cursor-not-allowed'

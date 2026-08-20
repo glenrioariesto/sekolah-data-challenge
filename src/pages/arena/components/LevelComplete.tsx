@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { GameLevel, Badge } from '@/src/types';
 import { motion } from 'motion/react';
 import { Award, Star, ArrowRight, RefreshCw, Trophy, ClipboardCheck, Sparkles, Brain, CheckCircle, RotateCcw } from 'lucide-react';
 import { BADGES, LEVELS } from '@/src/data/levels';
+import { playSynthesizerNote } from '@/src/utils/audio';
 
 interface LevelCompleteProps {
   currentLevel: GameLevel;
@@ -19,6 +20,10 @@ export const LevelComplete: React.FC<LevelCompleteProps> = ({
   onNextLevel,
   onRestartGame,
 }) => {
+  // Play triumphant victory sound on stage complete
+  useEffect(() => {
+    playSynthesizerNote('victory');
+  }, []);
   // Check if a badge was earned at this level
   const earnedBadge = BADGES.find(b => b.achievedAtLevel === currentLevel.id);
 
@@ -81,7 +86,10 @@ export const LevelComplete: React.FC<LevelCompleteProps> = ({
       >
         <button
           type="button"
-          onClick={onNextLevel}
+          onClick={() => {
+            playSynthesizerNote('click');
+            onNextLevel();
+          }}
           className="flex-1 lg:flex-none bg-[#FDE047] hover:bg-[#FACC15] text-black font-black px-3 lg:px-5 py-2 lg:py-3 rounded-xl lg:rounded-2xl text-[10px] lg:text-sm flex items-center justify-center gap-1 lg:gap-2 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] lg:shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-colors cursor-pointer font-display uppercase tracking-tight whitespace-nowrap"
           id="btn-play-again"
         >
@@ -91,7 +99,10 @@ export const LevelComplete: React.FC<LevelCompleteProps> = ({
 
         <button
           type="button"
-          onClick={onRestartGame}
+          onClick={() => {
+            playSynthesizerNote('click');
+            onRestartGame();
+          }}
           className="flex-1 lg:flex-none bg-[#CCFBF1] hover:bg-[#99F6E4] text-black font-black px-3 lg:px-5 py-2 lg:py-3 rounded-xl lg:rounded-2xl text-[10px] lg:text-sm flex items-center justify-center gap-1 lg:gap-2 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] lg:shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-colors cursor-pointer font-display uppercase tracking-tight whitespace-nowrap"
           id="btn-play-new-data"
         >

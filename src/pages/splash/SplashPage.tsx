@@ -2,6 +2,8 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Play } from 'lucide-react';
 import { playSynthesizerNote } from '@/src/utils/audio';
+import { useAudio } from '@/src/hooks/useAudio';
+import { AudioToggle } from '@/src/components/AudioToggle';
 import logoPusbuk from '@/assets/logo-pusbuk.webp';
 import studentSplashBg from '@/assets/bg-splash.webp';
 
@@ -10,6 +12,8 @@ interface SplashPageProps {
 }
 
 export const SplashPage: React.FC<SplashPageProps> = ({ onStartGame }) => {
+  const { isMuted, toggle } = useAudio();
+
   return (
     <motion.div
       key="start-page"
@@ -28,8 +32,13 @@ export const SplashPage: React.FC<SplashPageProps> = ({ onStartGame }) => {
       </div>
 
       {/* Logo Pojok Kiri Atas - Responsive sizing */}
-      <div className="absolute top-4 left-4 md:top-6 md:left-6 z-50">
-        <img src={logoPusbuk} alt="Logo Pusbuk" className="h-10 w-auto md:h-16 object-contain" />
+      <div className="absolute top-4 left-4 md:top-6 md:left-6 2xl:top-8 2xl:left-8 z-50">
+        <img src={logoPusbuk} alt="Logo Pusbuk" className="h-10 w-auto md:h-16 2xl:h-20 object-contain drop-shadow" />
+      </div>
+
+      {/* Button Mute/Unmute Pojok Kanan Atas */}
+      <div className="absolute top-4 right-4 md:top-6 md:right-6 2xl:top-8 2xl:right-8 z-50">
+        <AudioToggle isMuted={isMuted} onToggle={toggle} />
       </div>
 
       {/* Card di Sisi Kanan: Judul dan Tombol saja (over empty space) */}
