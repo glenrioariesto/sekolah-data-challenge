@@ -9,7 +9,7 @@ import { LevelComplete } from '@/src/pages/arena/components/LevelComplete';
 import { AudioToggle } from '@/src/components/AudioToggle';
 import { useAudio } from '@/src/hooks/useAudio';
 import { playSynthesizerNote } from '@/src/utils/audio';
-import logoPusbuk from '@/assets/logo-pusbuk.webp';
+import logoPusbuk from '@/assets/logo-jenama.webp?v2';
 import gameplayBg from '@/assets/bg-arena.webp';
 
 interface ArenaPageProps {
