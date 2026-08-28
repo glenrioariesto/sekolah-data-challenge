@@ -309,7 +309,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
               Hari: {roster.day}
             </span>
             <span className="text-[10px] sm:text-xs font-sans text-slate-500 font-extrabold pr-6">
-              Format: Angka
+              Jumlah
             </span>
           </div>
 
@@ -418,7 +418,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
         
         {/* Instruction Info Text */}
         <p className="text-xs sm:text-sm text-slate-600 font-sans font-extrabold mb-2 shrink-0">
-          Klik nama untuk menandai yang selesai dihitung
+          Klik nama untuk mengetahui status kehadiran
         </p>
 
         {/* Days Tabs & Hint Button Row */}
