@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AnimatePresence } from 'motion/react';
 import { useGameState } from '@/src/hooks/useGameState';
 import { SplashPage } from '@/src/pages/splash/SplashPage';
@@ -38,28 +38,12 @@ export default function App() {
   } = useGameState();
 
   const [showFullscreenPrompt, setShowFullscreenPrompt] = useState(false);
-  const fullscreenPromptedRef = useRef(false);
 
   useEffect(() => {
     setupAutoplayUnlock();
 
-    // Munculkan modal layar penuh otomatis saat pertama kali membuka website.
-    // Disimpan di localStorage sehingga hanya tampil sekali (first visit).
-    try {
-      const alreadyPrompted = localStorage.getItem('sdc-fullscreen-prompted');
-      if (!alreadyPrompted && !fullscreenPromptedRef.current) {
-        localStorage.setItem('sdc-fullscreen-prompted', '1');
-        fullscreenPromptedRef.current = true;
-        setShowFullscreenPrompt(true);
-      }
-    } catch (err) {
-      // localStorage tidak tersedia — fallback: tampilkan sekali per mount
-      console.warn("localStorage tidak tersedia, modal layar penuh tampil sekali per sesi", err);
-      if (!fullscreenPromptedRef.current) {
-        fullscreenPromptedRef.current = true;
-        setShowFullscreenPrompt(true);
-      }
-    }
+    // Munculkan modal layar penuh otomatis setiap kali halaman dibuka atau di-refresh.
+    setShowFullscreenPrompt(true);
   }, []);
 
   // Fallback: tombol Mulai langsung memulai game (tanpa menunggu modal)

@@ -218,7 +218,6 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
                   className="w-fit sm:w-full bg-[#FDE047] hover:bg-[#FACC15] text-black border-2 sm:border-4 border-black text-[11px] lg:text-lg font-black py-2.5 lg:py-4 rounded-xl sm:rounded-2xl uppercase tracking-wider cursor-pointer shadow-[2px_2px_0px_#000] sm:shadow-[4px_4px_0px_#000] active:translate-y-0.5 active:shadow-[1px_1px_0px_#000] flex items-center justify-center gap-2 font-display"
                 >
                   <span>Lanjut ke Cara Bermain</span>
-                  <span id="objectives-footer-arrow" className="animate-pulse">→</span>
                 </button>
               </div>
             </motion.div>
