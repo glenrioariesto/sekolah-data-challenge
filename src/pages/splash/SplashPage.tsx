@@ -44,7 +44,7 @@ export const SplashPage: React.FC<SplashPageProps> = ({ onStartGame }) => {
       </div>
 
       {/* Card di Sisi Kanan: Judul dan Tombol saja (over empty space) */}
-      <div id="splash-card" className="relative z-10 w-[85%] max-w-[240px] sm:max-w-[240px] md:max-w-xs lg:max-w-sm 2xl:max-w-2xl bg-white p-2 sm:p-4 md:p-6 2xl:p-12 rounded-xl md:rounded-3xl 2xl:rounded-[32px] border-2 md:border-4 2xl:border-[6px] border-[#19315A] shadow-[4px_4px_0px_rgba(0,0,0,1)] md:shadow-[8px_8px_0px_rgba(0,0,0,1)] 2xl:shadow-[14px_14px_0px_rgba(0,0,0,1)] flex flex-col items-stretch space-y-4 md:space-y-6 2xl:space-y-8">
+      <div id="splash-card" className="relative z-10 w-[85%] max-w-[240px] sm:max-w-[240px] md:max-w-xs lg:max-w-sm 2xl:max-w-2xl bg-white p-2 sm:p-4 md:p-6 2xl:p-12 rounded-xl md:rounded-3xl 2xl:rounded-[32px] border-2 md:border-4 2xl:border-[6px] border-[#19315A] shadow-[4px_4px_0px_#19315A] md:shadow-[8px_8px_0px_#19315A] 2xl:shadow-[14px_14px_0px_#19315A] flex flex-col items-stretch space-y-4 md:space-y-6 2xl:space-y-8">
         
         {/* Title */}
         <h1 id="splash-title" className="text-[22px] sm:text-[20px] md:text-[28px] lg:text-[34px] xl:text-[34px] 2xl:text-[56px] 2xl:leading-[1.1] text-justify font-black text-slate-900 font-display uppercase tracking-tight leading-none">
