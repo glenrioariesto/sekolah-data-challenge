@@ -31,6 +31,9 @@ export const useGameState = () => {
   // Intro Modal State
   const [isIntroModalOpen, setIsIntroModalOpen] = useState<boolean>(false);
 
+  // Objectives Modal State (ditampilkan sebelum Cara Bermain)
+  const [isObjectivesModalOpen, setIsObjectivesModalOpen] = useState<boolean>(false);
+
   // Dynamic level data states
   const [dynamicRecords, setDynamicRecords] = useState<AttendanceRecord[]>([]);
   const [dynamicRosters, setDynamicRosters] = useState<DailyRoster[]>([]);
@@ -79,8 +82,15 @@ export const useGameState = () => {
     // Every level now has dynamic rosters, so start with roster stage
     setCurrentStage('roster');
     
-    setIsIntroModalOpen(true);
+    setIsObjectivesModalOpen(true);
     setPageView('game');
+  };
+
+  // Tutup modal tujuan pembelajaran lalu buka modal Cara Bermain
+  const closeObjectivesAndShowIntro = () => {
+    playSynthesizerNote('click');
+    setIsObjectivesModalOpen(false);
+    setIsIntroModalOpen(true);
   };
 
   const startCurrentLevelPlay = () => {
@@ -141,7 +151,7 @@ export const useGameState = () => {
     setLevelPointsAccumulator(0);
     setTotalScore(0);
     setCurrentStage('roster');
-    setIsIntroModalOpen(true);
+    setIsObjectivesModalOpen(true);
   };
 
   const resetAllGameProgress = () => {
@@ -160,7 +170,7 @@ export const useGameState = () => {
     setUnlockedBadgeIds([]);
     setLevelPointsAccumulator(0);
     setUserCountedData(null);
-    setIsIntroModalOpen(true);
+    setIsObjectivesModalOpen(true);
   };
 
   const getStagePercentage = (s: string) => {
@@ -210,11 +220,13 @@ export const useGameState = () => {
     levelPointsAccumulator,
     isBadgeModalOpen,
     isIntroModalOpen,
+    isObjectivesModalOpen,
     activeLevel,
     userCountedData,
     setIsBadgeModalOpen,
     setIsIntroModalOpen,
     selectLevelFromHub,
+    closeObjectivesAndShowIntro,
     startCurrentLevelPlay,
     handleRosterStepFinished,
     handleChartStepFinished,

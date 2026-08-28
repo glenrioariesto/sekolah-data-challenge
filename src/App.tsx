@@ -16,6 +16,7 @@ export default function App() {
     teacherMode,
     isBadgeModalOpen,
     isIntroModalOpen,
+    isObjectivesModalOpen,
     activeLevel,
     currentStage,
     levelPointsAccumulator,
@@ -23,6 +24,7 @@ export default function App() {
     setIsBadgeModalOpen,
     toggleTeacherMode,
     selectLevelFromHub,
+    closeObjectivesAndShowIntro,
     startCurrentLevelPlay,
     handleRosterStepFinished,
     handleChartStepFinished,
@@ -129,7 +131,10 @@ export default function App() {
             userCountedData={userCountedData}
             onBackToRoadmap={setViewStart}
             onGoBackStage={handleGoBackStage}
-            startCurrentLevelPlay={startCurrentLevelPlay}
+            isObjectivesModalOpen={isObjectivesModalOpen}
+            isIntroModalOpen={isIntroModalOpen}
+            onStartGame={startCurrentLevelPlay}
+            closeObjectivesAndShowIntro={closeObjectivesAndShowIntro}
             handleRosterStepFinished={handleRosterStepFinished}
             handleChartStepFinished={handleChartStepFinished}
             handleQuizStepFinished={handleQuizStepFinished}
@@ -137,7 +142,6 @@ export default function App() {
             resetAllGameProgress={resetAllGameProgress}
             getStagePercentage={getStagePercentage}
             activeLevelProgressPercentage={activeLevelProgressPercentage}
-            isIntroModalOpen={isIntroModalOpen}
             teacherMode={teacherMode}
             onToggleTeacherMode={toggleTeacherMode}
           />

@@ -20,7 +20,10 @@ interface ArenaPageProps {
   userCountedData?: Record<string, { present: number, permit: number, sick: number, alpha: number }> | null;
   onBackToRoadmap: () => void;
   onGoBackStage: () => void;
-  startCurrentLevelPlay: () => void;
+  isObjectivesModalOpen: boolean;
+  isIntroModalOpen: boolean;
+  onStartGame: () => void;
+  closeObjectivesAndShowIntro: () => void;
   handleRosterStepFinished: (bonus: number, countedRecords: any) => void;
   handleChartStepFinished: (bonus: number) => void;
   handleQuizStepFinished: (bonus: number) => void;
@@ -28,7 +31,6 @@ interface ArenaPageProps {
   resetAllGameProgress: () => void;
   getStagePercentage: (s: string) => string;
   activeLevelProgressPercentage: () => number;
-  isIntroModalOpen: boolean;
   teacherMode: boolean;
   onToggleTeacherMode?: () => void;
 }
@@ -41,7 +43,10 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
   userCountedData,
   onBackToRoadmap,
   onGoBackStage,
-  startCurrentLevelPlay,
+  isObjectivesModalOpen,
+  isIntroModalOpen,
+  onStartGame,
+  closeObjectivesAndShowIntro,
   handleRosterStepFinished,
   handleChartStepFinished,
   handleQuizStepFinished,
@@ -49,7 +54,6 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
   resetAllGameProgress,
   getStagePercentage,
   activeLevelProgressPercentage,
-  isIntroModalOpen,
   teacherMode,
   onToggleTeacherMode,
 }) => {
@@ -153,6 +157,69 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
         )}
       </AnimatePresence>
 
+      {/* Level Objectives Modal Overlay - Tujuan Pembelajaran */}
+      <AnimatePresence>
+        {isObjectivesModalOpen && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-[998] overflow-y-auto">
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 10 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 10 }}
+              className="bg-white rounded-3xl border-4 border-black shadow-[6px_6px_0px_#000] p-2.5 lg:p-8 max-w-lg md:max-w-2xl w-full relative text-left flex flex-col max-h-[88vh] overflow-hidden"
+            >
+              {/* Header Title */}
+              <div className="text-center space-y-1 md:space-y-2 border-b-2 sm:border-b-4 border-black shrink-0 pb-2 lg:pb-4">
+                <h2 className="text-[17px] lg:text-2xl font-black font-display uppercase tracking-tight text-slate-900 pt-0.5 sm:pt-1">
+                  Tujuan Pembelajaran
+                </h2>
+                <p className="text-[9px] sm:text-xs lg:text-base text-slate-600 font-bold uppercase tracking-wide">
+                  {activeLevel.title}
+                </p>
+              </div>
+
+              {/* Objective / Goal content - scrollable inside flex */}
+              <div className="flex-1 overflow-y-auto py-2 lg:py-6 space-y-2 sm:space-y-4 md:space-y-5 pr-1">
+
+                {/* Learning objective */}
+                <div className="flex gap-1.5 lg:gap-4 items-start p-2 lg:p-5 bg-[#FDE047]/30 border-2 sm:border-3 border-black rounded-xl sm:rounded-2xl shadow-[2px_2px_0px_#000] sm:shadow-[3px_3px_0px_#000]">
+                  <div className="shrink-0 w-8 h-8 lg:w-12 lg:h-12 rounded-full bg-[#FDE047] border-2 border-black flex items-center justify-center text-sm lg:text-2xl shadow-[2px_2px_0px_#000]">🎯</div>
+                  <div>
+                    <h4 className="font-black text-[11px] lg:text-lg uppercase text-slate-900 font-display">Tujuan Pembelajaran</h4>
+                    <p className="text-[9px] sm:text-xs lg:text-base text-slate-700 font-bold mt-1 leading-relaxed">{activeLevel.focus}</p>
+                  </div>
+                </div>
+
+                {/* Learning outcome / what the student will be able to understand */}
+                <div className="flex gap-1.5 lg:gap-4 items-start p-2 lg:p-5 bg-[#A5F3FC]/30 border-2 sm:border-3 border-black rounded-xl sm:rounded-2xl shadow-[2px_2px_0px_#000] sm:shadow-[3px_3px_0px_#000]">
+                  <div className="shrink-0 w-8 h-8 lg:w-12 lg:h-12 rounded-full bg-[#A5F3FC] border-2 border-black flex items-center justify-center text-sm lg:text-2xl shadow-[2px_2px_0px_#000]">💡</div>
+                  <div>
+                    <h4 className="font-black text-[11px] lg:text-lg uppercase text-slate-900 font-display">Setelah Misi Ini, Kamu Mampu</h4>
+                    <ul className="text-[9px] sm:text-xs lg:text-base text-slate-700 font-bold mt-1 leading-relaxed list-disc pl-4 space-y-1">
+                      <li>Menghitung dan merangkum data kehadiran siswa secara teliti.</li>
+                      <li>Memilih tipe grafik yang tepat untuk menyajikan data.</li>
+                      <li>Membaca pola kehadiran dan mengambil kesimpulan dari grafik.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              {/* Continue button */}
+              <div className="pt-2.5 lg:pt-6 border-t-2 sm:border-t-4 border-black flex justify-center shrink-0">
+                <button
+                  type="button"
+                  onClick={closeObjectivesAndShowIntro}
+                  className="w-fit sm:w-full bg-[#FDE047] hover:bg-[#FACC15] text-black border-2 sm:border-4 border-black text-[11px] lg:text-lg font-black py-2.5 lg:py-4 rounded-xl sm:rounded-2xl uppercase tracking-wider cursor-pointer shadow-[2px_2px_0px_#000] sm:shadow-[4px_4px_0px_#000] active:translate-y-0.5 active:shadow-[1px_1px_0px_#000] flex items-center justify-center gap-2 font-display"
+                  id="btn-lanjut-cara-bermain"
+                >
+                  <span>Lanjut ke Cara Bermain</span>
+                  <span className="animate-pulse">→</span>
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       {/* Level Intro Modal Overlay - Cara Bermain */}
       <AnimatePresence>
         {isIntroModalOpen && (
@@ -200,7 +267,7 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
                   type="button"
                   onClick={() => {
                     playSynthesizerNote('click');
-                    startCurrentLevelPlay();
+                    onStartGame();
                   }}
                   className="w-fit sm:w-full bg-[#FDE047] hover:bg-[#FACC15] text-black border-2 sm:border-4 border-black text-[11px] lg:text-lg font-black py-2.5 lg:py-4 rounded-xl sm:rounded-2xl uppercase tracking-wider cursor-pointer shadow-[2px_2px_0px_#000] sm:shadow-[4px_4px_0px_#000] active:translate-y-0.5 active:shadow-[1px_1px_0px_#000] flex items-center justify-center gap-2 font-display"
                   id="btn-start-misi"
