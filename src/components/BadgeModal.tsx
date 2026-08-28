@@ -15,8 +15,9 @@ export const BadgeModal: React.FC<BadgeModalProps> = ({ isOpen, unlockedBadgeIds
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-[999] overflow-y-auto">
+    <div id="badge-modal-overlay" className="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-[999] overflow-y-auto">
       <motion.div
+        id="badge-modal-card"
         initial={{ scale: 0.95, opacity: 0, y: 10 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.95, opacity: 0, y: 10 }}
@@ -24,21 +25,23 @@ export const BadgeModal: React.FC<BadgeModalProps> = ({ isOpen, unlockedBadgeIds
       >
         {/* Top Close Button icon */}
         <button 
+          id="btn-badge-close"
           type="button" 
           onClick={() => { playSynthesizerNote('btn'); onClose(); }}
           className="absolute top-4 right-4 p-2 bg-slate-100 hover:bg-slate-200 border-2 border-black rounded-lg text-black font-black flex items-center justify-center cursor-pointer hover:scale-105"
         >
-          <X className="w-4 h-4" />
+          <X id="badge-close-icon" className="w-4 h-4" />
         </button>
 
         {/* Badges container */}
-        <div className="mb-6">
+        <div id="badge-gallery-wrap" className="mb-6">
           <BadgeGallery unlockedBadgeIds={unlockedBadgeIds} />
         </div>
 
         {/* Bottom buttons action row */}
-        <div className="flex justify-end pt-4 border-t-2 border-black">
+        <div id="badge-action-row" className="flex justify-end pt-4 border-t-2 border-black">
           <button
+            id="btn-badge-back"
             type="button"
             onClick={() => { playSynthesizerNote('btn'); onClose(); }}
             className="px-6 py-3 bg-black text-white hover:bg-slate-900 border-2 border-black rounded-lg text-xs font-black uppercase tracking-wider cursor-pointer shadow-[2px_2px_0px_#000] transition-colors active:translate-y-0.5"

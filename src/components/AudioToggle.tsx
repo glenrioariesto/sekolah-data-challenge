@@ -34,14 +34,14 @@ export function AudioToggle({
       } ${className}`}
     >
       {isMuted ? (
-        <div className="relative flex items-center justify-center text-slate-700 group-hover:text-black transition-colors">
-          <VolumeX className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 2xl:w-8 2xl:h-8 stroke-[2.5]" />
+        <div id="audio-icon-muted" className="relative flex items-center justify-center text-slate-700 group-hover:text-black transition-colors">
+          <VolumeX id="audio-volume-x" className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 2xl:w-8 2xl:h-8 stroke-[2.5]" />
         </div>
       ) : (
-        <div className="relative flex items-center justify-center text-black">
+        <div id="audio-icon-unmuted" className="relative flex items-center justify-center text-black">
           {/* Subtle ambient soundwave animation ring */}
-          <span className="absolute -inset-1 rounded-xl md:rounded-2xl 2xl:rounded-3xl bg-[#FDE047]/30 animate-ping opacity-75 pointer-events-none" />
-          <Volume2 className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 2xl:w-8 2xl:h-8 stroke-[2.5]" />
+          <span id="audio-ping-ring" className="absolute -inset-1 rounded-xl md:rounded-2xl 2xl:rounded-3xl bg-[#FDE047]/30 animate-ping opacity-75 pointer-events-none" />
+          <Volume2 id="audio-volume-2" className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 2xl:w-8 2xl:h-8 stroke-[2.5]" />
         </div>
       )}
     </button>

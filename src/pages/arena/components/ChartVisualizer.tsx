@@ -102,16 +102,16 @@ export const ChartVisualizer: React.FC<ChartVisualizerProps> = ({
   const PIE_COLORS = ['#10B981', '#0EA5E9', '#F59E0B', '#EF4444'];
 
   return (
-    <div ref={chartRefCallback} className="relative w-full flex-1 min-h-0 bg-white rounded-2xl border-2 border-black p-2 sm:p-3 shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] flex flex-col justify-center">
+    <div ref={chartRefCallback} id="chart-visualizer" className="relative w-full flex-1 min-h-0 bg-white rounded-2xl border-2 border-black p-2 sm:p-3 shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] flex flex-col justify-center">
       
       {/* Backdrop division lines (only for Bar Chart) */}
       {selectedChartType === 'batang' && (
-        <div className="absolute inset-x-0 top-0 bottom-8 flex flex-col justify-between pointer-events-none px-2 z-0">
+        <div id="chart-batang-backdrop" className="absolute inset-x-0 top-0 bottom-8 flex flex-col justify-between pointer-events-none px-2 z-0">
           {[1, 2, 3, 4].map((v, i) => {
             const cap = maxCategoryTotal;
             const labelVal = Math.round(cap - (i * (cap / 4)));
             return (
-              <div key={i} className="w-full border-t border-slate-100 flex justify-between items-center text-[9px] font-mono text-slate-400">
+              <div key={i} id={`chart-batang-backdrop-line-${i}`} className="w-full border-t border-slate-100 flex justify-between items-center text-[9px] font-mono text-slate-400">
                 <span>{labelVal}</span>
               </div>
             );
@@ -121,7 +121,7 @@ export const ChartVisualizer: React.FC<ChartVisualizerProps> = ({
 
       {/* Diagram Batang: Weekly totals comparison */}
       {selectedChartType === 'batang' && (
-        <div className="w-full flex items-end justify-around z-10 pt-4 px-2 sm:px-6" style={{ height: chartHeight > 0 ? `${chartHeight}px` : 'auto' }}>
+        <div id="chart-batang-bars" className="w-full flex items-end justify-around z-10 pt-4 px-2 sm:px-6" style={{ height: chartHeight > 0 ? `${chartHeight}px` : 'auto' }}>
           {[
             { label: 'Hadir', val: totalPresent, color: 'bg-[#10B981]', text: 'text-emerald-700' },
             { label: 'Izin', val: totalPermit, color: 'bg-[#0EA5E9]', text: 'text-sky-700' },
@@ -130,23 +130,25 @@ export const ChartVisualizer: React.FC<ChartVisualizerProps> = ({
           ].map((item, idx) => {
             const percentHeight = (item.val / maxCategoryTotal) * 100;
             return (
-              <div key={idx} className="flex flex-col items-center flex-1 max-w-[80px] sm:max-w-[120px] px-1 sm:px-2">
+              <div key={idx} id={`chart-batang-col-${idx}`} className="flex flex-col items-center flex-1 max-w-[80px] sm:max-w-[120px] px-1 sm:px-2">
                 <div 
+                  id={`chart-batang-track-${idx}`}
                   className="w-full bg-slate-100/80 rounded-t-xl flex items-end overflow-hidden relative"
                   style={{ height: chartHeight > 0 ? `${chartHeight - 32}px` : '140px' }}
                 >
                   <motion.div
+                    id={`chart-batang-bar-${idx}`}
                     initial={{ height: 0 }}
                     animate={{ height: `${percentHeight}%` }}
                     transition={{ duration: 0.5, ease: 'easeOut' }}
                     className={`w-full ${item.color} border-2 border-black absolute bottom-0 left-0 rounded-t-xl flex flex-col justify-start items-center pt-1.5`}
                   >
-                    <span className="text-[10px] sm:text-xs font-mono font-black text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">
+                    <span id={`chart-batang-value-${idx}`} className="text-[10px] sm:text-xs font-mono font-black text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">
                       {item.val}
                     </span>
                   </motion.div>
                 </div>
-                <span className="text-[9px] sm:text-xs font-black text-slate-900 mt-1.5 whitespace-nowrap font-display uppercase">
+                <span id={`chart-batang-label-${idx}`} className="text-[9px] sm:text-xs font-black text-slate-900 mt-1.5 whitespace-nowrap font-display uppercase">
                   {item.label}
                 </span>
               </div>
@@ -187,11 +189,11 @@ export const ChartVisualizer: React.FC<ChartVisualizerProps> = ({
             <Line type="monotone" dataKey="Sakit" stroke="#F59E0B" strokeWidth={3} dot={{ r: 3, fill: '#F59E0B', stroke: '#000', strokeWidth: 1.5 }} activeDot={{ r: 5 }} />
             <Line type="monotone" dataKey="Alfa" stroke="#EF4444" strokeWidth={3} dot={{ r: 3, fill: '#EF4444', stroke: '#000', strokeWidth: 1.5 }} activeDot={{ r: 5 }} />
           </LineChart>
-          <div className="bg-white border border-black px-1.5 py-0.5 rounded-md flex flex-wrap justify-center gap-x-2 gap-y-0.5 shadow-[1px_1px_0px_#000] text-[8px] sm:text-[9px] font-black mt-1 mx-auto w-fit font-display uppercase">
-            <div className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#10B981] border border-black" /><span>Hadir</span></div>
-            <div className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#0EA5E9] border border-black" /><span>Izin</span></div>
-            <div className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#F59E0B] border border-black" /><span>Sakit</span></div>
-            <div className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#EF4444] border border-black" /><span>Alfa</span></div>
+          <div id="chart-garis-legend" className="bg-white border border-black px-1.5 py-0.5 rounded-md flex flex-wrap justify-center gap-x-2 gap-y-0.5 shadow-[1px_1px_0px_#000] text-[8px] sm:text-[9px] font-black mt-1 mx-auto w-fit font-display uppercase">
+            <div id="chart-garis-legend-hadir" className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#10B981] border border-black" /><span>Hadir</span></div>
+            <div id="chart-garis-legend-izin" className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#0EA5E9] border border-black" /><span>Izin</span></div>
+            <div id="chart-garis-legend-sakit" className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#F59E0B] border border-black" /><span>Sakit</span></div>
+            <div id="chart-garis-legend-alfa" className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#EF4444] border border-black" /><span>Alfa</span></div>
           </div>
         </>
       )}
@@ -201,7 +203,7 @@ export const ChartVisualizer: React.FC<ChartVisualizerProps> = ({
         const maxPieSize = isMobileLandscape ? 140 : Math.max(160, Math.min(chartWidth * 0.8, chartHeight > 0 ? chartHeight - 20 : 280));
         const pieSize = chartHeight > 0 ? maxPieSize : (isMobileLandscape ? 130 : 240);
         return (
-          <div className={`w-full flex ${isMobileLandscape ? 'flex-row items-center justify-center gap-6' : 'flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8'} py-1`}>
+          <div id="chart-lingkaran-wrap" className={`w-full flex ${isMobileLandscape ? 'flex-row items-center justify-center gap-6' : 'flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8'} py-1`}>
             <PieChart width={pieSize} height={pieSize}>
               <Pie
                 data={pieChartData}
@@ -229,21 +231,21 @@ export const ChartVisualizer: React.FC<ChartVisualizerProps> = ({
                 formatter={(value: any, name: any) => [`${value} siswa (${grandTotal > 0 ? Math.round((Number(value) / grandTotal) * 100) : 0}%)`, name]}
               />
             </PieChart>
-            <div className="text-left space-y-1 bg-slate-50 border border-slate-200 p-2 sm:p-3 rounded-xl shadow-xs shrink-0">
-              <h4 className="text-[9px] sm:text-xs font-black text-slate-900 uppercase tracking-wide border-b border-slate-200 pb-1 mb-1 font-display">Rasio Kumulatif</h4>
-              <div className="flex items-center gap-2">
+            <div id="chart-lingkaran-ratio" className="text-left space-y-1 bg-slate-50 border border-slate-200 p-2 sm:p-3 rounded-xl shadow-xs shrink-0">
+              <h4 id="chart-lingkaran-ratio-title" className="text-[9px] sm:text-xs font-black text-slate-900 uppercase tracking-wide border-b border-slate-200 pb-1 mb-1 font-display">Rasio Kumulatif</h4>
+              <div id="chart-lingkaran-ratio-hadir" className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#10B981]" />
                 <span className="text-[9px] sm:text-xs text-slate-800 font-bold font-display uppercase">Hadir: <strong>{totalPresent}</strong> ({Math.round(pctPresent)}%)</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div id="chart-lingkaran-ratio-izin" className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#0EA5E9]" />
                 <span className="text-[9px] sm:text-xs text-slate-800 font-bold font-display uppercase">Izin: <strong>{totalPermit}</strong> ({Math.round(pctPermit)}%)</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div id="chart-lingkaran-ratio-sakit" className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#F59E0B]" />
                 <span className="text-[9px] sm:text-xs text-slate-800 font-bold font-display uppercase">Sakit: <strong>{totalSick}</strong> ({Math.round(pctSick)}%)</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div id="chart-lingkaran-ratio-alfa" className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#EF4444]" />
                 <span className="text-[9px] sm:text-xs text-slate-800 font-bold font-display uppercase">Alfa: <strong>{totalAlpha}</strong> ({Math.round(pctAlpha)}%)</span>
               </div>

@@ -193,7 +193,7 @@ export const StudentCard: React.FC<StudentCardProps> = ({
         id={`student-item-${day}-${idx}`}
       >
         {/* Big Mystery Question Mark */}
-        <div className="absolute inset-x-0 top-0 bottom-6 sm:bottom-7 md:bottom-10 flex items-center justify-center">
+        <div id={`student-mystery-${day}-${idx}`} className="absolute inset-x-0 top-0 bottom-6 sm:bottom-7 md:bottom-10 flex items-center justify-center">
           <motion.span 
             animate={isHovered ? { scale: [1, 1.25, 1], rotate: [0, -12, 12, -12, 0] } : { scale: 1, rotate: 0 }}
             transition={{ duration: 0.45 }}
@@ -204,7 +204,7 @@ export const StudentCard: React.FC<StudentCardProps> = ({
         </div>
 
         {/* Name Plate absolute at bottom */}
-        <div className="absolute bottom-1 left-1 right-1 h-6 sm:h-7 md:h-10 flex items-center justify-center z-10">
+        <div id={`student-mystery-nameplate-${day}-${idx}`} className="absolute bottom-1 left-1 right-1 h-6 sm:h-7 md:h-10 flex items-center justify-center z-10">
           <div className="relative w-full h-full">
             <img src={papanNama} className="w-full h-full object-contain" alt="Papan Nama" />
             <span className="absolute inset-0 flex items-center justify-center font-sans font-black text-[8px] sm:text-[10px] md:text-sm text-slate-800 uppercase tracking-wider animate-pulse flex items-center gap-0.5">
@@ -243,7 +243,7 @@ export const StudentCard: React.FC<StudentCardProps> = ({
         id={`student-item-${day}-${idx}`}
       >
         {/* Status Badge - Centered in the upper region */}
-        <div className="absolute inset-x-0 top-0 bottom-6 sm:bottom-7 md:bottom-10 flex items-center justify-center shrink-0 scale-95 sm:scale-100">
+        <div id={`student-status-badge-wrap-${day}-${idx}`} className="absolute inset-x-0 top-0 bottom-6 sm:bottom-7 md:bottom-10 flex items-center justify-center shrink-0 scale-95 sm:scale-100">
           <motion.span 
             animate={isHovered ? { scale: 1.12, rotate: [0, -4, 4, 0] } : { scale: 1, rotate: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 10 }}
@@ -255,7 +255,7 @@ export const StudentCard: React.FC<StudentCardProps> = ({
         </div>
 
         {/* Name Plate absolute at bottom */}
-        <div className="absolute bottom-1 left-1 right-1 h-6 sm:h-7 md:h-10 flex items-center justify-center z-10">
+        <div id={`student-absent-nameplate-${day}-${idx}`} className="absolute bottom-1 left-1 right-1 h-6 sm:h-7 md:h-10 flex items-center justify-center z-10">
           <div className="relative w-full h-full">
             <img src={papanNama} className="w-full h-full object-contain" alt="Papan Nama" />
             <span className="absolute inset-0 flex items-center justify-center font-sans font-black text-[8px] sm:text-[10px] md:text-sm text-slate-800 truncate px-1.5">

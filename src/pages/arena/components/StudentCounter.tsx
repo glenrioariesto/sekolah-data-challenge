@@ -253,9 +253,9 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
 
   const renderPageBack = (dayName: string) => {
     return (
-      <div className="w-full h-full flex flex-col bg-[#FAF7F0] border-2 border-black rounded-xl pr-6 pt-1 sm:pr-10 sm:pt-2 relative select-none">
+      <div id={`buku-page-back-${dayName}`} className="w-full h-full flex flex-col bg-[#FAF7F0] border-2 border-black rounded-xl pr-6 pt-1 sm:pr-10 sm:pt-2 relative select-none">
         {/* Red vertical margin line of the notebook */}
-        <div className="absolute left-[20px] sm:left-[32px] top-0 bottom-0 w-[1.5px] bg-red-450 z-10" />
+        <div className="absolute left-[28px] sm:left-[36px] top-0 bottom-0 w-[1.5px] bg-red-450 z-10" />
         
         {/* Page content - school notebook look */}
         <div className="flex flex-col h-full font-mono text-slate-500 pl-2 sm:pl-4 z-10">
@@ -297,15 +297,15 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
     if (!roster) return null;
 
     return (
-      <div className="w-full h-full flex flex-col bg-[#FAF7F0] border-2 border-black rounded-xl pt-1 sm:pt-2 relative select-none">
+      <div id={`buku-page-content-${roster.day}`} className="w-full h-full flex flex-col bg-[#FAF7F0] border-2 border-black rounded-xl pt-1 sm:pt-2 relative select-none">
         {/* Red vertical margin line of the notebook */}
-        <div className="absolute left-[20px] sm:left-[32px] top-0 bottom-0 w-[1.5px] bg-red-450 z-10" />
+        <div className="absolute left-[28px] sm:left-[36px] top-0 bottom-0 w-[1.5px] bg-red-450 z-10" />
 
-        {/* Content wrapper to shift content past the red vertical margin line */}
+        {/* Content wrapper */}
         <div className="flex flex-col h-full pl-2 sm:pl-4 z-10 justify-between">
           {/* Header row */}
-          <div className="flex items-center justify-between h-7 sm:h-10 border-b border-[#e2e8f0] pb-1">
-            <span className="text-[10px] sm:text-xs font-black text-slate-800 uppercase tracking-wide font-display">
+          <div id={`buku-page-header-${roster.day}`} className="flex items-center justify-between h-7 sm:h-10 border-b border-[#e2e8f0] pb-1">
+            <span className="text-[10px] sm:text-xs font-black text-slate-800 uppercase tracking-wide font-display ml-4">
               Hari: {roster.day}
             </span>
             <span className="text-[10px] sm:text-xs font-sans text-slate-500 font-extrabold pr-6">
@@ -314,10 +314,10 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
           </div>
 
           {/* Hadir Row */}
-          <div className="flex items-center justify-between h-7 sm:h-12 border-b border-[#e2e8f0] pb-1 w-full">
-            <label className="text-[10px] sm:text-xs font-black text-emerald-700 uppercase font-display">Hadir</label>
+          <div id={`buku-row-hadir-${roster.day}`} className="flex items-center justify-between h-7 sm:h-12 border-b border-[#e2e8f0] pb-1 w-full">
+            <label id={`buku-label-hadir-${roster.day}`} className="text-[10px] sm:text-xs font-black text-emerald-700 uppercase font-display ml-4">Hadir</label>
             {isStatic ? (
-              <div className="w-16 sm:w-24 p-0.5 sm:p-1.5 mr-2 sm:mr-4 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm flex items-center justify-center min-h-[20px] sm:min-h-[32px]">
+              <div id={`buku-value-hadir-${roster.day}`} className="w-16 sm:w-24 p-0.5 sm:p-1.5 mr-2 sm:mr-4 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm flex items-center justify-center min-h-[20px] sm:min-h-[32px]">
                 {inputs[roster.day]?.present || ''}
               </div>
             ) : (
@@ -335,10 +335,10 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
           </div>
 
           {/* Izin Row */}
-          <div className="flex items-center justify-between h-7 sm:h-12 border-b border-[#e2e8f0] pb-1 w-full">
-            <label className="text-[10px] sm:text-xs font-black text-sky-700 uppercase font-display">Izin</label>
+          <div id={`buku-row-izin-${roster.day}`} className="flex items-center justify-between h-7 sm:h-12 border-b border-[#e2e8f0] pb-1 w-full">
+            <label id={`buku-label-izin-${roster.day}`} className="text-[10px] sm:text-xs font-black text-sky-700 uppercase font-display ml-4">Izin</label>
             {isStatic ? (
-              <div className="w-16 sm:w-24 p-0.5 sm:p-1.5 mr-2 sm:mr-4 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm flex items-center justify-center min-h-[20px] sm:min-h-[32px]">
+              <div id={`buku-value-izin-${roster.day}`} className="w-16 sm:w-24 p-0.5 sm:p-1.5 mr-2 sm:mr-4 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm flex items-center justify-center min-h-[20px] sm:min-h-[32px]">
                 {inputs[roster.day]?.permit || ''}
               </div>
             ) : (
@@ -356,10 +356,10 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
           </div>
 
           {/* Sakit Row */}
-          <div className="flex items-center justify-between h-7 sm:h-12 border-b border-[#e2e8f0] pb-1 w-full">
-            <label className="text-[10px] sm:text-xs font-black text-amber-700 uppercase font-display">Sakit</label>
+          <div id={`buku-row-sakit-${roster.day}`} className="flex items-center justify-between h-7 sm:h-12 border-b border-[#e2e8f0] pb-1 w-full">
+            <label id={`buku-label-sakit-${roster.day}`} className="text-[10px] sm:text-xs font-black text-amber-700 uppercase font-display ml-4">Sakit</label>
             {isStatic ? (
-              <div className="w-16 sm:w-24 p-0.5 sm:p-1.5 mr-2 sm:mr-4 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm flex items-center justify-center min-h-[20px] sm:min-h-[32px]">
+              <div id={`buku-value-sakit-${roster.day}`} className="w-16 sm:w-24 p-0.5 sm:p-1.5 mr-2 sm:mr-4 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm flex items-center justify-center min-h-[20px] sm:min-h-[32px]">
                 {inputs[roster.day]?.sick || ''}
               </div>
             ) : (
@@ -377,10 +377,10 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
           </div>
 
           {/* Alfa Row */}
-          <div className="flex items-center justify-between h-7 sm:h-12 border-b border-[#e2e8f0] pb-1 w-full">
-            <label className="text-[10px] sm:text-xs font-black text-rose-700 uppercase font-display">Alfa</label>
+          <div id={`buku-row-alfa-${roster.day}`} className="flex items-center justify-between h-7 sm:h-12 border-b border-[#e2e8f0] pb-1 w-full">
+            <label id={`buku-label-alfa-${roster.day}`} className="text-[10px] sm:text-xs font-black text-rose-700 uppercase font-display ml-4">Alfa</label>
             {isStatic ? (
-              <div className="w-16 sm:w-24 p-0.5 sm:p-1.5 mr-2 sm:mr-4 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm flex items-center justify-center min-h-[20px] sm:min-h-[32px]">
+              <div id={`buku-value-alfa-${roster.day}`} className="w-16 sm:w-24 p-0.5 sm:p-1.5 mr-2 sm:mr-4 bg-white text-[#1E293B] font-mono font-black text-center border-2 border-black rounded-lg shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] text-[10px] sm:text-sm flex items-center justify-center min-h-[20px] sm:min-h-[32px]">
                 {inputs[roster.day]?.alpha || ''}
               </div>
             ) : (
@@ -398,7 +398,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
           </div>
 
           {/* Empty Line Row */}
-          <div className="h-6 sm:h-10 border-b border-[#e2e8f0] w-full shrink-0" />
+          <div id={`buku-empty-row-${roster.day}`} className="h-6 sm:h-10 border-b border-[#e2e8f0] w-full shrink-0" />
         </div>
       </div>
     );
@@ -411,22 +411,23 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
   const flippingTabIndex = flipDirection === 'next' ? currentTab : activeTab;
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-1 py-1 sm:px-4 sm:py-4 flex flex-col min-h-0 h-full overflow-y-auto sm:overflow-hidden game-wrapper-padding">
-      <div className="w-full min-h-screen sm:min-h-0 sm:max-h-[700px] flex flex-col sm:flex-row gap-3 sm:gap-4 lg:gap-6 min-h-0 mobile-landscape-compact-gap sm:my-auto">
+    <div id="student-counter" className="w-full max-w-7xl mx-auto px-1 py-1 sm:px-4 sm:py-4 flex flex-col min-h-0 h-full overflow-y-auto sm:overflow-hidden game-wrapper-padding">
+      <div id="student-counter-layout" className="w-full min-h-screen sm:min-h-0 sm:max-h-[700px] flex flex-col sm:flex-row gap-3 sm:gap-4 lg:gap-6 min-h-0 mobile-landscape-compact-gap sm:my-auto">
       {/* Left Side: Roster Viewer (Canvas) */}
-      <div className="flex-[7] min-w-0 min-h-0 flex flex-col h-fit sm:h-full bg-white border-2 sm:border-4 border-black rounded-2xl sm:rounded-3xl p-3 sm:p-5 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)] mobile-landscape-compact-card relative">
+      <div id="roster-viewer" className="flex-[7] min-w-0 min-h-0 flex flex-col h-fit sm:h-full bg-white border-2 sm:border-4 border-black rounded-2xl sm:rounded-3xl p-3 sm:p-5 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)] mobile-landscape-compact-card relative">
         
         {/* Instruction Info Text */}
-        <p className="text-xs sm:text-sm text-slate-600 font-sans font-extrabold mb-2 shrink-0">
+        <p id="roster-instruction" className="text-xs sm:text-sm text-slate-600 font-sans font-extrabold mb-2 shrink-0">
           Klik nama untuk mengetahui status kehadiran
         </p>
 
         {/* Days Tabs & Hint Button Row */}
-        <div className="w-full flex items-center justify-between gap-3 mb-3 shrink-0">
+        <div id="roster-controls-row" className="w-full flex items-center justify-between gap-3 mb-3 shrink-0">
           {/* Days Tabs */}
-          <div className="flex-1 flex items-center gap-2 overflow-x-auto p-0.5 scrollbar-none mobile-landscape-compact-gap">
+          <div id="roster-day-tabs" className="flex-1 flex items-center gap-2 overflow-x-auto p-0.5 scrollbar-none mobile-landscape-compact-gap">
             {rosters.map((r, idx) => (
               <button
+                id={`btn-day-tab-${r.day}`}
                 key={r.day}
                 ref={el => { tabRefs.current[idx] = el; }}
                 type="button"
@@ -439,7 +440,6 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
                     ? 'bg-[#FDE047] text-black scale-105'
                     : 'bg-white text-slate-700 hover:bg-slate-100'
                 }`}
-                id={`btn-day-tab-${r.day}`}
               >
                 {r.day}
               </button>
@@ -449,11 +449,11 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
           {/* DEV / Guru Mode Button */}
           {onToggleTeacherMode && (
             <button
+              id="btn-toggle-dev-mode"
               type="button"
               onClick={onToggleTeacherMode}
               className="hidden"
               title={teacherMode ? "Mode Guru / Dev Aktif" : "Aktifkan Mode Guru / Dev"}
-              id="btn-toggle-dev-mode"
             >
               <span>{teacherMode ? 'DEV: ON' : 'DEV: OFF'}</span>
             </button>
@@ -464,11 +464,11 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
             const currentDay = rosters[activeTab]?.day;
             return (
               <button
+                id={`autofill-hint-${currentDay}`}
                 type="button"
                 onClick={() => handleAutofillHelper(currentDay)}
                 className="p-1.5 border-2 border-black rounded-xl shadow-[1.5px_1.5px_0px_#000] cursor-pointer transition-all active:translate-y-0.5 active:shadow-none hover:bg-slate-100 bg-[#FDE047] text-black flex items-center justify-center shrink-0"
                 title={`Petunjuk Autofill (${currentDay}) - Mode Guru/Dev`}
-                id={`autofill-hint-${currentDay}`}
               >
                 <HelpCircle className="w-5 h-5 text-black" />
               </button>
@@ -478,8 +478,8 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
 
         {/* Student List Grid - with top clearance for speech bubbles */}
         {activeRoster && (
-          <div className="flex-1 min-h-0 overflow-y-auto pr-1 sm:pr-2 pt-6 sm:pt-7 pb-2 px-1 scrollbar-thin">
-            <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
+          <div id="student-list-scroll" className="flex-1 min-h-0 overflow-y-auto pr-1 sm:pr-2 pt-6 sm:pt-7 pb-2 px-1 scrollbar-thin">
+            <div id="student-list-grid" className="grid grid-cols-4 gap-1.5 sm:gap-2">
               {activeRoster.students.map((student, idx) => {
                 const key = `${activeRoster.day}-${idx}`;
                 const isHighlighted = highlightedStudents[key];
@@ -501,18 +501,19 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
 
       {/* Right Side: Working Counter Control Panel Card (Buku Rekapitulasi dengan Efek 3D Page Flip) */}
       <div 
+        id="buku-rekapitulasi"
         className="flex-[5] min-w-0 min-h-0 flex flex-col justify-between h-fit sm:h-full bg-[#FAF7F0] border-2 sm:border-4 border-black rounded-2xl sm:rounded-3xl p-3 sm:p-5 shadow-[4px_4px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_rgba(0,0,0,1)] mobile-landscape-compact-card relative overflow-hidden"
         style={{ perspective: '1500px' }}
       >
-        <div className="pl-2 flex flex-col min-h-0 flex-1 z-10">
+        <div id="buku-rekapitulasi-inner" className="pl-2 flex flex-col min-h-0 flex-1 z-10">
           {/* Header */}
-          <div className="shrink-0 mb-2">
-            <div className="flex items-center justify-between border-b-2 border-black/20 pb-1.5">
-              <h3 className="text-xs sm:text-sm font-black text-slate-900 uppercase flex items-center gap-1 font-display">
-                <ClipboardCheck className="w-4 h-4 text-slate-800" />
+          <div id="buku-rekapitulasi-header-wrap" className="shrink-0 mb-2">
+            <div id="buku-rekapitulasi-header" className="flex items-center justify-between border-b-2 border-black/20 pb-1.5">
+              <h3 id="buku-rekapitulasi-title" className="text-xs sm:text-sm font-black text-slate-900 uppercase flex items-center gap-1 font-display">
+                <ClipboardCheck id="buku-rekapitulasi-icon" className="w-4 h-4 text-slate-800" />
                 <span>Buku Rekapitulasi</span>
               </h3>
-              <span className="text-[10px] font-mono font-black bg-black text-white px-2 py-0.5 rounded">
+              <span id="buku-rekapitulasi-page-number" className="text-[10px] font-mono font-black bg-black text-white px-2 py-0.5 rounded">
                 Hal. {activeTab + 1}/{rosters.length}
               </span>
             </div>
@@ -520,24 +521,14 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
 
           {/* Animated Page Content with 3D Page Flip */}
           <div 
+            id="buku-rekapitulasi-anim"
             className="h-[170px] sm:h-[330px] min-h-0 relative flex flex-col justify-center py-2 my-auto"
             style={{ perspective: '1500px', transformStyle: 'preserve-3d' }}
           >
-            {/* Ring Binder Visuals on the left side of the book page */}
-            <div className="absolute left-0 top-0 bottom-0 w-2 sm:w-3 flex flex-col justify-around items-center py-2 sm:py-4 select-none pointer-events-none z-45">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-slate-350 border border-slate-500 shadow-inner flex items-center justify-center">
-                  <div className="w-0.5 h-0.5 rounded-full bg-slate-450 scale-75 sm:scale-100" />
-                </div>
-              ))}
-            </div>
-
-            {/* Gutter spine shadow on the left edge of the page */}
-            <div className="absolute left-0 top-2 bottom-2 w-2.5 sm:w-3 bg-gradient-to-l from-black/10 to-transparent pointer-events-none z-30" />
-
             {/* Shadow cast underneath the turning page */}
             {isFlipping && (
               <motion.div
+                id="buku-flip-shadow"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: [0, 0.3, 0] }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
@@ -548,6 +539,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
 
             {/* The base page underneath (always rendered flat) */}
             <div 
+              id="buku-base-page"
               className="absolute inset-y-2 left-0 right-0"
               style={{
                 transform: 'rotateY(0deg)',
@@ -561,6 +553,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
             {/* The flipping page (only visible during transition) */}
             {isFlipping && (
               <motion.div
+                id="buku-flip-page"
                 initial={{ 
                   rotateY: flipDirection === 'next' ? 0 : -180,
                   opacity: flipDirection === 'next' ? 1 : 0
@@ -589,6 +582,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
               >
                 {/* Front Side of the flipping page */}
                 <div 
+                  id="buku-flip-front"
                   style={{
                     ...backfaceHiddenStyle,
                     transform: 'rotateY(0deg)',
@@ -598,6 +592,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
                   {renderPageContent(flippingTabIndex, true)}
                   {/* Shading overlay for 3D realism */}
                   <motion.div 
+                    id="buku-flip-front-shade"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: flipDirection === 'next' ? 0.45 : 0 }}
                     transition={{ duration: 0.5, ease: "easeInOut" }}
@@ -607,6 +602,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
 
                 {/* Back Side of the flipping page */}
                 <div 
+                  id="buku-flip-back"
                   style={{
                     ...backfaceHiddenStyle,
                     transform: 'rotateY(180deg)',
@@ -616,6 +612,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
                   {renderPageBack(rosters[flippingTabIndex]?.day || '')}
                   {/* Shading overlay for 3D realism */}
                   <motion.div 
+                    id="buku-flip-back-shade"
                     initial={{ opacity: 0.45 }}
                     animate={{ opacity: flipDirection === 'next' ? 0 : 0.45 }}
                     transition={{ duration: 0.5, ease: "easeInOut" }}
@@ -627,8 +624,9 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
           </div>
 
           {/* Book Page Turner Navigation */}
-          <div className="flex items-center justify-between mt-1 mb-2 bg-white/40 border border-black/10 p-1 rounded-xl shrink-0">
+          <div id="buku-page-turner" className="flex items-center justify-between mt-1 mb-2 bg-white/40 border border-black/10 p-1 rounded-xl shrink-0">
             <button
+              id="btn-buku-prev"
               type="button"
               disabled={activeTab === 0}
               onClick={() => {
@@ -645,6 +643,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
             </button>
 
             <button
+              id="btn-buku-next"
               type="button"
               disabled={activeTab === rosters.length - 1}
               onClick={() => {
@@ -663,16 +662,16 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
         </div>
 
         {/* Controls, Help, and Alerts at the Bottom */}
-        <div className="mt-2 pt-2 border-t-2 border-black space-y-2.5 shrink-0 mobile-landscape-compact-text z-20">
+        <div id="buku-controls-footer" className="mt-2 pt-2 border-t-2 border-black space-y-2.5 shrink-0 mobile-landscape-compact-text z-20">
           {/* Verify Submission button */}
-          <div className="flex gap-2">
+          <div id="buku-verify-wrap" className="flex gap-2">
             <motion.button
+              id="btn-verify-roster"
               type="button"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={verifyCounts}
               className="w-full bg-[#F43F5E] hover:bg-[#FB7185] text-white border-2 border-black rounded-xl font-black shadow-[2.5px_2.5px_0px_#000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1.5px_1.5px_0px_#000] py-2.5 sm:py-3 text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer animate-pulse hover:animate-none"
-              id="btn-verify-roster"
             >
               <Check className="w-5 h-5" />
               <span>Verifikasi Kehadiran</span>
@@ -685,17 +684,19 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
       {/* Floating Toast Notification */}
       <AnimatePresence>
         {errorWarning && (
-          <div className="fixed top-5 left-1/2 -translate-x-1/2 z-[1000] w-full max-w-sm px-4 pointer-events-none">
+          <div id="counter-toast-wrap" className="fixed top-5 left-1/2 -translate-x-1/2 z-[1000] w-full max-w-sm px-4 pointer-events-none">
             <motion.div
+              id="counter-toast"
               initial={{ opacity: 0, y: -40, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -40, scale: 0.95 }}
               transition={{ type: 'spring', damping: 20, stiffness: 300 }}
               className="bg-[#FDE047] border-4 border-black p-3.5 rounded-2xl shadow-[4px_4px_0px_#000] flex items-center gap-3 text-black font-black text-xs pointer-events-auto"
             >
-              <AlertCircle className="w-5 h-5 shrink-0 text-black animate-bounce" />
-              <span className="flex-1 font-extrabold leading-normal">{errorWarning}</span>
+              <AlertCircle id="counter-toast-icon" className="w-5 h-5 shrink-0 text-black animate-bounce" />
+              <span id="counter-toast-message" className="flex-1 font-extrabold leading-normal">{errorWarning}</span>
               <button
+                id="btn-counter-toast-close"
                 type="button"
                 onClick={() => setErrorWarning(null)}
                 className="font-mono text-base font-black border-2 border-black bg-white rounded-md w-6 h-6 flex items-center justify-center cursor-pointer shadow-[1px_1px_0px_#000] active:translate-y-0.5 active:shadow-none hover:bg-slate-100"
