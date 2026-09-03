@@ -52,37 +52,66 @@ const COWOK_AVATARS = [
   cowok7, cowok8, cowok9, cowok10, cowok11, cowok12
 ];
 
+const FEMALE_NAMES_SET = new Set([
+  'Alya', 'Nayla', 'Zahra', 'Aurel', 'Keisha',
+  'Nabila', 'Celine', 'Keyla', 'Aisyah', 'Shakira',
+  'Nadine', 'Tiara', 'Naura', 'Syifa', 'Clarissa'
+]);
+
+const MALE_NAMES_SET = new Set([
+  'Raka', 'Rizky', 'Farel', 'Rafi', 'Alvin',
+  'Daffa', 'Arka', 'Naufal', 'Raihan', 'Keanu',
+  'Zidan', 'Fathan', 'Alif', 'Revan', 'Dimas'
+]);
+
 const isFemale = (name: string): boolean => {
+  if (FEMALE_NAMES_SET.has(name)) return true;
+  if (MALE_NAMES_SET.has(name)) return false;
   const lower = name.toLowerCase();
-  const femaleList = ['cici', 'eka', 'fani', 'gita', 'kirana', 'lia', 'nita', 'siti', 'susi', 'ani', 'dewi', 'putri', 'rara', 'tari', 'wulan', 'yuni', 'putu', 'made', 'ketut', 'nyoman', 'naura', 'alesha', 'kayla', 'mikayla', 'lyodra', 'ziva', 'amel', 'endang', 'fitri', 'indah', 'kartika', 'mega', 'novi', 'ratna', 'sari', 'euis', 'lilis'];
+  const femaleList = ['alya', 'nayla', 'zahra', 'aurel', 'keisha', 'nabila', 'celine', 'keyla', 'aisyah', 'shakira', 'nadine', 'tiara', 'naura', 'syifa', 'clarissa', 'cici', 'eka', 'fani', 'gita', 'kirana', 'lia', 'nita', 'siti', 'susi', 'ani', 'dewi', 'putri', 'rara', 'tari', 'wulan', 'yuni', 'amel'];
   if (femaleList.some(f => lower.includes(f))) return true;
-  const males = ['budi', 'andi', 'dodi', 'hari', 'iwan', 'joko', 'maman', 'oki', 'puji', 'rian', 'tono', 'udin', 'yudi', 'zacky', 'adit', 'bambang', 'hendra', 'lukman', 'putra', 'tri', 'asep', 'cecep', 'dadang', 'guruh', 'indra', 'jajang', 'koko', 'mamat'];
-  if (males.some(m => lower.includes(m))) return false;
-  return lower.endsWith('a') || lower.endsWith('i');
+  const maleList = ['raka', 'rizky', 'farel', 'rafi', 'alvin', 'daffa', 'arka', 'naufal', 'raihan', 'keanu', 'zidan', 'fathan', 'alif', 'revan', 'dimas'];
+  if (maleList.some(m => lower.includes(m))) return false;
+  return false;
 };
 
-// Static 1-to-1 deterministic map for the 16 class student names:
-// 100% DISTINCT mapping with ZERO avatar asset collisions!
+// Static 1-to-1 deterministic map for the 30 student names:
+// 15 Female Students mapped to cewe1 .. cewe15
+// 15 Male Students mapped to cowok1 .. cowok12
 const ALL_NAMES_GLOBAL_MAP: Record<string, string> = {
-  // 10 Female Students (mapped strictly to cewe1 .. cewe10)
-  'Cici': cewe1,
-  'Eka': cewe2,
-  'Fani': cewe3,
-  'Gita': cewe4,
-  'Kirana': cewe5,
-  'Lia': cewe6,
-  'Nina': cewe7,
-  'Susi': cewe8,
-  'Wati': cewe9,
-  'Amel': cewe10,
+  // 15 Female Students
+  'Alya': cewe1,
+  'Nayla': cewe2,
+  'Zahra': cewe3,
+  'Aurel': cewe4,
+  'Keisha': cewe5,
+  'Nabila': cewe6,
+  'Celine': cewe7,
+  'Keyla': cewe8,
+  'Aisyah': cewe9,
+  'Shakira': cewe10,
+  'Nadine': cewe11,
+  'Tiara': cewe12,
+  'Naura': cewe13,
+  'Syifa': cewe14,
+  'Clarissa': cewe15,
 
-  // 6 Male Students (mapped strictly to cowok1 .. cowok6)
-  'Andi': cowok1,
-  'Budi': cowok2,
-  'Dodi': cowok3,
-  'Hari': cowok4,
-  'Iwan': cowok5,
-  'Joko': cowok6,
+  // 15 Male Students
+  'Raka': cowok1,
+  'Rizky': cowok2,
+  'Farel': cowok3,
+  'Rafi': cowok4,
+  'Alvin': cowok5,
+  'Daffa': cowok6,
+  'Arka': cowok7,
+  'Naufal': cowok8,
+  'Raihan': cowok9,
+  'Keanu': cowok10,
+  'Zidan': cowok11,
+  'Fathan': cowok12,
+  'Alif': cowok1,
+  'Revan': cowok2,
+  'Dimas': cowok3,
 };
 
 const getStudentAvatar = (name: string, studentIdxInClass: number = 0) => {
@@ -207,8 +236,8 @@ export const StudentCard: React.FC<StudentCardProps> = ({
         <div id={`student-mystery-nameplate-${day}-${idx}`} className="absolute bottom-1 left-1 right-1 h-6 sm:h-7 md:h-10 flex items-center justify-center z-10">
           <div className="relative w-full h-full">
             <img src={papanNama} className="w-full h-full object-contain" alt="Papan Nama" />
-            <span className="absolute inset-0 flex items-center justify-center font-sans font-black text-[8px] sm:text-[10px] md:text-sm text-slate-800 uppercase tracking-wider animate-pulse flex items-center gap-0.5">
-              ❓ <span className="text-[8px] sm:text-[10px] md:text-sm font-sans font-black">{student.name}</span>
+            <span className="absolute inset-0 flex items-center justify-center font-sans font-black text-[8px] sm:text-[10px] md:text-sm text-slate-800 animate-pulse truncate px-1.5">
+              {student.name}
             </span>
           </div>
         </div>

@@ -1,11 +1,21 @@
 import { AttendanceRecord, DailyRoster, StudentRecord, QuizQuestion } from '../types';
 
-// 16 Unique Indonesian Names (10 Females + 6 Males) matching 18 cewe & 12 cowok SVG avatar assets with ZERO duplicates
-const INDONESIAN_NAMES = [
-  // 10 Female Students (mapped to cewe1 .. cewe10)
-  'Cici', 'Eka', 'Fani', 'Gita', 'Kirana', 'Lia', 'Nina', 'Susi', 'Wati', 'Amel',
-  // 6 Male Students (mapped to cowok1 .. cowok6)
-  'Andi', 'Budi', 'Dodi', 'Hari', 'Iwan', 'Joko'
+export const MALE_NAMES = [
+  'Raka', 'Rizky', 'Farel', 'Rafi', 'Alvin',
+  'Daffa', 'Arka', 'Naufal', 'Raihan', 'Keanu',
+  'Zidan', 'Fathan', 'Alif', 'Revan', 'Dimas'
+];
+
+export const FEMALE_NAMES = [
+  'Alya', 'Nayla', 'Zahra', 'Aurel', 'Keisha',
+  'Nabila', 'Celine', 'Keyla', 'Aisyah', 'Shakira',
+  'Nadine', 'Tiara', 'Naura', 'Syifa', 'Clarissa'
+];
+
+// 30 Total Names (15 Females + 15 Males)
+export const INDONESIAN_NAMES = [
+  ...FEMALE_NAMES,
+  ...MALE_NAMES
 ];
 
 export const generateDynamicLevelData = (levelId: number): {
@@ -16,9 +26,10 @@ export const generateDynamicLevelData = (levelId: number): {
   const studentCount = 16;
   const weekDays = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
 
-  // Shuffle class names once so all 16 students are present in every session with 100% unique avatars
-  const shuffledNames = [...INDONESIAN_NAMES].sort(() => Math.random() - 0.5);
-  const classStudents = shuffledNames.slice(0, studentCount);
+  // Select 8 girls and 8 boys (total 16 students) for balanced representation, shuffled
+  const selectedGirls = [...FEMALE_NAMES].sort(() => Math.random() - 0.5).slice(0, 8);
+  const selectedBoys = [...MALE_NAMES].sort(() => Math.random() - 0.5).slice(0, 8);
+  const classStudents = [...selectedGirls, ...selectedBoys].sort(() => Math.random() - 0.5);
 
   const rosters: DailyRoster[] = [];
   const records: AttendanceRecord[] = [];
