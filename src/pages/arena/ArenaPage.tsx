@@ -84,7 +84,7 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
           id="arena-logo-image"
           src={logoPusbuk} 
           alt="Logo Pusbuk" 
-          className="h-10 sm:h-14 md:h-16 lg:h-20 xl:h-24 2xl:h-28 w-auto object-contain drop-shadow-[0_6px_12px_rgba(56,69,91,0.45)]" 
+          className="h-6 sm:h-9 md:h-14 lg:h-18 2xl:h-28 w-auto object-contain drop-shadow-[0_6px_12px_rgba(56,69,91,0.45)]" 
         />
       </div>
 
