@@ -78,13 +78,13 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
         />
       </div>
 
-      {/* Logo Pojok Kiri Atas - Fixed Floating on lg+ screens */}
-      <div id="arena-logo-container" className="hidden lg:block fixed top-3 left-4 md:top-4 md:left-6 2xl:top-6 2xl:left-8 z-40 select-none pointer-events-none">
+      {/* Logo Pojok Kiri Atas - Fixed Floating on lg+ screens (matching detektif digital) */}
+      <div id="arena-logo-container" className="hidden lg:block fixed top-3 left-3 sm:top-4 sm:left-4 md:top-5 md:left-5 z-40 select-none pointer-events-none">
         <img 
           id="arena-logo-image"
           src={logoPusbuk} 
           alt="Logo Pusbuk" 
-          className="lg:h-14 2xl:h-20 w-auto object-contain drop-shadow" 
+          className="h-8 sm:h-11 md:h-14 lg:h-16 xl:h-20 w-auto object-contain drop-shadow-[0_6px_12px_rgba(56,69,91,0.45)]" 
         />
       </div>
 
