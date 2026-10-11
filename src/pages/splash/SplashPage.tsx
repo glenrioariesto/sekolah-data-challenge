@@ -35,7 +35,7 @@ export const SplashPage: React.FC<SplashPageProps> = ({ onStartGame }) => {
 
       {/* Logo Pojok Kiri Atas - Responsive sizing (matching detektif digital) */}
       <div id="splash-logo-container" className="absolute top-3 left-3 sm:top-5 sm:left-5 z-50 shrink-0">
-        <img id="splash-logo-image" src={logoPusbuk} alt="Logo Pusbuk" className="h-10 sm:h-14 md:h-16 lg:h-20 xl:h-24 2xl:h-28 w-auto object-contain drop-shadow-[0_8px_16px_rgba(56,69,91,0.55)]" />
+        <img id="splash-logo-image" src={logoPusbuk} alt="Logo Pusbuk" className="h-12 sm:h-16 md:h-20 lg:h-24 xl:h-28 2xl:h-32 w-auto object-contain drop-shadow-[0_8px_16px_rgba(56,69,91,0.55)]" />
       </div>
 
       {/* Button Mute/Unmute Pojok Kanan Atas */}
