@@ -59,7 +59,6 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
 }) => {
   const { isMuted, toggle } = useAudio();
   const [isQuizMinimized, setIsQuizMinimized] = useState<boolean>(false);
-  const [quizProgress, setQuizProgress] = useState<{ current: number, total: number }>({ current: 0, total: 2 });
 
   useEffect(() => {
     if (currentStage !== 'analysis') {
@@ -169,7 +168,6 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
               currentLevel={activeLevel} 
               onSuccess={handleQuizStepFinished} 
               onViewChart={() => setIsQuizMinimized(true)}
-              onIndexChange={(curr, tot) => setQuizProgress({ current: curr, total: tot })}
             />
           </div>
         </div>
@@ -179,7 +177,7 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
       {currentStage === 'analysis' && isQuizMinimized && (
         <div
           id="quiz-minimized-pill"
-          className="fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-[995] flex items-center gap-2"
+          className="fixed bottom-3 sm:bottom-6 left-1/2 -translate-x-1/2 z-[995] flex items-center gap-2 max-w-[95vw]"
         >
           <button
             id="btn-return-to-quiz-pill"
@@ -188,10 +186,10 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
               playSynthesizerNote('btn');
               setIsQuizMinimized(false);
             }}
-            className="bg-[#FDE047] hover:bg-[#FACC15] text-black border-2 sm:border-3 border-black font-black font-display text-xs sm:text-sm px-4 sm:px-6 py-2.5 sm:py-3 rounded-2xl shadow-[4px_4px_0px_#000] flex items-center gap-2 cursor-pointer transition-transform hover:scale-105 active:scale-95 uppercase tracking-wide animate-bounce hover:animate-none"
+            className="bg-[#FDE047] hover:bg-[#FACC15] text-black border-2 sm:border-3 border-black font-black font-display text-[9px] sm:text-xs md:text-sm px-3.5 sm:px-6 py-1.5 sm:py-2.5 rounded-xl sm:rounded-2xl shadow-[2px_2px_0px_#000] sm:shadow-[4px_4px_0px_#000] flex items-center gap-1.5 sm:gap-2 cursor-pointer transition-transform hover:scale-105 active:scale-95 uppercase tracking-wide animate-bounce hover:animate-none"
           >
-            <span>📝 Lanjut Jawab Soal (Pertanyaan {quizProgress.current + 1} dari {quizProgress.total})</span>
-            <Play className="w-3.5 h-3.5 fill-current" />
+            <span>📝 Lanjut Jawab Soal Analisis</span>
+            <Play className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-current" />
           </button>
         </div>
       )}

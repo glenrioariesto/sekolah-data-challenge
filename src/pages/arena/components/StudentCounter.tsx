@@ -314,7 +314,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
                 type="number"
                 min="0"
                 max="35"
-                placeholder="?"
+                placeholder="0"
                 id={`input-present-${roster.day}`}
                 value={inputs[roster.day]?.present || ''}
                 onChange={(e) => handleInputChange(roster.day, 'present', e.target.value)}
@@ -335,7 +335,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
                 type="number"
                 min="0"
                 max="35"
-                placeholder="?"
+                placeholder="0"
                 id={`input-permit-${roster.day}`}
                 value={inputs[roster.day]?.permit || ''}
                 onChange={(e) => handleInputChange(roster.day, 'permit', e.target.value)}
@@ -356,7 +356,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
                 type="number"
                 min="0"
                 max="35"
-                placeholder="?"
+                placeholder="0"
                 id={`input-sick-${roster.day}`}
                 value={inputs[roster.day]?.sick || ''}
                 onChange={(e) => handleInputChange(roster.day, 'sick', e.target.value)}
@@ -377,7 +377,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
                 type="number"
                 min="0"
                 max="35"
-                placeholder="?"
+                placeholder="0"
                 id={`input-alpha-${roster.day}`}
                 value={inputs[roster.day]?.alpha || ''}
                 onChange={(e) => handleInputChange(roster.day, 'alpha', e.target.value)}
@@ -651,11 +651,11 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
         </div>
 
         {/* Controls, Help, and Alerts at the Bottom */}
-        <div id="buku-controls-footer" className="mt-2 pt-2 border-t-2 border-black space-y-2 shrink-0 mobile-landscape-compact-text z-20">
-          {/* Catatan pengisian nol */}
-          <div id="buku-zero-hint" className="bg-[#FEF9C3] border border-black/30 rounded-lg px-2.5 py-1 text-center shadow-[1px_1px_0px_#000]">
-            <p className="text-[9px] sm:text-[11px] font-extrabold text-slate-900 leading-tight">
-              💡 <span className="font-black text-rose-600">Catatan:</span> Jika tidak ada siswa pada kolom tertentu, wajib diisi angka <strong>"0"</strong>.
+        <div id="buku-controls-footer" className="mt-1 sm:mt-2 pt-1 sm:pt-2 border-t sm:border-t-2 border-black space-y-1 sm:space-y-1.5 shrink-0 mobile-landscape-compact-text z-20">
+          {/* Catatan pengisian nol - Super sleek & responsive */}
+          <div id="buku-zero-hint" className="bg-[#FEF9C3] border border-black/25 rounded-md sm:rounded-lg px-1.5 sm:px-2.5 py-0.5 sm:py-1 text-center shadow-[0.5px_0.5px_0px_#000] sm:shadow-[1px_1px_0px_#000]">
+            <p className="text-[7.5px] sm:text-[10px] md:text-[11px] font-extrabold text-slate-900 leading-tight">
+              💡 <span className="font-black text-rose-600">Catatan:</span> Jika tidak ada siswa, isi angka <strong>"0"</strong>.
             </p>
           </div>
           {/* Verify Submission button */}
@@ -666,9 +666,9 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={verifyCounts}
-              className="w-full bg-[#F43F5E] hover:bg-[#FB7185] text-white border-2 border-black rounded-xl font-black shadow-[2.5px_2.5px_0px_#000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1.5px_1.5px_0px_#000] py-2.5 sm:py-3 text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer animate-pulse hover:animate-none"
+              className="w-full bg-[#F43F5E] hover:bg-[#FB7185] text-white border-2 border-black rounded-xl font-black shadow-[2px_2px_0px_#000] sm:shadow-[2.5px_2.5px_0px_#000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_#000] py-1.5 sm:py-2.5 lg:py-3 text-[10px] sm:text-xs lg:text-sm flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer animate-pulse hover:animate-none"
             >
-              <Check className="w-5 h-5" />
+              <Check className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>Verifikasi Kehadiran</span>
             </motion.button>
           </div>

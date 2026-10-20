@@ -188,6 +188,19 @@ body {
     box-shadow: 1px 1px 0px #000000 !important;
   }
 
+  /* Compact zero hint for mobile landscape */
+  #buku-zero-hint {
+    padding: 1px 4px !important;
+    margin-bottom: 2px !important;
+    border-radius: 4px !important;
+    border-width: 1px !important;
+    box-shadow: 0.5px 0.5px 0px #000000 !important;
+  }
+  #buku-zero-hint p {
+    font-size: 7.5px !important;
+    line-height: 1 !important;
+  }
+
   /* Table cells padding */
   .mobile-landscape-table-cell {
     padding-top: 3px !important;
