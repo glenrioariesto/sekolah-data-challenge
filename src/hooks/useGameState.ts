@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { GameStage, GameLevel, AttendanceRecord, DailyRoster, QuizQuestion } from '@/src/types';
 import { LEVELS, BADGES } from '@/src/data/levels';
 import { playSynthesizerNote } from '@/src/utils/audio';
@@ -11,7 +11,16 @@ export const useGameState = () => {
   // Game & score states
   const [currentLevelId, setCurrentLevelId] = useState<number>(1);
   const [currentStage, setCurrentStage] = useState<GameStage>('roster');
-  const [totalScore, setTotalScore] = useState<number>(0);
+  
+  // Idempotent scores per stage so revisiting a stage doesn't exceed 100
+  const [stageScores, setStageScores] = useState<{
+    roster: number;
+    chart: number;
+    quiz: number;
+  }>({ roster: 0, chart: 0, quiz: 0 });
+
+  const totalScore = Math.min(100, Math.max(0, stageScores.roster + stageScores.chart + stageScores.quiz));
+  const levelPointsAccumulator = totalScore;
   
   // Track levels unlocked by current player
   const [unlockedLevelIds, setUnlockedLevelIds] = useState<number[]>([1]);
@@ -21,9 +30,6 @@ export const useGameState = () => {
   
   // Teacher mode toggled to view any level/bypass restrictions
   const [teacherMode, setTeacherMode] = useState<boolean>(false);
-
-  // Gained points during the current interactive level session
-  const [levelPointsAccumulator, setLevelPointsAccumulator] = useState<number>(0);
 
   // Badge Modal State
   const [isBadgeModalOpen, setIsBadgeModalOpen] = useState<boolean>(false);
@@ -51,14 +57,14 @@ export const useGameState = () => {
     setUserCountedData(null); // Reset prefilled data for new level
   }, [currentLevelId]);
 
-  // Active level data pointer
+  // Active level data pointer memoized to prevent unnecessary re-render wipes
   const staticLevel = LEVELS.find(l => l.id === currentLevelId) || LEVELS[0];
-  const activeLevel: GameLevel = {
+  const activeLevel: GameLevel = useMemo(() => ({
     ...staticLevel,
     records: dynamicRecords.length > 0 ? dynamicRecords : staticLevel.records,
     rosters: dynamicRosters.length > 0 ? dynamicRosters : staticLevel.rosters,
     questions: dynamicQuestions.length > 0 ? dynamicQuestions : staticLevel.questions,
-  };
+  }), [staticLevel, dynamicRecords, dynamicRosters, dynamicQuestions]);
 
   useEffect(() => {
     // Initialise or lock badge checks
@@ -77,7 +83,7 @@ export const useGameState = () => {
     if (!unlockedLevelIds.includes(levelId) && !teacherMode) return;
     
     setCurrentLevelId(levelId);
-    setLevelPointsAccumulator(0);
+    setStageScores({ roster: 0, chart: 0, quiz: 0 });
     
     // Every level now has dynamic rosters, so start with roster stage
     setCurrentStage('roster');
@@ -98,26 +104,23 @@ export const useGameState = () => {
     setIsIntroModalOpen(false);
   };
 
-  // Stage Success callback triggers
+  // Stage Success callback triggers (idempotent scoring per stage)
   const handleRosterStepFinished = (bonus: number, countedRecords: any) => {
     playSynthesizerNote('success');
     setUserCountedData(countedRecords);
-    setLevelPointsAccumulator(prev => prev + bonus);
-    setTotalScore(prev => prev + bonus);
+    setStageScores(prev => ({ ...prev, roster: bonus }));
     setCurrentStage('chart');
   };
 
   const handleChartStepFinished = (bonus: number) => {
     playSynthesizerNote('success');
-    setLevelPointsAccumulator(prev => prev + bonus);
-    setTotalScore(prev => prev + bonus);
+    setStageScores(prev => ({ ...prev, chart: bonus }));
     setCurrentStage('analysis');
   };
 
   const handleQuizStepFinished = (bonus: number) => {
     playSynthesizerNote('unlock');
-    setLevelPointsAccumulator(prev => prev + bonus);
-    setTotalScore(prev => prev + bonus);
+    setStageScores(prev => ({ ...prev, quiz: bonus }));
 
     // Update level progressions
     if (!unlockedLevelIds.includes(currentLevelId + 1) && currentLevelId < LEVELS.length) {
@@ -148,8 +151,7 @@ export const useGameState = () => {
     playSynthesizerNote('btn');
     // Restart current game session with the same dataset; fresh dataset generates on page refresh
     setUserCountedData(null);
-    setLevelPointsAccumulator(0);
-    setTotalScore(0);
+    setStageScores({ roster: 0, chart: 0, quiz: 0 });
     setCurrentStage('roster');
     setIsObjectivesModalOpen(true);
   };
@@ -165,10 +167,9 @@ export const useGameState = () => {
     
     setCurrentLevelId(1);
     setCurrentStage('roster');
-    setTotalScore(0);
+    setStageScores({ roster: 0, chart: 0, quiz: 0 });
     setUnlockedLevelIds([1]);
     setUnlockedBadgeIds([]);
-    setLevelPointsAccumulator(0);
     setUserCountedData(null);
     setIsObjectivesModalOpen(true);
   };

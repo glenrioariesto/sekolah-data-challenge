@@ -4,7 +4,7 @@ import { Play } from 'lucide-react';
 import { playSynthesizerNote } from '@/src/utils/audio';
 import { useAudio } from '@/src/hooks/useAudio';
 import { AudioToggle } from '@/src/components/AudioToggle';
-import logoPusbuk from '@/assets/logo-jenama.webp?v2';
+import logoPusbuk from '@/assets/logo-jenama.webp';
 import studentSplashBg from '@/assets/bg-absensiswa.webp';
 
 interface SplashPageProps {

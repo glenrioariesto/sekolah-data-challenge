@@ -148,7 +148,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
       const aVal = inputs[r.day]?.alpha.trim();
       if (!pVal || !iVal || !sVal || !aVal) {
         playSynthesizerNote('fail');
-        setErrorWarning(`⚠️ Mohon isi semua kolom Hadir, Izin, Sakit, dan Alfa untuk hari ${r.day}!`);
+        setErrorWarning(`⚠️ Mohon isi semua kolom untuk hari ${r.day}! Jika tidak ada siswa, isi angka "0".`);
         setActiveTab(rIdx); // Switch to the incomplete day tab/page automatically!
         return;
       }
@@ -274,18 +274,7 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
               <div key={i} className="h-7 sm:h-12 border-b border-[#e2e8f0] w-full shrink-0" />
             ))}
             
-            {/* Absolute Centered "Sudah Direkap" Rubber Stamp */}
-            <div className="absolute inset-0 flex flex-col justify-center items-center py-2 sm:py-4 bg-[#FAF7F0]/40 backdrop-blur-[0.5px]">
-              <div className="bg-[#ECFDF5] border-4 border-emerald-600 rounded-2xl p-3 sm:p-4 flex flex-col items-center rotate-[-6deg] shadow-lg max-w-[85%] text-center">
-                <ClipboardCheck className="w-8 h-8 sm:w-10 sm:h-10 text-emerald-600 mb-1" />
-                <span className="text-[9px] sm:text-[11px] font-black uppercase text-emerald-800 tracking-wider font-display">
-                  Sudah Direkap
-                </span>
-                <span className="text-[7px] sm:text-[8px] text-emerald-700 font-bold font-mono mt-0.5">
-                  Sekolah Data Challenge
-                </span>
-              </div>
-            </div>
+
           </div>
         </div>
       </div>
@@ -662,7 +651,13 @@ export const StudentCounter: React.FC<StudentCounterProps> = ({
         </div>
 
         {/* Controls, Help, and Alerts at the Bottom */}
-        <div id="buku-controls-footer" className="mt-2 pt-2 border-t-2 border-black space-y-2.5 shrink-0 mobile-landscape-compact-text z-20">
+        <div id="buku-controls-footer" className="mt-2 pt-2 border-t-2 border-black space-y-2 shrink-0 mobile-landscape-compact-text z-20">
+          {/* Catatan pengisian nol */}
+          <div id="buku-zero-hint" className="bg-[#FEF9C3] border border-black/30 rounded-lg px-2.5 py-1 text-center shadow-[1px_1px_0px_#000]">
+            <p className="text-[9px] sm:text-[11px] font-extrabold text-slate-900 leading-tight">
+              💡 <span className="font-black text-rose-600">Catatan:</span> Jika tidak ada siswa pada kolom tertentu, wajib diisi angka <strong>"0"</strong>.
+            </p>
+          </div>
           {/* Verify Submission button */}
           <div id="buku-verify-wrap" className="flex gap-2">
             <motion.button

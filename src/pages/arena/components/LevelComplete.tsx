@@ -3,7 +3,7 @@ import { GameLevel, Badge } from '@/src/types';
 import { motion } from 'motion/react';
 import { Award, Star, ArrowRight, RefreshCw, Trophy, ClipboardCheck, Sparkles, Brain, CheckCircle, RotateCcw } from 'lucide-react';
 import { BADGES, LEVELS } from '@/src/data/levels';
-import { playSynthesizerNote } from '@/src/utils/audio';
+import { playSynthesizerNote, startBgm, stopBgm } from '@/src/utils/audio';
 
 interface LevelCompleteProps {
   currentLevel: GameLevel;
@@ -20,9 +20,20 @@ export const LevelComplete: React.FC<LevelCompleteProps> = ({
   onNextLevel,
   onRestartGame,
 }) => {
-  // Play triumphant victory sound on stage complete
+  // Play triumphant victory sound on stage complete without background music collision
   useEffect(() => {
+    stopBgm();
     playSynthesizerNote('victory');
+
+    // Resume background music after the victory fanfare ends (~4.5s)
+    const timer = setTimeout(() => {
+      startBgm();
+    }, 4500);
+
+    return () => {
+      clearTimeout(timer);
+      startBgm();
+    };
   }, []);
   // Check if a badge was earned at this level
   const earnedBadge = BADGES.find(b => b.achievedAtLevel === currentLevel.id);

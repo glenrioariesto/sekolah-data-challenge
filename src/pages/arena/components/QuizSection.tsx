@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GameLevel } from '@/src/types';
 import { motion, AnimatePresence } from 'motion/react';
 import { Check, X, ArrowRight, BookOpen } from 'lucide-react';
@@ -7,11 +7,15 @@ import { playSynthesizerNote } from '@/src/utils/audio';
 interface QuizSectionProps {
   currentLevel: GameLevel;
   onSuccess: (scoreBonus: number) => void;
+  onViewChart?: () => void;
+  onIndexChange?: (currentIdx: number, total: number) => void;
 }
 
 export const QuizSection: React.FC<QuizSectionProps> = ({
   currentLevel,
   onSuccess,
+  onViewChart,
+  onIndexChange,
 }) => {
   const questions = currentLevel.questions;
   const [currentIdx, setCurrentIdx] = useState<number>(0);
@@ -29,6 +33,10 @@ export const QuizSection: React.FC<QuizSectionProps> = ({
   const [quizScore, setQuizScore] = useState<number>(0);
 
   const activeQuestion = questions[currentIdx];
+
+  useEffect(() => {
+    onIndexChange?.(currentIdx, questions.length);
+  }, [currentIdx, questions.length, onIndexChange]);
 
   const handleSelectOption = (option: string) => {
     if (isAnswered) return;
@@ -76,11 +84,27 @@ export const QuizSection: React.FC<QuizSectionProps> = ({
       {/* ── Main Quiz Card ── */}
       <div id="quiz-main-card" className="bg-white rounded-2xl md:rounded-3xl border-2 md:border-4 border-black p-3 lg:p-8 shadow-[4px_4px_0px_rgba(0,0,0,1)] md:shadow-[8px_8px_0px_rgba(0,0,0,1)] max-h-[90vh] overflow-y-auto">
 
-        {/* Index counter */}
-        <div id="quiz-header" className="flex items-center justify-between mb-2 sm:mb-4">
-          <span id="quiz-counter" className="text-[9px] sm:text-[10px] font-display font-black bg-[#CCFBF1] text-black px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full uppercase tracking-wider border border-black shadow-[1.5px_1.5px_0px_#000]">
-            Pertanyaan {currentIdx + 1} dari {questions.length}
-          </span>
+        {/* Index counter & View Chart Action */}
+        <div id="quiz-header" className="flex items-center justify-between mb-2 sm:mb-4 gap-2 flex-wrap">
+          <div className="flex items-center gap-2">
+            <span id="quiz-counter" className="text-[9px] sm:text-[10px] font-display font-black bg-[#CCFBF1] text-black px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full uppercase tracking-wider border border-black shadow-[1.5px_1.5px_0px_#000]">
+              Pertanyaan {currentIdx + 1} dari {questions.length}
+            </span>
+            {onViewChart && (
+              <button
+                id="btn-quiz-view-chart"
+                type="button"
+                onClick={() => {
+                  playSynthesizerNote('btn');
+                  onViewChart();
+                }}
+                className="bg-[#FDE047] hover:bg-[#FACC15] text-black font-black font-display text-[9px] sm:text-[10px] px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full border border-black shadow-[1.5px_1.5px_0px_#000] flex items-center gap-1 cursor-pointer transition-transform hover:scale-105 uppercase tracking-tight"
+                title="Buka tampilan grafik yang sedang dikerjakan"
+              >
+                <span>📊 Lihat Grafik</span>
+              </button>
+            )}
+          </div>
           <span id="quiz-weight" className="text-[10px] sm:text-xs text-slate-800 font-black font-display uppercase">Bobot: +20 Poin</span>
         </div>
 

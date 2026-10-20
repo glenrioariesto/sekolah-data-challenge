@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Play } from 'lucide-react';
 import { GameLevel, GameStage } from '@/src/types';
@@ -9,7 +9,7 @@ import { LevelComplete } from '@/src/pages/arena/components/LevelComplete';
 import { AudioToggle } from '@/src/components/AudioToggle';
 import { useAudio } from '@/src/hooks/useAudio';
 import { playSynthesizerNote } from '@/src/utils/audio';
-import logoPusbuk from '@/assets/logo-jenama.webp?v2';
+import logoPusbuk from '@/assets/logo-jenama.webp';
 import gameplayBg from '@/assets/bg-arena.webp';
 
 interface ArenaPageProps {
@@ -58,6 +58,14 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
   onToggleTeacherMode,
 }) => {
   const { isMuted, toggle } = useAudio();
+  const [isQuizMinimized, setIsQuizMinimized] = useState<boolean>(false);
+  const [quizProgress, setQuizProgress] = useState<{ current: number, total: number }>({ current: 0, total: 2 });
+
+  useEffect(() => {
+    if (currentStage !== 'analysis') {
+      setIsQuizMinimized(false);
+    }
+  }, [currentStage]);
 
   return (
     <motion.div
@@ -78,23 +86,23 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
         />
       </div>
 
-      {/* Logo Pojok Kiri Atas - Fixed Floating on lg+ screens (matching detektif digital) */}
-      <div id="arena-logo-container" className="hidden lg:block fixed top-3 left-3 sm:top-4 sm:left-4 md:top-5 md:left-5 z-40 select-none pointer-events-none">
+      {/* Logo Pojok Kiri Atas - Scaled to prevent covering in-game text at 1416px */}
+      <div id="arena-logo-container" className="hidden lg:block fixed top-2 left-3 md:top-3 md:left-4 z-40 select-none pointer-events-none">
         <img 
           id="arena-logo-image"
           src={logoPusbuk} 
           alt="Logo Pusbuk" 
-          className="h-6 sm:h-9 md:h-14 lg:h-18 2xl:h-28 w-auto object-contain drop-shadow-[0_6px_12px_rgba(56,69,91,0.45)]" 
+          className="h-6 sm:h-8 md:h-10 lg:h-11 xl:h-12 w-auto object-contain drop-shadow-[0_4px_8px_rgba(56,69,91,0.45)]" 
         />
       </div>
 
       {/* Button Mute/Unmuted Pojok Kanan Atas - Fixed Floating on lg+ screens */}
-      <div id="arena-audio-container" className="hidden lg:block fixed top-3 right-4 md:top-4 md:right-6 2xl:top-6 2xl:right-8 z-40 select-none">
+      <div id="arena-audio-container" className="hidden lg:block fixed top-2 right-3 md:top-3 md:right-5 z-40 select-none">
         <AudioToggle isMuted={isMuted} onToggle={toggle} />
       </div>
 
-      {/* MAIN LEVEL GAME ARENA VIEWPORT VIEW */}
-      <div id="arena-viewport" className="flex-1 min-h-0 w-full flex flex-col relative z-10">
+      {/* MAIN LEVEL GAME ARENA VIEWPORT VIEW - With safe top clearance on desktop */}
+      <div id="arena-viewport" className="flex-1 min-h-0 w-full flex flex-col relative z-10 pt-1 lg:pt-14 xl:pt-16">
         <AnimatePresence mode="wait">
           
           {/* Stage: Manual list count Decomposition card */}
@@ -138,29 +146,55 @@ export const ArenaPage: React.FC<ArenaPageProps> = ({
       </div>
 
       {/* Modal Overlay for Stage 4: Quiz Section (Analysis) */}
-      <AnimatePresence>
-        {currentStage === 'analysis' && (
-          <div 
-            id="quiz-modal-overlay"
-            onClick={onGoBackStage}
-            className="fixed inset-0 bg-black/55 backdrop-blur-xs flex items-center justify-center p-4 z-[990] overflow-y-auto cursor-pointer"
+      {currentStage === 'analysis' && (
+        <div 
+          id="quiz-modal-overlay"
+          onClick={() => {
+            playSynthesizerNote('btn');
+            setIsQuizMinimized(true);
+          }}
+          className={`fixed inset-0 bg-black/55 backdrop-blur-xs flex items-center justify-center p-4 z-[990] overflow-y-auto transition-opacity duration-200 ${
+            isQuizMinimized ? 'opacity-0 pointer-events-none' : 'opacity-100 pointer-events-auto cursor-pointer'
+          }`}
+        >
+          <div
+            id="quiz-modal-card"
+            className="w-full max-w-4xl relative cursor-default transition-transform duration-200"
+            style={{
+              transform: isQuizMinimized ? 'scale(0.95)' : 'scale(1)'
+            }}
+            onClick={(e) => e.stopPropagation()}
           >
-            <motion.div
-              id="quiz-modal-card"
-              initial={{ scale: 0.95, opacity: 0, y: 15 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 15 }}
-              className="w-full max-w-4xl relative cursor-default"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <QuizSection 
-                currentLevel={activeLevel} 
-                onSuccess={handleQuizStepFinished} 
-              />
-            </motion.div>
+            <QuizSection 
+              currentLevel={activeLevel} 
+              onSuccess={handleQuizStepFinished} 
+              onViewChart={() => setIsQuizMinimized(true)}
+              onIndexChange={(curr, tot) => setQuizProgress({ current: curr, total: tot })}
+            />
           </div>
-        )}
-      </AnimatePresence>
+        </div>
+      )}
+
+      {/* Floating Pill to Return to Quiz when Minimized */}
+      {currentStage === 'analysis' && isQuizMinimized && (
+        <div
+          id="quiz-minimized-pill"
+          className="fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-[995] flex items-center gap-2"
+        >
+          <button
+            id="btn-return-to-quiz-pill"
+            type="button"
+            onClick={() => {
+              playSynthesizerNote('btn');
+              setIsQuizMinimized(false);
+            }}
+            className="bg-[#FDE047] hover:bg-[#FACC15] text-black border-2 sm:border-3 border-black font-black font-display text-xs sm:text-sm px-4 sm:px-6 py-2.5 sm:py-3 rounded-2xl shadow-[4px_4px_0px_#000] flex items-center gap-2 cursor-pointer transition-transform hover:scale-105 active:scale-95 uppercase tracking-wide animate-bounce hover:animate-none"
+          >
+            <span>📝 Lanjut Jawab Soal (Pertanyaan {quizProgress.current + 1} dari {quizProgress.total})</span>
+            <Play className="w-3.5 h-3.5 fill-current" />
+          </button>
+        </div>
+      )}
 
       {/* Level Objectives Modal Overlay - Tujuan Pembelajaran */}
       <AnimatePresence>

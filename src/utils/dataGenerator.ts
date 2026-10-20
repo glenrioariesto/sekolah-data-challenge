@@ -132,46 +132,55 @@ export const generateDynamicQuestions = (levelId: number, records: AttendanceRec
 
   const totalAbsence = totalPermit + totalSick + totalAlpha;
 
-  // Pool of varied analysis questions
+  // Helper to ensure day-based questions always have exactly 4 options (A-D) consistent with SMP standard
+  const getFourDayOptions = (correctDay: string, allRecords: AttendanceRecord[]): string[] => {
+    const weekOrder = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
+    const others = allRecords.map(r => r.day).filter(d => d !== correctDay);
+    const shuffledOthers = [...others].sort(() => Math.random() - 0.5).slice(0, 3);
+    const four = [correctDay, ...shuffledOthers];
+    return four.sort((a, b) => weekOrder.indexOf(a) - weekOrder.indexOf(b));
+  };
+
+  // Pool of varied analysis questions (All standardized to exactly 4 options A, B, C, D)
   const questionPool: QuizQuestion[] = [
-    // Question 1: Computational Thinking Abstraction
+    // Question 1: Computational Thinking Abstraction (Simplified for SMP)
     {
       id: 'q-abstraction',
-      question: 'Bagaimana metode Abstraksi (Berpikir Komputasional) membantu kita dalam menyajikan data kehadiran kelas ke bentuk Diagram?',
+      question: 'Dalam Berpikir Komputasional (Abstraksi), mengapa data kehadiran kelas lebih mudah disajikan ke bentuk diagram batang?',
       options: [
-        'Menampilkan setiap detail nama siswa dan alasan mereka tidak hadir satu per satu secara lengkap',
-        'Mengabaikan detail nama individu dan hanya menampilkan informasi penting berupa total angka kehadiran per hari secara visual',
-        'Menggambar diagram secara sembarangan tanpa memperhatikan data numerik yang sebenarnya',
-        'Menghilangkan hari-hari dengan kehadiran rendah agar grafiknya terlihat selalu bagus'
+        'Menampilkan seluruh nama dan biodata siswa secara lengkap satu per satu',
+        'Menyederhanakan data dengan menampilkan total jumlah siswa per hari',
+        'Menghapus hari-hari yang jumlah ketidakhadirannya tinggi agar grafik terlihat bagus',
+        'Menggambar grafik bebas tanpa perlu menghitung data kehadiran siswa'
       ],
-      correctAnswer: 'Mengabaikan detail nama individu dan hanya menampilkan informasi penting berupa total angka kehadiran per hari secara visual',
-      explanation: 'Abstraksi adalah memilah informasi penting (total angka harian) dan mengesampingkan detail individu (nama-nama siswa) agar data mudah dipahami secara visual.'
+      correctAnswer: 'Menyederhanakan data dengan menampilkan total jumlah siswa per hari',
+      explanation: 'Tepat! Prinsip Abstraksi memfokuskan kita pada informasi penting (total angka per hari) dan mengabaikan detail yang belum diperlukan (nama individu) agar data cepat dan mudah dipahami.'
     },
-    // Question 2: Max absence day
+    // Question 2: Max absence day (4 options)
     {
       id: 'q-max-absent-day',
       question: 'Berdasarkan grafik hasil abstraksi data mingguan tersebut, hari apa yang menunjukkan angka ketidakhadiran (Izin, Sakit, Alfa) paling tinggi?',
-      options: records.map(r => r.day),
+      options: getFourDayOptions(maxAbsDay, records),
       correctAnswer: maxAbsDay,
       explanation: `Hari ${maxAbsDay} memiliki tingkat ketidakhadiran tertinggi yaitu mencapai ${maxAbsVal} siswa.`
     },
-    // Question 3: Max presence day
+    // Question 3: Max presence day (4 options)
     {
       id: 'q-max-present-day',
       question: 'Hari apakah dalam minggu tersebut yang mencatatkan jumlah siswa HADIR terbanyak di kelas?',
-      options: records.map(r => r.day),
+      options: getFourDayOptions(maxPresDay, records),
       correctAnswer: maxPresDay,
       explanation: `Pada hari ${maxPresDay}, tingkat kehadiran siswa mencapai puncaknya yaitu sejumlah ${maxPresVal} siswa hadir.`
     },
-    // Question 4: Min absence day (best attendance)
+    // Question 4: Min absence day (best attendance, 4 options)
     {
       id: 'q-min-absent-day',
       question: 'Hari apakah yang memiliki tingkat ketidakhadiran PALING SEDIKIT (kehadiran kelas paling tertib)?',
-      options: records.map(r => r.day),
+      options: getFourDayOptions(minAbsDay, records),
       correctAnswer: minAbsDay,
       explanation: `Hari ${minAbsDay} hanya mencatatkan ${minAbsVal} siswa tidak hadir, menjadikannya hari dengan kedisiplinan terbanyak.`
     },
-    // Question 5: Dominant non-attendance reason
+    // Question 5: Dominant non-attendance reason (4 options)
     {
       id: 'q-dominant-reason',
       question: 'Dari total akumulasi ketidakhadiran selama seminggu, alasan/kategori manakah yang memiliki angka kejadian terbanyak?',
@@ -179,7 +188,7 @@ export const generateDynamicQuestions = (levelId: number, records: AttendanceRec
       correctAnswer: (totalSick >= totalPermit && totalSick >= totalAlpha) ? 'Sakit' : ((totalPermit >= totalAlpha) ? 'Izin' : 'Alfa'),
       explanation: `Kategori ketidakhadiran terbanyak secara akumulatif minggu ini didominasi oleh status tersebut.`
     },
-    // Question 6: Data Representation Purpose
+    // Question 6: Data Representation Purpose (4 options)
     {
       id: 'q-chart-purpose',
       question: 'Mengapa menyajikan data absensi dalam bentuk visual diagram lebih efektif daripada melihat tumpukan lembar kertas absen manual?',
@@ -195,7 +204,7 @@ export const generateDynamicQuestions = (levelId: number, records: AttendanceRec
   ];
 
   // Fix exact match string for abstraction option
-  questionPool[0].correctAnswer = 'Mengabaikan detail nama individu dan hanya menampilkan informasi penting berupa total angka kehadiran per hari secara visual';
+  questionPool[0].correctAnswer = 'Menyederhanakan data dengan menampilkan total jumlah siswa per hari';
 
   // Shuffle the question pool and randomly pick exactly 2 questions
   const shuffled = [...questionPool].sort(() => Math.random() - 0.5);

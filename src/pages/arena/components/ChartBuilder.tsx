@@ -42,11 +42,9 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
   }, []);
 
   useEffect(() => {
-    setSelectedChartType(null);
     setSelectedDay('semua');
-    setIsValidated(false);
     setWarning(null);
-  }, [currentLevel]);
+  }, [currentLevel.id]);
 
   // Auto-dismiss warning toast after 4 seconds
   useEffect(() => {
@@ -134,7 +132,7 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
             <div id="chart-garis-text" className="flex-1">
               <h4 id="chart-garis-title" className="font-extrabold text-[10px] sm:text-xs text-black font-display uppercase">Garis</h4>
               <p id="chart-garis-desc" className="hidden sm:block text-[9px] sm:text-[10px] mt-0.5 leading-normal text-slate-800 font-bold">
-                Pantau tren fluktuasi kehadiran harian siswa sepanjang minggu.
+                Diagram garis adalah grafik berbentuk garis yang digunakan untuk melihat naik-turunnya suatu data dari waktu ke waktu
               </p>
             </div>
           </button>
@@ -240,7 +238,21 @@ export const ChartBuilder: React.FC<ChartBuilderProps> = ({
             )}
           </div>
 
-          {!isValidated && (
+          {isValidated ? (
+            <div id="chart-action-row" className="flex gap-2">
+              <button
+                id="btn-return-quiz"
+                type="button"
+                onClick={() => {
+                  playSynthesizerNote('btn');
+                  onSuccess(20);
+                }}
+                className="bg-black hover:bg-slate-900 text-white font-black font-display border-2 border-black text-xs py-2.5 px-5 rounded-xl flex items-center gap-1.5 cursor-pointer shadow-[3px_3px_0px_#000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1.5px_1.5px_0px_#000] uppercase tracking-wide"
+              >
+                <span>Buka Soal Analisis →</span>
+              </button>
+            </div>
+          ) : (
             <div id="chart-action-row" className="flex gap-2">
               <button
                 id="btn-verify-chart"

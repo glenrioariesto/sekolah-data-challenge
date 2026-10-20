@@ -56,9 +56,9 @@ export const sekolahDataAnswers: SchoolDataAnswer[] = [
     quizAnswers: [
       {
         questionId: 'l3-q1',
-        question: 'Bagaimana metode Abstraksi (Berpikir Komputasional) membantu kita dalam menyajikan data kehadiran kelas ke bentuk Diagram Batang?',
-        correctAnswer: 'Mengabaikan detail nama individu dan hanya menampilkan informasi penting berupa total angka kehadiran per hari secara visual',
-        explanation: 'Betul! Abstraksi adalah memilah informasi penting (total angka harian) dan mengesampingkan detail yang kurang relevan (nama-nama siswa) agar data lebih mudah dipahami secara visual.'
+        question: 'Dalam Berpikir Komputasional (Abstraksi), mengapa data kehadiran kelas lebih mudah disajikan ke bentuk diagram batang?',
+        correctAnswer: 'Menyederhanakan data dengan menampilkan total jumlah siswa per hari',
+        explanation: 'Tepat! Abstraksi adalah memilah informasi penting (total jumlah kehadiran harian) dan mengabaikan detail yang belum diperlukan (nama individu) agar data cepat dan mudah dipahami.'
       },
       {
         questionId: 'l3-q2',

@@ -39,15 +39,15 @@ export const LEVELS: GameLevel[] = [
     questions: [
       {
         id: 'l3-q1',
-        question: 'Bagaimana metode Abstraksi (Berpikir Komputasional) membantu kita dalam menyajikan data kehadiran kelas ke bentuk Diagram Batang?',
+        question: 'Dalam Berpikir Komputasional (Abstraksi), mengapa data kehadiran kelas lebih mudah disajikan ke bentuk diagram batang?',
         options: [
-          'Menampilkan setiap detail nama siswa dan alasan mereka tidak hadir satu per satu secara lengkap',
-          'Mengabaikan detail nama individu dan hanya menampilkan informasi penting berupa total angka kehadiran per hari secara visual',
-          'Menggambar diagram secara sembarangan tanpa memperhatikan data numerik yang sebenarnya',
-          'Menghilangkan hari-hari dengan kehadiran rendah agar grafiknya terlihat selalu bagus'
+          'Menampilkan seluruh nama dan biodata siswa secara lengkap satu per satu',
+          'Menyederhanakan data dengan menampilkan total jumlah siswa per hari',
+          'Menghapus hari-hari yang jumlah ketidakhadirannya tinggi agar grafik terlihat bagus',
+          'Menggambar grafik bebas tanpa perlu menghitung data kehadiran siswa'
         ],
-        correctAnswer: 'Mengabaikan detail nama individu dan hanya menampilkan informasi penting berupa total angka kehadiran per hari secara visual',
-        explanation: 'Betul! Abstraksi adalah memilah informasi penting (total angka harian) dan mengesampingkan detail yang kurang relevan (nama-nama siswa) agar data lebih mudah dipahami secara visual.'
+        correctAnswer: 'Menyederhanakan data dengan menampilkan total jumlah siswa per hari',
+        explanation: 'Tepat! Abstraksi adalah memilah informasi penting (total jumlah kehadiran harian) dan mengabaikan detail yang belum diperlukan (nama individu) agar data cepat dan mudah dipahami.'
       },
       {
         id: 'l3-q2',
@@ -76,6 +76,11 @@ export const LEVELS: GameLevel[] = [
           text: 'Menghentikan pembuatan grafik karena grafik memaparkan sisi buruk tingkat kehadiran sekolah',
           scoreWeight: 10,
           feedback: 'Sangat Buruk! Menghentikan pencatatan ibarat menutup mata saat menyeberang jalan. Data harus dihadapi.'
+        },
+        {
+          text: 'Menghapus data hari Jumat dari grafik agar rata-rata kehadiran mingguan kelas terlihat tinggi',
+          scoreWeight: 5,
+          feedback: 'Keliru! Menghapus data nyata melanggar etika pengolahan data dan tidak menyelesaikan masalah kehadiran.'
         }
       ]
     }
